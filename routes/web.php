@@ -15,6 +15,9 @@ Route::get('dashboard', function () {
 
 Route::get('/admin', [App\Http\Controllers\Admin\AdminController::class, 'index']);
 
+Route::get('/Begraafplaatshome', [App\Http\Controllers\homepage\BegraafplaatsController::class, 'index']);
+
+
 
 
 require __DIR__.'/settings.php';
