@@ -159,3 +159,166 @@
         @apply bg-background text-foreground;
     }
 } */
+
+/* reusable colors, margin, padding etc */
+:root {
+    --margin-padding: 16px;
+    --border-radius: 8px;
+    --padding-fields: 6px 12px;
+}
+
+html, body {
+    font-family: "poppins", sans-serif;
+    margin: unset;
+    height: 100vh;
+}
+
+#app {
+    /* min-height: 100vh; */
+    height: 100%;
+}
+
+/* auto page margin */
+.page-width {
+    max-width: 1000px;
+    padding: calc(1rem + 1vw);
+    margin: 0 auto;
+    height: -webkit-fill-available;
+}
+
+/* fonts */
+.h1 {
+    font-size: 28px;
+}
+
+.baseText {
+    font-size: 15px;
+}
+
+/* padding, margin, radius etc */
+.padding-all {
+    padding: var(--margin-padding);
+}
+
+.padding-btm {
+    padding-bottom: var(--margin-padding);
+}
+
+.margin-btm {
+    margin-bottom: var(--margin-padding);
+}
+
+.border-radius {
+    border-radius: var(--border-radius);
+}
+
+.border-radius-r {
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+.border-radius-l {
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+}
+
+.col-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.row-flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.center-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.flex-s-gap {
+    display: flex;
+    gap: 5px;
+}
+
+.gap {
+    gap: 12px;
+}
+
+.emptyGap-s {
+    height: 100px;
+}
+
+.emptyGap-m {
+    height: 150px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+/* text */
+.text-end {
+    text-align: end;
+}
+
+.errorMsg {
+    margin: 5px 0px 0px;
+    color: red;
+}
+
+/* colors */
+.border-primary {
+    border: solid 2px #d7d7d7;
+}
+
+.border-primary-l {
+    border-left: solid 2px #d7d7d7;
+}
+
+.bg-primary {
+    background: rgb(247 247 247);
+}
+
+.bg-secondary {
+    background: #ededed;
+}
+
+/* input fields */
+input.base {
+    padding: var(--padding-fields);
+}
+
+/* btns */
+button.base {
+    padding: var(--padding-fields);
+    border-radius: var(--border-radius);
+    transition: all 0.2s;
+}
+
+button.base:hover {
+    cursor: pointer;
+}
+
+button.primary:hover {
+    background: #dcd9d9;
+}
+
+/* animations */
+/* spinner */
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+100% {
+    transform: rotate(360deg);
+}
+}
