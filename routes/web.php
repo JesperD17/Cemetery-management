@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 use Inertia\Inertia;
+use App\Http\Controllers\Admin\AdminController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -13,8 +15,19 @@ Route::get('dashboard', function () {
 
 
 
-Route::get('/admin', [App\Http\Controllers\Admin\AdminController::class, 'index']);
+Route::get('/admin', [AdminController::class, 'index'])->middleware(['auth', 'verified'])->name('admin');
 
+Route::get('/users', function () {
+    return response()->json(
+        User::orderBy('created_at', 'desc')->get()
+    );
+});
+
+Route::delete('/users/{id}', function ($id) {
+    $user = User::findOrFail($id);
+    $user->delete();
+    return response()->json(['success' => true]);
+});
 
 
 require __DIR__.'/settings.php';
