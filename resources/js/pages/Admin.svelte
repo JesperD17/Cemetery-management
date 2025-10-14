@@ -6,16 +6,16 @@
   let searchTerm = "";
   let grafData = [];
 
-  // Popup states
+
   let showModal = false;
   let showDeleteModal = false;
   let selectedPlaats = null;
   let deleteId = null;
 
-  // Error melding
+
   let errorMessage = "";
 
-  // ✅ Data ophalen
+
   onMount(async () => {
     try {
       const res = await fetch("/users");
@@ -31,14 +31,14 @@
     }
   });
 
-  // ✅ Filter
+
   $: filteredGrafData = grafData.filter(
     (plaats) =>
       plaats.naam.toLowerCase().includes(searchTerm.toLowerCase()) ||
       plaats.locatie.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // ✅ Modals openen/sluiten
+
   function openModal(plaats) {
     selectedPlaats = plaats;
     showModal = true;
@@ -59,15 +59,14 @@
     deleteId = null;
   }
 
-  // ✅ Custom error melding
+ 
   function showError(msg) {
     errorMessage = msg;
     setTimeout(() => {
       errorMessage = "";
-    }, 3000); // verdwijnt na 3 seconden
+    }, 3000); 
   }
 
-  // ✅ Verwijderen
   async function deleteGraf() {
     try {
       const res = await fetch(`/users/${deleteId}`, { method: "DELETE" });
@@ -75,16 +74,16 @@
         grafData = grafData.filter((plaats) => plaats.id !== deleteId);
         showDeleteModal = false;
       } else {
-        showError("❌ Verwijderen mislukt. Probeer opnieuw.");
+        showError("Verwijderen mislukt. Probeer opnieuw.");
       }
     } catch (err) {
       console.error(err);
-      showError("❌ Serverfout bij verwijderen.");
+      showError(" Serverfout bij verwijderen.");
     }
   }
 </script>
 
-<!-- 🧱 Layout -->
+
 <div class="container">
   <h1>{page}</h1>
 
@@ -137,13 +136,13 @@
     <p class="no-results">Geen resultaten gevonden.</p>
   {/if}
 
-  <!-- 🔴 Error melding -->
+ 
   {#if errorMessage}
     <div class="error-toast fade-in">{errorMessage}</div>
   {/if}
 </div>
 
-<!-- 📋 Detail Modal -->
+
 {#if showModal}
   <div class="modal-backdrop" on:click={closeModal}>
     <div class="modal fade-in" on:click|stopPropagation>
@@ -156,7 +155,7 @@
   </div>
 {/if}
 
-<!-- 🗑️ Delete Confirm Modal -->
+
 {#if showDeleteModal}
   <div class="modal-backdrop" on:click={cancelDelete}>
     <div class="delete-modal fade-in" on:click|stopPropagation>
