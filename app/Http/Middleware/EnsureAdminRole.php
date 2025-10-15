@@ -19,7 +19,7 @@ class EnsureAdminRole
         if (Auth::check() && $request->user() && $request->user()->role_id === 2) {
             return $next($request);
         } else {    
-            return to_route('home');
+            return redirect()->back()->with('error', 'You do not have admin access.');
         }
     }
 }

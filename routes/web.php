@@ -3,7 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExcelController;
-use App\Http\Controllers\Admin\AdminController
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\EnsureAdminRole;
 
 Route::get('/', function () {
