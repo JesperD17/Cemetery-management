@@ -22,11 +22,14 @@ Route::get('/users', function () {
         User::orderBy('created_at', 'desc')->get()
     );
 });
+Route::get('/users', function () {
+    return response()->json(User::orderBy('created_at', 'desc')->get());
+});
 
-Route::delete('/users/{id}', function ($id) {
-    $user = User::findOrFail($id);
-    $user->delete();
-    return response()->json(['success' => true]);
+Route::delete('/users/{id}', [AdminController::class, 'destroy']);
+
+Route::get('/csrf-token', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
 });
 
 
