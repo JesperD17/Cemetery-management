@@ -12,7 +12,7 @@
 
 <div>
     {#if user}
-        <Link href={route('dashboard')}>
+        <Link href={route('overview')}>
             Dashboard
         </Link>
     {:else}

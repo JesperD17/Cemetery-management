@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\EnsureAdminRole;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('Home');
 })->middleware(['auth'])->name('home');
 
 Route::get('/cemeteries', function () {
