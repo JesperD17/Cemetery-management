@@ -33,7 +33,7 @@ class DBMigrate extends Command
             $this->info("Seeding the database");
             $this->call("db:seed");
         } catch (\Throwable $th) {
-            $this->fail("Command failed. Please make sure your SQL service is running.");
+            $this->fail("Command failed. Please make sure your SQL service is running." . $th->getMessage());
         }
     }
 }

@@ -1,0 +1,11 @@
+.form-alignment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.img-login {
+    max-width: 350px;
+    object-fit: cover;
+}
