@@ -1,14 +1,11 @@
-<script lang="ts">
-    interface Props {
-        message?: string;
-        class?: string;
-    }
+<script lang="js">
+    let { message, class: className } = $props();
 
-    let { message, class: className }: Props = $props();
+    console.log(message, className)
 </script>
 
 {#if message}
-    <p class="text-sm text-red-600 dark:text-red-500 {className}">
+    <p class="baseText errorMsg {className}">
         {message}
     </p>
 {/if}
