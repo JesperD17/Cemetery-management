@@ -15,9 +15,7 @@
         try {
             const response = await fetch(`/getCityName?lat=${latitude}&lon=${longitude}`);
             const data = await response.json();
-
-            // console.log("City:", data);
-            location = data.address.municipality || "onbekend";
+            location = data?.address?.municipality || data?.address?.city || "onbekend";
         } catch (error) {
             console.error('Error fetching location:', error);
             location = "onbekend"
@@ -79,7 +77,7 @@
         </div>
 
         <div class="section">
-            {#if cards.length > 0}
+            {#if cards.length > 0 && location !== "laden..."}
             {console.log(cards)}
             <div class="flex-m-gap wrap">
                     {#each cards as card}
@@ -90,7 +88,7 @@
                                     <div class="center-text bold line-clamp">{card.name}</div>
                                     <div class="center-text">Locatie {card.municipality}</div>
                                 </div>
-                                <Button class="margin-noTop" href={`/cemeteries/overview/${encodeURIComponent(card.name)}`}>Selecteer</Button>
+                                <Button class="margin-noTop" href={`/begraafplaatsen/overzicht/${encodeURIComponent(card.name)}`}>Selecteer</Button>
                             </div>
                         </div>
                     {/each}

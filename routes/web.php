@@ -10,13 +10,13 @@ Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
 
-Route::get('/cemeteries', function () {
+Route::get('/begraafplaatsen', function () {
     return Inertia::render('Cemeteries');
-})->middleware(['auth'])->name('cemeteries');
+})->middleware(['auth'])->name('begraafplaatsen');
 
-Route::get('/cemeteries/overview/{name}', function ($name) {
+Route::get('/begraafplaatsen/overzicht/{name}', function ($name) {
     return Inertia::render('Overview', ['name' => $name]);
-})->middleware(['auth'])->name('cemetery.overview');
+})->middleware(['auth'])->name('begraafplaatsen.overzicht');
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
