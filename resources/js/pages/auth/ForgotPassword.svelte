@@ -63,11 +63,11 @@
                     {#if $form.processing}
                         <LoaderCircle class="spinner" />
                     {/if}
-                    Reset password
+                    Wachtwoord resetten
                 </Button>
                 <div class="row-flex gap justify-end">
-                    <TextLink href={route('login')}>Login</TextLink>
-                    <TextLink href={route('register')}>Register</TextLink>
+                    <TextLink href={route('login')}>Inloggen</TextLink>
+                    <TextLink href={route('register')}>Registreren</TextLink>
                 </div>
             </div>
         </form>
