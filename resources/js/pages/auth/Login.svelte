@@ -31,7 +31,6 @@
     <title>Login</title>
 </svelte:head>
 
-<!-- <AuthBase title="Log in to your account" description="Enter your email and password below to log in"> -->
 {#if status}
     <div>
         {status}
@@ -50,7 +49,6 @@
                 <div class="h1 padding-btm center-flex">Inloggen</div>
                 <div class="padding-btm col-flex">
                     <Label for="email" class="baseText">Email</Label>
-
                     <div class="flex-s-gap align-center">
                         <Mail />
                         <Input
@@ -93,9 +91,9 @@
                     </Label>
                 </div> -->
 
-                <div class="emptyGap-{isMobile ? 's' : 'm'} center-flex padding-btm">
+                <div class="relative emptyGap-{isMobile ? 's' : 'm'} center-flex padding-btm">
                     {#if $form.processing}
-                        <LoaderCircle class="spin" />
+                        <LoaderCircle class="spinner" />
                     {/if}
                 </div>
                             
@@ -114,4 +112,3 @@
         </div>
     </div>
 </div>
-<!-- </AuthBase> -->

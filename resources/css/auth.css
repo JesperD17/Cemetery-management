@@ -5,7 +5,17 @@
     height: 100%;
 }
 
+.form-alignment form {
+    min-width: 350px;
+}
+
 .img-login {
     max-width: 350px;
     object-fit: cover;
+}
+
+@media (max-width: 500px) {
+    .form-alignment form {
+        min-width: -webkit-fill-available;
+    }
 }

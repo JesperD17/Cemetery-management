@@ -243,13 +243,29 @@ html, body {
     align-items: center;
 }
 
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-end {
+    justify-content: end;
+}
+
 .flex-s-gap {
     display: flex;
     gap: 5px;
 }
 
+.relative {
+    position: relative;
+}
+
 .gap {
     gap: 12px;
+}
+
+.emptyGap-ss {
+    height: 50px;
 }
 
 .emptyGap-s {
@@ -313,12 +329,17 @@ button.primary:hover {
 
 /* animations */
 /* spinner */
-.spin {
-    animation: spin 1s linear infinite;
+.spinner {
+    animation: spinner 1s linear infinite;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
 }
 
-@keyframes spin {
-100% {
-    transform: rotate(360deg);
-}
+@keyframes spinner {
+    100% {
+        transform: rotate(360deg);
+    }
 }
