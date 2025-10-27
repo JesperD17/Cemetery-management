@@ -77,7 +77,7 @@
         </div>
 
         <div class="section">
-            {#if cards.length > 0 || location !== "laden..."}
+            {#if cards.length > 0 && location !== "laden..."}
             {console.log(cards)}
             <div class="flex-m-gap wrap">
                     {#each cards as card}
