@@ -6,13 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Begraafplaats;
-use App\Models\User; // ✅ nodig voor het verwijderen van gebruikers
+use App\Models\User; 
 
 class AdminController extends Controller
 {
-    /**
-     * Toon het adminoverzicht met begraafplaatsen.
-     */
+
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -32,17 +30,13 @@ class AdminController extends Controller
         ]);
     }
 
-    /**
-     * ✅ Haal alle gebruikers op (voor je Svelte frontend).
-     */
+
     public function users()
     {
         return response()->json(User::all());
     }
 
-    /**
-     * ✅ Verwijder een gebruiker uit de database.
-     */
+  
     public function destroy($id)
     {
         $user = User::find($id);
