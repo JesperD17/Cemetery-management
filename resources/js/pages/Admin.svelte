@@ -1,6 +1,5 @@
 <script>
   import { onMount } from "svelte";
-  import "../../css/admin.css";
 
   export let page = "Admin Overzicht";
   let searchTerm = "";
@@ -13,21 +12,16 @@
   let deleteName = "";
   let errorMessage = "";
 
-  let csrfToken = "";
-
   onMount(async () => {
     try {
-      const tokenRes = await fetch("/csrf-token");
-      const tokenData = await tokenRes.json();
-      csrfToken = tokenData.csrf_token;
+      const res = await fetch("/users", { credentials: "include" }); // send session cookies
+      if (!res.ok) throw new Error("Kan gebruikers niet laden");
 
-      const res = await fetch("/users");
       const data = await res.json();
-
       grafData = data.map(user => ({
         id: user.id,
         naam: user.name,
-        locatie: "" 
+        locatie: ""
       }));
     } catch (err) {
       console.error(err);
@@ -35,6 +29,7 @@
     }
   });
 
+  // Dynamically filter users
   $: filteredGrafData = grafData.filter(plaats =>
     plaats.naam.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -64,15 +59,13 @@
   }
 
   async function deleteGraf() {
-    console.log("Verwijderen gebruiker ID:", deleteId);
-
     try {
       const res = await fetch(`/users/${deleteId}`, {
         method: "DELETE",
         headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-TOKEN": csrfToken
-        }
+          "Content-Type": "application/json"
+        },
+        credentials: "include" // session-based authentication
       });
 
       if (res.ok) {

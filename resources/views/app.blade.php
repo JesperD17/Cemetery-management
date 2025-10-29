@@ -12,6 +12,7 @@
 
     @routes
     @vite(['resources/js/app.ts'])
+    @vite(['resources/css/admin.css'])
     @inertiaHead
 </head>
 
