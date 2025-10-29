@@ -9,43 +9,43 @@ use App\Models\User;
 
 Route::get('/', fn() => Inertia::render('Home'))->name('home');
 
-Route::get('/begraafplaatsen', function () {
-    return Inertia::render('Cemeteries');
-})->middleware(['auth'])->name('begraafplaatsen');
 
-Route::get('/begraafplaatsen/overzicht/{name}', function ($name) {
-    return Inertia::render('Overview', ['name' => $name]);
-})->middleware(['auth'])->name('begraafplaatsen.overzicht');
+Route::middleware(['auth'])->group(function () {
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/admin', [AdminController::class, 'index'])
-->middleware([EnsureAdminRole::class]);
+    Route::get('dashboard', fn() => Inertia::render('Dashboard'))
+        ->middleware('verified')
+        ->name('dashboard');
 
-Route::get('/import', function() {
-    return Inertia::render('Import');
-})->middleware(['auth', 'verified'])->name('import');
 
-Route::get('/admin', [AdminController::class, 'index'])->middleware(['auth', 'verified'])->name('admin');
+    Route::get('/begraafplaatsen', fn() => Inertia::render('Cemeteries'))
+        ->name('begraafplaatsen');
 
-Route::get('/users', function () {
-    return response()->json(
-        User::orderBy('created_at', 'desc')->get()
-    );
-});
-Route::get('/users', function () {
-    return response()->json(User::orderBy('created_at', 'desc')->get());
+    Route::get('/begraafplaatsen/overzicht/{name}', fn($name) => Inertia::render('Overview', ['name' => $name]))
+        ->name('begraafplaatsen.overzicht');
+
+   
+    Route::get('/import', fn() => Inertia::render('Import'))
+        ->middleware('verified')
+        ->name('import');
+
+    Route::post('/import', [ExcelController::class, 'import'])
+        ->middleware('verified')
+        ->name('import.store');
 });
 
-Route::get('/users', fn() => response()->json(User::latest()->get()));
 
-Route::get('/csrf-token', function () {
-    return response()->json(['csrf_token' => csrf_token()]);
+Route::middleware(['auth', EnsureAdminRole::class])->group(function () {
+
+   
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+
+
+    Route::get('/users', fn() => response()->json(User::latest()->get()));
+
+ 
 });
 
-Route::post('/import', [ExcelController::class, 'import'])->name('import');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

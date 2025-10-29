@@ -64,7 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
-    // Api's
+
     Route::get('/checkRole', [CheckRoleController::class, 'index']);
 
     Route::get('/getCityName', [GetCityName::class, 'index']);
