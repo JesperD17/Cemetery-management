@@ -14,4 +14,9 @@ class Cementeries extends Model
         'latitude', 
         'longitude'
     ];
+
+    public function graves()
+    {
+        return $this->hasMany(Graves::class, 'cemetary_id');
+    }
 }
