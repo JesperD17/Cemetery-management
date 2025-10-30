@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\Begraafplaats;
-use App\Models\User; 
+use App\Models\Cemetery;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -15,10 +15,10 @@ class AdminController extends Controller
     {
         $search = $request->input('search');
 
-        $begraafplaatsen = Begraafplaats::query()
+        $cemeteries = Cemetery::query()
             ->when($search, fn($q) => $q
-                ->where('naam', 'like', "%{$search}%")
-                ->orWhere('locatie', 'like', "%{$search}%"))
+                ->where('name', 'like', "%{$search}%")
+                ->orWhere('location', 'like', "%{$search}%"))
             ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->withQueryString();
@@ -26,17 +26,17 @@ class AdminController extends Controller
         return Inertia::render('Admin', [
             'page' => 'Admin Overzicht',
             'search' => $search,
-            'begraafplaatsen' => $begraafplaatsen,
+            'cemeteries' => $cemeteries,
         ]);
     }
 
-
+    
     public function users()
     {
-        return response()->json(User::all());
+        return response()->json(User::orderBy('created_at', 'desc')->get());
     }
 
-  
+    
     public function destroy($id)
     {
         $user = User::find($id);
@@ -44,7 +44,7 @@ class AdminController extends Controller
         if (!$user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gebruiker niet gevonden.'
+                'message' => 'Gebruiker niet gevonden.',
             ], 404);
         }
 
@@ -53,12 +53,12 @@ class AdminController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Gebruiker succesvol verwijderd.'
+                'message' => 'Gebruiker succesvol verwijderd.',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Verwijderen mislukt: ' . $e->getMessage()
+                'message' => 'Verwijderen mislukt: ' . $e->getMessage(),
             ], 500);
         }
     }
