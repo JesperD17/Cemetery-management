@@ -15,13 +15,12 @@
 
     @routes
     @vite(['resources/js/app.ts'])
+    @vite(['resources/css/admin.css'])
     @inertiaHead
 </head>
 
 <body class="bg-secondary">
-    <div class="page-width">
         @inertia
-    </div>
 </body>
 
 </html>

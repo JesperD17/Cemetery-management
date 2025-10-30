@@ -1,5 +1,6 @@
 <script lang="js">
     import Button from "@/Components/ui/button/button.svelte";
+    import AppLayout from "@/layouts/AppLayout.svelte";
     import { Link } from "@inertiajs/svelte";
     import { Loader } from "lucide-svelte";
 
@@ -49,7 +50,7 @@
     Begraafplaatsen
 </svelte:head>
 
-<div>
+<AppLayout>
     {#if location === "laden..."}
         <div class="h1 bold">
             laden...
@@ -100,4 +101,4 @@
             {/if}
         </div>
     {/if}
-</div>
+</AppLayout>
