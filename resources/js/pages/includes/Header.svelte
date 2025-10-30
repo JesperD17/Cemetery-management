@@ -6,8 +6,8 @@
     }
 
     let { user: propUser }: Props = $props();
-    const derivedUser = $derived($page.props.auth.user);
-    const userRole = $derived($page.props.auth.user.role.name);
+    const derivedUser = $derived($page?.props?.auth?.user || null);
+    const userRole = $derived($page?.props?.auth?.user?.role?.name || null);
 </script>
 
 <div class="padding-all row-flex align-center justify-between border-primary-btm bg-primary">
@@ -23,6 +23,9 @@
                 begraafplaatsen
             </Link>
             {#if (userRole === 'admin')}
+                <Link href={route('import')}>
+                    Excel import
+                </Link>
                 <Link href={route('admin')}>
                     Admin
                 </Link>
