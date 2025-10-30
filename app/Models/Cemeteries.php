@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cementeries extends Model
+class Cemeteries extends Model
 {
     protected $table = 'cemeteries';
     
@@ -17,6 +17,6 @@ class Cementeries extends Model
 
     public function graves()
     {
-        return $this->hasMany(Graves::class, 'cemetary_id');
+        return $this->hasMany(Graves::class, 'cemetery_id');
     }
 }

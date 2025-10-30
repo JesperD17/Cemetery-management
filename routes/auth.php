@@ -65,5 +65,5 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/getCityName', [GetCityName::class, 'index']);
 
-    Route::get('/getCementeries', [GetCementeries::class, 'index']);
+    Route::get('/getCemeteries', [GetCemeteries::class, 'index']);
 });
