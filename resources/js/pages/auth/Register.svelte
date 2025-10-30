@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
     import InputError from '@/components/InputError.svelte';
     import TextLink from '@/components/TextLink.svelte';
     import { Button } from '@/components/ui/button';
@@ -6,7 +6,7 @@
     import { Label } from '@/components/ui/label';
     import AuthBase from '@/layouts/AuthLayout.svelte';
     import { useForm } from '@inertiajs/svelte';
-    import { LoaderCircle } from 'lucide-svelte';
+    import { LoaderCircle, Mail, User, Lock } from 'lucide-svelte';
 
     const form = useForm({
         name: '',
@@ -15,7 +15,8 @@
         password_confirmation: '',
     });
 
-    const submit = () => {
+    const submit = (e) => {
+        e.preventDefault();
         $form.post(route('register'), {
             onFinish: () => $form.reset('password', 'password_confirmation'),
         });
@@ -26,23 +27,31 @@
     <title>Regristreren</title>
 </svelte:head>
 
-<!-- <AuthBase title="Create an account" description="Enter your details below to create your account"> -->
-    <form onsubmit={submit}>
-        <div>
-            <div>
-                <Label for="name">Naam</Label>
+<div class="form-alignment">
+    <form class="padding-all bg-primary border-radius" onsubmit={submit}>
+        <div class="h1 padding-btm center-flex">Regristreren</div>
+        <div class="padding-btm col-flex">
+            <Label for="name">Naam</Label>
+            <div class="flex-s-gap align-center">
+                <User />
                 <Input id="name" type="text" required autofocus tabindex={1} autocomplete="name" bind:value={$form.name} placeholder="Volledige" />
-                <InputError message={$form.errors.name} />
             </div>
+            <InputError message={$form.errors.name} />
+        </div>
 
-            <div>
-                <Label for="email">Email adres</Label>
+        <div class="padding-btm col-flex">
+            <Label for="email">Email adres</Label>
+            <div class="flex-s-gap align-center">
+                <Mail />
                 <Input id="email" type="email" required tabindex={2} autocomplete="email" bind:value={$form.email} placeholder="email@example.com" />
-                <InputError message={$form.errors.email} />
             </div>
+            <InputError message={$form.errors.email} />
+        </div>
 
-            <div>
-                <Label for="password">Wachtwoord</Label>
+        <div class="padding-btm col-flex">
+            <Label for="password">Wachtwoord</Label>
+            <div class="flex-s-gap align-center">
+                <Lock />
                 <Input
                     id="password"
                     type="password"
@@ -52,11 +61,14 @@
                     bind:value={$form.password}
                     placeholder="Wachtwoord"
                 />
-                <InputError message={$form.errors.password} />
             </div>
+            <InputError message={$form.errors.password} />
+        </div>
 
-            <div>
-                <Label for="password_confirmation">Bevestig wachtwoord</Label>
+        <div class="padding-btm col-flex">
+            <Label for="password_confirmation">Bevestig wachtwoord</Label>
+            <div class="flex-s-gap align-center">
+                <Lock />
                 <Input
                     id="password_confirmation"
                     type="password"
@@ -66,20 +78,18 @@
                     bind:value={$form.password_confirmation}
                     placeholder="Bevestig wachtwoord"
                 />
-                <InputError message={$form.errors.password_confirmation} />
             </div>
+            <InputError message={$form.errors.password_confirmation} />
+        </div>
 
-            <Button type="submit" tabindex={5} disabled={$form.processing}>
+        <div class="row-flex gap justify-between">
+            <TextLink class="full-width" href={route('login')} tabindex={6}>Inloggen</TextLink>
+            <Button class="full-width relative" type="submit" tabindex={5} disabled={$form.processing}>
                 {#if $form.processing}
-                    <LoaderCircle class="animate-spin" />
+                    <LoaderCircle class="spinner" />
                 {/if}
                 Account aanmaken
             </Button>
         </div>
-
-        <div>
-            Heeft u al een account?
-            <TextLink href={route('login')} tabindex={6}>Inloggen</TextLink>
-        </div>
     </form>
-<!-- </AuthBase> -->
+</div>

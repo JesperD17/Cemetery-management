@@ -1,7 +1,9 @@
 <script>
-  import { onMount } from "svelte";
+  import AppLayout from "@/layouts/AppLayout.svelte";
 
   export let page = "Admin Overzicht";
+  import { onMount } from "svelte";
+
   let searchTerm = "";
   let grafData = [];
 
@@ -83,7 +85,7 @@
 </script>
 
 
-<div class="container">
+<AppLayout class="container">
   <h1>{page}</h1>
 
   <div class="search-container">
@@ -119,11 +121,11 @@
   {#if filteredGrafData.length === 0}
     <p class="no-results">Geen resultaten gevonden.</p>
   {/if}
+</AppLayout>
 
   {#if errorMessage}
     <div class="error-toast fade-in">{errorMessage}</div>
   {/if}
-</div>
 
 {#if showModal}
   <div class="modal-backdrop" on:click={closeModal}>

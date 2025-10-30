@@ -16,7 +16,7 @@ class EnsureAdminRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && $request->user() && $request->user()->role_id === 2) {
+        if (Auth::check() && $request->user() && $request->user()->role_id === 3) {
             return $next($request);
         } else {    
             return redirect()->back()->with('error', 'You do not have admin access.');

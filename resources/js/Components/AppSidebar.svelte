@@ -10,8 +10,8 @@
 
     const mainNavItems: NavItem[] = [
         {
-            title: 'Dashboard',
-            href: '/dashboard',
+            title: 'home',
+            href: '/home',
             icon: LayoutGrid,
         },
     ];
@@ -35,7 +35,7 @@
         <SidebarMenu>
             <SidebarMenuItem>
                 <SidebarMenuButton size="lg">
-                    <Link href={route('dashboard')}>
+                    <Link href={route('home')}>
                         <AppLogo />
                     </Link>
                 </SidebarMenuButton>

@@ -1,5 +1,6 @@
 <script lang="js">
     import Button from "@/Components/ui/button/button.svelte";
+    import AppLayout from "@/layouts/AppLayout.svelte";
     import { Link } from "@inertiajs/svelte";
     import { Loader } from "lucide-svelte";
 
@@ -27,7 +28,7 @@
         if (location === "onbekend" || location === "laden...") return;
         
         try {
-            const response = await fetch(`/getCementeries?city=${location}`, {
+            const response = await fetch(`/getCemeteries?city=${location}`, {
                 headers: {
                     Accept: 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
@@ -49,7 +50,7 @@
     Begraafplaatsen
 </svelte:head>
 
-<div>
+<AppLayout>
     {#if location === "laden..."}
         <div class="h1 bold">
             laden...
@@ -100,4 +101,4 @@
             {/if}
         </div>
     {/if}
-</div>
+</AppLayout>

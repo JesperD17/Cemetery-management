@@ -6,7 +6,7 @@
     import { Label } from '@/components/ui/label';
     import AuthLayout from '@/layouts/AuthLayout.svelte';
     import { useForm } from '@inertiajs/svelte';
-    import { LoaderCircle } from 'lucide-svelte';
+    import { LoaderCircle, Mail } from 'lucide-svelte';
 
     interface Props {
         status?: string;
@@ -22,40 +22,55 @@
     };
 
     let { status }: Props = $props();
+
+    let isMobile = window.innerWidth < 700;
 </script>
 
 <svelte:head>
-    <title>Forgot Password</title>
+    <title>Wachtwoord vergeten</title>
 </svelte:head>
 
-<AuthLayout title="Forgot password" description="Enter your email to receive a password reset link">
-    {#if status}
-        <div class="mb-4 text-center text-sm font-medium text-green-600">
-            {status}
-        </div>
-    {/if}
+{#if status}
+    <div class="mb-4 text-center text-sm font-medium text-green-600">
+        {status}
+    </div>
+{/if}
 
-    <div class="space-y-6">
-        <form onsubmit={submit}>
-            <div class="grid gap-2">
-                <Label for="email">Email address</Label>
-                <Input id="email" type="email" name="email" autocomplete="off" bind:value={$form.email} autofocus placeholder="email@example.com" />
+<div class="form-alignment">
+    <div class="row-flex border-primary border-radius">
+        <form onsubmit={submit}
+        class="padding-all bg-primary border-radius">
+        <div class="h1 padding-btm center-flex">Wachtwoord vergeten</div>
+            <div>
+                <div class="baseText padding-btm">
+                    Vul je email adres in en wij sturen je een link<br> om je wachtwoord te resetten.
+                </div>
+            </div>
+
+            <div class="padding-btm col-flex">
+                <Label class="baseText" for="email">Email</Label>
+                <div class="flex-s-gap align-center">
+                    <Mail />
+                    <Input id="email" type="email" name="email" autocomplete="off" bind:value={$form.email} autofocus placeholder="email@example.com" />
+                </div>
                 <InputError message={$form.errors.email} />
             </div>
 
-            <div class="my-6 flex items-center justify-start">
-                <Button class="w-full" disabled={$form.processing}>
+            <div class="emptyGap-{isMobile ? 'ss' : 's'} center-flex"></div>
+
+            <div class="col-flex gap">
+                <Button class="full-width relative" type="submit" disabled={$form.processing}>
                     {#if $form.processing}
-                        <LoaderCircle class="h-4 w-4 animate-spin" />
+                        <LoaderCircle class="spinner" />
                     {/if}
-                    Email password reset link
+                    Wachtwoord resetten
                 </Button>
+                <div class="row-flex gap justify-end">
+                    <TextLink href={route('login')}>Inloggen</TextLink>
+                    <TextLink href={route('register')}>Registreren</TextLink>
+                </div>
             </div>
         </form>
 
-        <div class="space-x-1 text-center text-sm text-muted-foreground">
-            <span>Or, return to</span>
-            <TextLink href={route('login')}>log in</TextLink>
-        </div>
     </div>
-</AuthLayout>
+</div>

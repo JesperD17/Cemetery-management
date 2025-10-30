@@ -32,53 +32,51 @@
 </script>
 
 <svelte:head>
-    <title>Reset Password</title>
+    <title>Wachtwoord resetten</title>
 </svelte:head>
 
-<AuthLayout title="Reset password" description="Please enter your new password below">
-    <form onsubmit={submit}>
-        <div class="grid gap-6">
-            <div class="grid gap-2">
-                <Label for="email">Email</Label>
-                <Input id="email" type="email" name="email" autocomplete="email" bind:value={$form.email} class="mt-1 block w-full" readonly />
-                <InputError message={$form.errors.email} class="mt-2" />
-            </div>
-
-            <div class="grid gap-2">
-                <Label for="password">Password</Label>
-                <Input
-                    id="password"
-                    type="password"
-                    name="password"
-                    autocomplete="new-password"
-                    bind:value={$form.password}
-                    class="mt-1 block w-full"
-                    autofocus
-                    placeholder="Password"
-                />
-                <InputError message={$form.errors.password} />
-            </div>
-
-            <div class="grid gap-2">
-                <Label for="password_confirmation">Confirm Password</Label>
-                <Input
-                    id="password_confirmation"
-                    type="password"
-                    name="password_confirmation"
-                    autocomplete="new-password"
-                    bind:value={$form.password_confirmation}
-                    class="mt-1 block w-full"
-                    placeholder="Confirm password"
-                />
-                <InputError message={$form.errors.password_confirmation} />
-            </div>
-
-            <Button type="submit" class="mt-4 w-full" disabled={$form.processing}>
-                {#if $form.processing}
-                    <LoaderCircle class="h-4 w-4 animate-spin" />
-                {/if}
-                Reset password
-            </Button>
+<form onsubmit={submit}>
+    <div class="grid gap-6">
+        <div class="grid gap-2">
+            <Label for="email">Email</Label>
+            <Input id="email" type="email" name="email" autocomplete="email" bind:value={$form.email} class="mt-1 block w-full" readonly />
+            <InputError message={$form.errors.email} class="mt-2" />
         </div>
-    </form>
-</AuthLayout>
+
+        <div class="grid gap-2">
+            <Label for="password">Wachtwoord</Label>
+            <Input
+                id="password"
+                type="password"
+                name="password"
+                autocomplete="new-password"
+                bind:value={$form.password}
+                class="mt-1 block w-full"
+                autofocus
+                placeholder="Wachtwoord"
+            />
+            <InputError message={$form.errors.password} />
+        </div>
+
+        <div class="grid gap-2">
+            <Label for="password_confirmation">Bevestig Wachtwoord</Label>
+            <Input
+                id="password_confirmation"
+                type="password"
+                name="password_confirmation"
+                autocomplete="new-password"
+                bind:value={$form.password_confirmation}
+                class="mt-1 block w-full"
+                placeholder="Bevestig wachtwoord"
+            />
+            <InputError message={$form.errors.password_confirmation} />
+        </div>
+
+        <Button class="full-width relative" type="submit" disabled={$form.processing}>
+            {#if $form.processing}
+                <LoaderCircle class="spinner" />
+            {/if}
+            Wachtwoord resetten
+        </Button>
+    </div>
+</form>

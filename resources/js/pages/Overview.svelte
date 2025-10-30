@@ -1,4 +1,6 @@
 <script lang="js">
+    import AppLayout from '@/layouts/AppLayout.svelte';
+
     export let name;
     
 </script>
@@ -7,6 +9,6 @@
     Overzicht
 </svelte:head>
 
-<div class="section">
+<AppLayout class="section">
     overzicht pagina voor {name}
-</div>
+</AppLayout>
