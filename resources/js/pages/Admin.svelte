@@ -68,16 +68,26 @@
     setTimeout(() => (errorMessage = ""), 3000);
   }
 
+  function getXsrfFromCookie() {
+    const c = document.cookie.split('; ').find(r => r.startsWith('XSRF-TOKEN='));
+    return c ? decodeURIComponent(c.split('=')[1]) : null;
+  }
+
   async function deleteGraf() {
     try {
-      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-      console.log(csrfToken)
+      const csrfToken = getXsrfFromCookie();
+
+      if (!csrfToken) {
+        showError("CSRF token niet gevonden. Ververs de pagina.");
+        return;
+      }
+
       const res = await fetch(`/delRightsHolder/${deleteId}`, {
         method: "DELETE",
         headers: {
           Accept: 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
-          'X-CSRF-Token': csrfToken
+          'X-XSRF-TOKEN': csrfToken
         },
         credentials: 'include',
       });
