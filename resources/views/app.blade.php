@@ -19,9 +19,7 @@
 </head>
 
 <body class="bg-secondary">
-    <div class="page-width">
         @inertia
-    </div>
 </body>
 
 </html>

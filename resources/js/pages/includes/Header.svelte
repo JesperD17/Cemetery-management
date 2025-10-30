@@ -1,0 +1,38 @@
+<script lang="ts">
+    import { Link, page } from '@inertiajs/svelte';
+
+    interface Props {
+        user?: any;
+    }
+
+    let { user: propUser }: Props = $props();
+    const derivedUser = $derived($page.props.auth.user);
+</script>
+
+<div class="padding-all row-flex align-center justify-between border-primary-btm bg-primary">
+    <div>
+        <div class="h2">DNBP</div>
+    </div>
+    <div class="flex-m-gap">
+        <Link href={route('home')}>
+            Home
+        </Link>
+        {#if (propUser ?? derivedUser)}
+            <Link href={route('begraafplaatsen')}>
+                begraafplaatsen
+            </Link>
+            {#if (propUser ?? derivedUser).role === 'admin'}
+                <Link href={route('admin')}>
+                    Admin
+                </Link>
+            {/if}
+        {:else}
+            <Link href={route('login')}>
+                Log in
+            </Link>
+            <Link href={route('register')}>
+                Register
+            </Link>
+        {/if}
+    </div>
+</div>

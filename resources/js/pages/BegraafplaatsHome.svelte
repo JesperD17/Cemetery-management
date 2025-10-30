@@ -1,8 +1,10 @@
 <script>
+    import AppLayout from "@/layouts/AppLayout.svelte";
+
     export let begraafplaats;
   </script>
   
-  <div class="container">
+  <AppLayout class="container">
     <!-- Hero sectie -->
     <div class="hero">
       <h1>{begraafplaats.titel}</h1>
@@ -22,7 +24,7 @@
         vel lacinia orci arcu at mauris.
       </p>
     </section>
-  </div>
+  </AppLayout>
   
   <style>
   .container {

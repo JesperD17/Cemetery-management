@@ -195,6 +195,10 @@ html, body {
     font-size: 28px;
 }
 
+.h2 {
+    font-size: 22px;
+}
+
 .baseText {
     font-size: 15px;
 }
@@ -325,6 +329,10 @@ html, body {
 
 .border-primary-l {
     border-left: solid 2px #d7d7d7;
+}
+
+.border-primary-btm {
+    border-bottom: solid 2px #d7d7d7;
 }
 
 .bg-primary {

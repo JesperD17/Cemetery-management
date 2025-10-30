@@ -1,4 +1,6 @@
 <script>
+    import AppLayout from "@/layouts/AppLayout.svelte";
+
   export let page = "Admin Overzicht";
 
   
@@ -45,7 +47,7 @@
 </script>
 
 
-<div class="container">
+<AppLayout class="container">
   <h1>{page}</h1>
 
 
@@ -89,7 +91,7 @@
   {#if filteredGrafData.length === 0}
     <p class="no-results">Geen resultaten gevonden.</p>
   {/if}
-</div>
+</AppLayout>
 
 <!-- ✅ Popup Modal -->
 {#if showModal}
