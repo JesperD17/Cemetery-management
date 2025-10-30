@@ -4,7 +4,6 @@
   export let page = "Admin Overzicht";
   import { onMount } from "svelte";
 
-  export let page = "Admin Overzicht";
   let searchTerm = "";
   let grafData = [];
 
@@ -127,7 +126,6 @@
   {#if errorMessage}
     <div class="error-toast fade-in">{errorMessage}</div>
   {/if}
-</div>
 
 {#if showModal}
   <div class="modal-backdrop" on:click={closeModal}>
