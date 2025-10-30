@@ -9,7 +9,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CheckRoleController;
-use App\Http\Controllers\GetCementeries;
+use App\Http\Controllers\GetCemeteries;
 use App\Http\Controllers\GetCityName;
 use Illuminate\Support\Facades\Route;
 
@@ -62,5 +62,5 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/getCityName', [GetCityName::class, 'index']);
 
-    Route::get('/getCementeries', [GetCementeries::class, 'index']);
+    Route::get('/getCemeteries', [GetCemeteries::class, 'index']);
 });

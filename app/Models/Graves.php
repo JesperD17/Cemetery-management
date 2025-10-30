@@ -8,9 +8,9 @@ class Graves extends Model
 {
     protected $guarded = [];
 
-    public function cementaries()
+    public function cemeteries()
     {
-        return $this->belongsTo(Cementeries::class, 'cemetary_id');
+        return $this->belongsTo(Cemeteries::class, 'cemetery_id');
     }
 
     public function graveAgreements()

@@ -27,7 +27,7 @@
         if (location === "onbekend" || location === "laden...") return;
         
         try {
-            const response = await fetch(`/getCementeries?city=${location}`, {
+            const response = await fetch(`/getCemeteries?city=${location}`, {
                 headers: {
                     Accept: 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
