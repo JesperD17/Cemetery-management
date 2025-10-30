@@ -92,13 +92,13 @@
                 </div> -->
 
                 <div class="relative emptyGap-{isMobile ? 's' : 'm'} center-flex padding-btm">
+                </div>
+                
+                
+                <Button type="submit" tabindex={4} disabled={$form.processing} class="full-width relative">
                     {#if $form.processing}
                         <LoaderCircle class="spinner" />
                     {/if}
-                </div>
-                            
-                            
-                <Button type="submit" tabindex={4} disabled={$form.processing} variant="default" size="fullWidth" class="baseText margin-btm">
                     Inloggen
                 </Button>
 
