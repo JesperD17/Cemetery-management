@@ -16,8 +16,6 @@ class EnsureAdminRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-
-        dd($request->user()->role_id);
         if (Auth::check() && $request->user() && $request->user()->role_id === 3) {
             return $next($request);
         } else {    
