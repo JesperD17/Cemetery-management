@@ -10,5 +10,8 @@
 </svelte:head>
 
 <AppLayout class="section">
-    overzicht pagina voor {name}
+    <div class="h1 padding-btm">
+        Locatie {name}
+    </div>
+    
 </AppLayout>

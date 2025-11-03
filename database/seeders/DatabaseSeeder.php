@@ -154,6 +154,27 @@ class DatabaseSeeder extends Seeder
             'term' => '10 years',
         ]);
 
+        Graves::create([
+            'cemetery_id' => 1,
+            'latitude' => '52.456850',
+            'longitude' => '6.058550',
+            'image_url' => 'example2.jpg',
+            'number' => 'A2',
+            'costs' => '6000',
+            'type' => 'grave',
+            'term' => '20 years',
+        ]);
+
+        Graves::create([
+            'cemetery_id' => 2,
+            'latitude' => '52.531300',
+            'longitude' => '6.129600',
+            'image_url' => 'example3.jpg',
+            'number' => 'B1',
+            'costs' => '5500',
+            'type' => 'grave',
+            'term' => '15 years',
+        ]);
         
         // Rights Holders
         RightsHolders::create([ 
@@ -186,6 +207,13 @@ class DatabaseSeeder extends Seeder
             'rights_holder_id' => 1,
             'start_date' => '2020-01-01',
             'end_date' => '2030-01-01',
+        ]);
+
+        GraveAgreements::create([
+            'grave_id' => 3,
+            'rights_holder_id' => 1,
+            'start_date' => '2021-01-01',
+            'end_date' => '2030-12-01',
         ]);
 
         // Link user to rights holder
