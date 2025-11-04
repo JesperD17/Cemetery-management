@@ -10,6 +10,10 @@ Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
 
+Route::fallback(function () {
+    return Inertia::render('NotFound')->toResponse(request())->setStatusCode(404);
+});
+
 Route::get('/begraafplaatsen', function () {
     return Inertia::render('Cemeteries');
 })->middleware(['auth'])->name('begraafplaatsen');

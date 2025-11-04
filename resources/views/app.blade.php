@@ -17,6 +17,8 @@
     @routes
     @vite(['resources/js/app.ts'])
     @vite(['resources/css/admin.css'])
+    @vite(['resources/css/NotFound.css'])
+
     @inertiaHead
 </head>
 
