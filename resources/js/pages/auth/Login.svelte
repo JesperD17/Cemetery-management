@@ -95,18 +95,18 @@
                 </div>
                 
                 
-                <Button type="submit" tabindex={4} disabled={$form.processing} class="full-width relative">
+                <Button type="submit" tabindex={4} disabled={$form.processing} class="full-width relative margin-btm">
                     {#if $form.processing}
                         <LoaderCircle class="spinner" />
                     {/if}
                     Inloggen
                 </Button>
 
-                <div class="row-flex gap"> 
+                <div class="row-flex justify-center"> 
                     {#if canResetPassword}
                         <TextLink href={route('password.request')} tabindex={5} class="baseText">Wachtwoord vergeten?</TextLink>
                     {/if}
-                    <TextLink href={route('register')} tabindex={5} class="baseText text-end">Nog geen account?</TextLink>
+                    <!-- <TextLink href={route('register')} tabindex={5} class="baseText text-end">Nog geen account?</TextLink> -->
                 </div>
             </form>
         </div>

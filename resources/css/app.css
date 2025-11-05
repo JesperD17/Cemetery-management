@@ -279,6 +279,10 @@ html, body {
     text-align: center;
 }
 
+.justify-center {
+    justify-content: center;
+}
+
 .justify-between {
     justify-content: space-between;
 }
