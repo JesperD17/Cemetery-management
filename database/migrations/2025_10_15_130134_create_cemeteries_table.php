@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('cemeteries', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('municipality');
-            $table->string('latitude')->unique();
-            $table->string('longitude')->unique();
+            $table->integer('municipality_id');
+            $table->string('city');
+            $table->string('address')->unique();
+            $table->string('zip_code')->unique();
+            $table->string('image_hash_url')->unique();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

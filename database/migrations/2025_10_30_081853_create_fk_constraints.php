@@ -11,18 +11,31 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('graves', function (Blueprint $table) {
-            $table->foreign("cemetery_id")->references("id")->on("cemeteries")->onDelete("cascade");
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign("role_id")->references("id")->on("roles")->onDelete("cascade");
+            $table->foreign("id")->references("user_id")->on("grave_users")->onDelete("cascade");
         });
 
-        Schema::table('grave_agreements', function (Blueprint $table) {
-            $table->foreign("rights_holder_id")->references("id")->on("rights_holders")->onDelete("cascade");
+        Schema::table('roles', function (Blueprint $table) {
+            $table->foreign("permission_id")->references("id")->on("permissions")->onDelete("set null");
+        });
+
+        Schema::table('grave_users', function (Blueprint $table) {
             $table->foreign("grave_id")->references("id")->on("graves")->onDelete("cascade");
+        });
+
+        Schema::table('graves', function (Blueprint $table) {
+            $table->foreign("status_id")->references("id")->on("grave_statuses")->onDelete("set null");
+            $table->foreign("id")->references("grave_id")->on("grave_of_deceased")->onDelete("set null");
         });
 
         Schema::table('grave_of_deceased', function (Blueprint $table) {
             $table->foreign("deceased_id")->references("id")->on("deceased")->onDelete("cascade");
-            $table->foreign("grave_id")->references("id")->on("graves")->onDelete("cascade");
+        });
+
+        Schema::table('cemeteries', function (Blueprint $table) {
+            $table->foreign("id")->references("cemetery_id")->on("graves")->onDelete("set null");
+            $table->foreign("municipality_id")->references("id")->on("municipalities")->onDelete("set null");
         });
     }
 

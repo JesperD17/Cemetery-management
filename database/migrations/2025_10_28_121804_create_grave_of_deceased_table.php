@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('grave_of_deceased', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("deceased_id");
-            $table->unsignedBigInteger("grave_id");
+            $table->integer("deceased_id");
+            $table->integer("grave_id");
             $table->timestamps();
         });
     }

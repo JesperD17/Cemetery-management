@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string("first_name");
             $table->string("infix");
             $table->string("last_name");
+            $table->date("date_of_birth");
+            $table->date("date_of_death");
+            $table->text("description")->nullable();
             $table->timestamps();
         });
     }
