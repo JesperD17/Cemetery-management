@@ -20,7 +20,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('auth/Register');
+        return Inertia::render('auth/CreateUser');
     }
 
     /**
@@ -40,12 +40,11 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role_id' => 1,
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return to_route('home');
+        return back()->with('success', 'Account succesvol aangemaakt.');
     }
 }

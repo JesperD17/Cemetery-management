@@ -22,12 +22,12 @@ class DatabaseSeeder extends Seeder
     {
         // Standard roles
         Roles::create([
-            'name' => 'user',
+            'name' => 'rechthebbende',
             'permissionID' => 1,
         ]);
 
         Roles::create([
-            'name' => 'editor',
+            'name' => 'beheerder',
             'permissionID' => 2,
         ]);
 

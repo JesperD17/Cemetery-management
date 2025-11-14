@@ -428,6 +428,11 @@ button.primary:hover, a.primary:hover, .btn.primary:hover {
     height: 100%;
 }
 
+/*  */
+.succes-message {
+    color:#399239;
+}
+
 @keyframes spinner {
     100% {
         transform: rotate(360deg);
