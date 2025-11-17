@@ -15,12 +15,19 @@ class GetCemeteries extends Controller
 
         $userRoleID = $request->user()->role_id;
         $dbRole = DB::table('roles')->where('id', $userRoleID)->first();
-        $currentCity = $request->query('city');
+        
+        $getGravesController = new GetGraves();
+        $graves = $getGravesController->fetchByUser($request->user()->id);
 
         if ($dbRole && in_array($dbRole->name, ['admin', 'super admin', 'editor'])) {
             $cemeteries = DB::table('cemeteries')->get();
         } else {
-            $cemeteries = DB::table('cemeteries')->where('municipality', 'LIKE', '%' . $currentCity . '%')->get();
+            $cemeteryIds = $graves->pluck('cemetery_id')->unique()->filter()->values()->all();
+            if (empty($cemeteryIds)) {
+                $cemeteries = collect();
+            } else {
+                $cemeteries = DB::table('cemeteries')->whereIn('id', $cemeteryIds)->get();
+            }
         }
         return response()->json($cemeteries);
     }

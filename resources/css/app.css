@@ -279,6 +279,10 @@ html, body {
     text-align: center;
 }
 
+.justify-center {
+    justify-content: center;
+}
+
 .justify-between {
     justify-content: space-between;
 }
@@ -323,6 +327,15 @@ html, body {
 
 .full-width {
     width: 100%;
+}
+
+.full-height-full-width {
+    width: 100%;
+    height: 100%;
+}
+
+.h-fit {
+    height: fit-content;
 }
 
 /* text */
@@ -375,6 +388,10 @@ html, body {
 .card-loc {
     max-width: 300px;
     width: -webkit-fill-available;
+}
+
+.card-grave {
+    height: 125px;
 }
 
 /* input fields */
