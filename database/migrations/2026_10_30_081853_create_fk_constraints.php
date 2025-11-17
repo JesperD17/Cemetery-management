@@ -11,11 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // roles.permission_id -> permissions.id
-        Schema::table('roles', function (Blueprint $table) {
-            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('set null');
-        });
-
         // users.role_id -> roles.id
         Schema::table('users', function (Blueprint $table) {
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');

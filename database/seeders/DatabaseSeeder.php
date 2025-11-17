@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Roles;
 use App\Models\User;
-use App\Models\Permissions;
 use App\Models\Cemeteries;
 use App\Models\Graves;
 use App\Models\Deceased;
@@ -23,15 +22,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Permissions
-        Permissions::create(['name' => 'read']);
-        Permissions::create(['name' => 'write']);
-        Permissions::create(['name' => 'admin']);
-
         // Roles (link to permissions)
-        Roles::create(['name' => 'user', 'permission_id']);
-        Roles::create(['name' => 'editor', 'permission_id']);
-        Roles::create(['name' => 'admin', 'permission_id']);
+        Roles::create(['name' => 'user']);
+        Roles::create(['name' => 'editor']);
+        Roles::create(['name' => 'admin']);
 
         // Municipalities
         Municipalities::create(['name' => 'Zwolle']);
