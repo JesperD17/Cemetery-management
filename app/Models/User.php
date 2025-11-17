@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -19,9 +20,16 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'infix',
+        'last_name',
+        'phone_number',
+        'address',
+        'zip_code',
+        'role_id',
         'email',
-        'password',
+        'email_verified_at',
+        'password_hash',
     ];
 
     /**
@@ -30,7 +38,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'password',
+        'password_hash',
         'remember_token',
     ];
 
@@ -39,21 +47,22 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string,string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function role(): BelongsTo
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->belongsTo(Roles::class, 'role_id');
     }
 
-    function role(): BelongsTo
+    public function graveUsers(): HasMany
     {
-        return $this->belongsTo(Roles::class);
-    }
-
-    public function rightsHolderUsers() 
-    {
-        return $this->hasMany(RightsHoldersUsers::class, 'user_id');
+        return $this->hasMany(GraveUsers::class, 'user_id');
     }
 }
