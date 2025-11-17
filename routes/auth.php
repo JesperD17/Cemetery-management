@@ -12,11 +12,12 @@ use App\Http\Controllers\GetCemeteries;
 use App\Http\Controllers\GetCityName;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\GetGraves;
 use App\Http\Controllers\GetRightsHolders;
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
+    // Route::get('register', [RegisteredUserController::class, 'create'])
+    //     ->name('register');
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
@@ -65,4 +66,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/delRightsHolder/{id}', [AdminController::class, 'destroy']);
 
     Route::get('getRightsHolders', [GetRightsHolders::class, 'index']);
+
+    Route::get('/getGraves', [GetGraves::class, 'index']);
 });

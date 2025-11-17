@@ -23,23 +23,23 @@
                 begraafplaatsen
             </Link>
             {#if (userRole === 'admin')}
-                <Link href={route('import')}>
+                <!-- <Link href={route('import')}>
                     Excel import
-                </Link>
+                </Link> -->
                 <Link href={route('admin')}>
                     Admin
                 </Link>
             {/if}
             <Link class="btn primary" href={route('logout')} method="post" as="button">
-                Log out
+                Uitloggen
             </Link>
         {:else}
             <Link href={route('login')}>
-                Log in
+                Inloggen
             </Link>
-            <Link href={route('register')}>
+            <!-- <Link href={route('register')}>
                 Register
-            </Link>
+            </Link> -->
         {/if}
     </div>
 </div>

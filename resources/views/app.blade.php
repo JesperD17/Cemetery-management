@@ -15,8 +15,12 @@
     @vite('resources/css/auth.css')
 
     @routes
+    @vite(['resources/css/Forbidden.css'])
     @vite(['resources/js/app.ts'])
     @vite(['resources/css/admin.css'])
+    @vite(['resources/css/NotFound.css'])
+    {{-- @vite(['resources/css/BadRequest.css']) --}}
+
     @inertiaHead
 </head>
 
