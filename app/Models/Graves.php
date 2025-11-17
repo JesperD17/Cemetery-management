@@ -6,16 +6,31 @@ use Illuminate\Database\Eloquent\Model;
 
 class Graves extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'cemetery_id',
+        'latitude',
+        'longitude',
+        'image_hash_url',
+        'grave_number',
+        'status_id',
+        'description',
+        'start_date',
+        'end_date',
+    ];
 
-    public function cemeteries()
+    public function cemetery()
     {
         return $this->belongsTo(Cemeteries::class, 'cemetery_id');
     }
 
-    public function graveAgreements()
+    public function graveStatus()
     {
-        return $this->hasMany(GraveAgreements::class, 'grave_id');
+        return $this->belongsTo(GraveStatuses::class, 'status_id');
+    }
+
+    public function graveUsers()
+    {
+        return $this->hasMany(GraveUsers::class, 'grave_id');
     }
 
     public function deceased()

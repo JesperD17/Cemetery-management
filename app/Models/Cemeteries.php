@@ -9,10 +9,13 @@ class Cemeteries extends Model
     protected $table = 'cemeteries';
     
     protected $fillable = [
-        'name', 
-        'municipality',
-        'latitude', 
-        'longitude'
+        'name',
+        'municipality_id',
+        'city',
+        'address',
+        'zip_code',
+        'image_hash_url',
+        'description',
     ];
 
     public function graves()
