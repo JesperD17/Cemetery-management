@@ -27,5 +27,10 @@ Route::inertia('/import', 'Import')
 
 Route::post('/import', [ExcelController::class, 'import'])->name('import');
 
+Route::get('/aanmaak', function () {
+    return Inertia::render('Aanmaak');
+});
+
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
