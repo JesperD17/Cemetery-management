@@ -56,6 +56,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Return the password for the authentication system.
+     * Laravel's Authenticatable expects a "password" attribute by default.
+     * Our DB column is `password_hash`, so expose it here.
+     */
+    public function getAuthPassword()
+    {
+        return $this->password_hash;
+    }
+
+    /**
+     * Optional mutator: allow assigning to $user->password and have it
+     * hashed into the `password_hash` column.
+     */
+    public function setPasswordAttribute($value)
+    {
+        if ($value === null) {
+            $this->attributes['password_hash'] = null;
+            return;
+        }
+
+        // If it's already a bcrypt hash, store as-is; otherwise hash it.
+        if (is_string($value) && str_starts_with($value, '$2y$')) {
+            $this->attributes['password_hash'] = $value;
+        } else {
+            $this->attributes['password_hash'] = \Illuminate\Support\Facades\Hash::make($value);
+        }
+    }
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(Roles::class, 'role_id');
