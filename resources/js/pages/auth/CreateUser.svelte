@@ -7,13 +7,19 @@
     import AppLayout from '@/layouts/AppLayout.svelte';
     import AuthBase from '@/layouts/AuthLayout.svelte';
     import { useForm, page } from '@inertiajs/svelte';
-    import { LoaderCircle, Mail, User, Lock } from 'lucide-svelte';
-
+    import { LoaderCircle, Mail, User, Lock, ScanLine, FolderPen, Phone, LandPlot, Milestone } from 'lucide-svelte';
+    
     const form = useForm({
-        name: '',
+        first_name: '',
+        infix: '',
+        last_name: '',
+        phone_number: '',
+        address: '',
+        zip_code: '',
         email: '',
         password: '',
         password_confirmation: '',
+        role_id: '',
     });
 
     const submit = (e) => {
@@ -22,6 +28,10 @@
             onFinish: () => $form.reset('password', 'password_confirmation'),
         });
     };
+
+    let { user: propUser } = $props();
+    const userRole = $derived($page?.props?.auth?.user?.role?.name || null);
+    
 </script>
 
 <svelte:head>
@@ -33,12 +43,57 @@
         <form class="padding-all bg-primary border-radius" onsubmit={submit}>
             <div class="h1 padding-btm center-flex">Nieuwe account aanmaken</div>
             <div class="padding-btm col-flex">
-                <Label for="name">Naam</Label>
+                <Label for="first_name">Voornaam</Label>
                 <div class="flex-s-gap align-center">
                     <User />
-                    <Input id="name" type="text" required autofocus tabindex={1} autocomplete="name" bind:value={$form.name} placeholder="Volledige" />
+                    <Input id="first_name" type="text" required autofocus tabindex={1} autocomplete="name" bind:value={$form.first_name} placeholder="Volledige" />
                 </div>
-                <InputError message={$form.errors.name} />
+                <InputError message={$form.errors.first_name} />
+            </div>
+
+            <div class="padding-btm col-flex">
+                <Label for="infix">Tussenvoegsel</Label>
+                <div class="flex-s-gap align-center">
+                    <ScanLine />
+                    <Input id="infix" type="text" required autofocus tabindex={1} autocomplete="name" bind:value={$form.infix} placeholder="Volledige" />
+                </div>
+                <InputError message={$form.errors.infix} />
+            </div>
+
+            <div class="padding-btm col-flex">
+                <Label for="last_name">Achternaam</Label>
+                <div class="flex-s-gap align-center">
+                    <FolderPen />
+                    <Input id="last_name" type="text" required autofocus tabindex={1} autocomplete="name" bind:value={$form.last_name} placeholder="Volledige" />
+                </div>
+                <InputError message={$form.errors.last_name} />
+            </div>
+
+            <div class="padding-btm col-flex">
+                <Label for="phone_number">Telefoonnummer</Label>
+                <div class="flex-s-gap align-center">
+                    <Phone />
+                    <Input id="phone_number" type="text" required autofocus tabindex={1} autocomplete="name" bind:value={$form.phone_number} placeholder="Volledige" />
+                </div>
+                <InputError message={$form.errors.phone_number} />
+            </div>
+
+            <div class="padding-btm col-flex">
+                <Label for="address">Adres</Label>
+                <div class="flex-s-gap align-center">
+                    <LandPlot />
+                    <Input id="address" type="text" required autofocus tabindex={1} autocomplete="name" bind:value={$form.address} placeholder="Volledige" />
+                </div>
+                <InputError message={$form.errors.address} />
+            </div>
+
+            <div class="padding-btm col-flex">
+                <Label for="zip_code">Postcode</Label>
+                <div class="flex-s-gap align-center">
+                    <Milestone />
+                    <Input id="zip_code" type="text" required autofocus tabindex={1} autocomplete="name" bind:value={$form.zip_code} placeholder="Volledige" />
+                </div>
+                <InputError message={$form.errors.zip_code} />
             </div>
 
             <div class="padding-btm col-flex">
@@ -82,6 +137,16 @@
                     />
                 </div>
                 <InputError message={$form.errors.password_confirmation} />
+            </div>
+            <!-- checkboxes based on roles,
+             super admin can only make admins, beheerders and rechthebbende
+             admins can only make beheerders and rechthebbende
+             beheerder can only make rechthebbende
+            -->
+                
+            <div>
+
+                <InputError message={$form.errors.role_id} />
             </div>
 
             {#if $page.props?.flash?.success}
