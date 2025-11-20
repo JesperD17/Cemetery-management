@@ -38,7 +38,7 @@ class RegisteredUserController extends Controller
             'address' => 'nullable|string|max:255',
             'zip_code' => 'nullable|string|max:20',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password_hash' => ['required', 'confirmed', Rules\Password::defaults()],
             'role_id' => 'required|integer',
         ]);
 

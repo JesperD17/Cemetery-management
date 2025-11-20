@@ -11,7 +11,7 @@
 
     const form = useForm({
         email: '',
-        password_hash: '',
+        password: '',
         remember: false,
     });
 
@@ -20,7 +20,7 @@
     const submit = (e) => {
         e.preventDefault();
         $form.post(route('login'), {
-            onFinish: () => $form.reset('password_hash'),
+            onFinish: () => $form.reset('password'),
         });
     };
 
@@ -72,16 +72,16 @@
                     <div class="flex-s-gap align-center">
                         <Lock />
                         <Input
-                            id="password_hash"
-                            type="password_hash"
+                            id="password"
+                            type="password"
                             required
                             tabindex={2}
                             autocomplete="current-password"
-                            bind:value={$form.password_hash}
+                            bind:value={$form.password}
                             placeholder="Password"
                         />
                     </div>
-                    <InputError message={$form.errors.password_hash} />
+                    <InputError message={$form.errors.password} />
                 </div>
 
                 <!-- <div>
