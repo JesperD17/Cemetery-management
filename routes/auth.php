@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\GetGraves;
 use App\Http\Controllers\GetRightsHolders;
+use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureAdminRole;
 
 Route::middleware('guest')->group(function () {
@@ -70,4 +71,6 @@ Route::middleware('auth')->group(function () {
     Route::get('getRightsHolders', [GetRightsHolders::class, 'index']);
 
     Route::get('/getGraves', [GetGraves::class, 'index']);
+
+    Route::get('/roles', [RolesController::class, 'index']);
 });

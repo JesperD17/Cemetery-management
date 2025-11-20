@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('infix')->nullable();
             $table->string('last_name');
-            $table->unsignedInteger('phone_number')->nullable();
+            $table->string('phone_number')->nullable();
             $table->string('address')->nullable();
             $table->string('zip_code')->nullable();
             $table->unsignedBigInteger('role_id')->default(1);

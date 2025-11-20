@@ -22,7 +22,7 @@
             <Link href={route('begraafplaatsen')}>
                 begraafplaatsen
             </Link>
-            {#if (userRole === 'admin')}
+            {#if (userRole === 'admin' || userRole === 'super admin')}
                 <!-- <Link href={route('import')}>
                     Excel import
                 </Link> -->

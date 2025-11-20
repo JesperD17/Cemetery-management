@@ -27,6 +27,7 @@ class UserFactory extends Factory
             'first_name' => fake()->firstName(),
             'infix' => fake()->randomElement(['', 'de', 'van']),
             'last_name' => fake()->lastName(),
+            // phone numbers stored as string (may contain leading zeros, +, spaces)
             'phone_number' => null,
             'address' => fake()->streetAddress(),
             'zip_code' => fake()->postcode(),
