@@ -279,6 +279,10 @@ html, body {
     text-align: center;
 }
 
+.justify-center {
+    justify-content: center;
+}
+
 .justify-between {
     justify-content: space-between;
 }
@@ -391,7 +395,7 @@ html, body {
 }
 
 /* input fields */
-input.base {
+input.base, select.base {
     padding: var(--padding-fields);
 }
 
@@ -420,8 +424,13 @@ button.primary:hover, a.primary:hover, .btn.primary:hover {
     position: absolute;
     left: 0;
     top: 0;
-    width: 100%;
+    width: 97%;
     height: 100%;
+}
+
+/*  */
+.succes-message {
+    color:#399239;
 }
 
 @keyframes spinner {

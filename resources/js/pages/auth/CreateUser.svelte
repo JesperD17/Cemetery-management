@@ -1,0 +1,264 @@
+<script lang="js">
+    import InputError from '@/components/InputError.svelte';
+    import TextLink from '@/components/TextLink.svelte';
+    import { Button } from '@/components/ui/button';
+    import { Input } from '@/components/ui/input';
+    import { Label } from '@/components/ui/label';
+    import AppLayout from '@/layouts/AppLayout.svelte';
+    import AuthBase from '@/layouts/AuthLayout.svelte';
+    import { useForm, page } from '@inertiajs/svelte';
+    import { LoaderCircle, Mail, User, Lock, ScanLine, FolderPen, Phone, LandPlot, Milestone } from 'lucide-svelte';
+
+    const form = useForm({
+        first_name: '',
+        infix: '',
+        last_name: '',
+        phone_number: '',
+        address: '',
+        zip_code: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+        role_id: '',
+    });
+
+    const submit = (e) => {
+        e.preventDefault();
+        $form.post(route('nieuwe-gebruiker'), {
+            onFinish: () => $form.reset('password', 'password_confirmation'),
+        });
+    };
+
+    var roles = 'laden...';
+    var allowedRoles = [];
+    let { user: propUser } = $props();
+    const userRole = $derived($page?.props?.auth?.user?.role?.name || null);
+    const mapping = {
+        'super admin': ['admin', 'beheerder', 'rechthebbende'],
+        admin: ['beheerder', 'rechthebbende'],
+        beheerder: ['rechthebbende'],
+    };
+
+    async function fetchRoles() {
+        try {
+            const response = await fetch(`/roles`, {
+                headers: {
+                    Accept: 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                credentials: 'include',
+            });
+            const data = await response.json();
+            roles = data;
+
+            const current = userRole ? userRole.toLowerCase() : null;
+            if (Array.isArray(roles) && current && mapping[current]) {
+                allowedRoles = roles.filter((role) => {
+                    return mapping[current].includes((role.name || '').toLowerCase());
+                });
+            } else {
+                // If no current role or mapping entry, disallow creating roles
+                allowedRoles = [];
+            }
+        } catch (error) {
+            roles = 'error';
+        }
+    }
+
+    const rolesPromise = (async () => {
+        try {
+            await fetchRoles();
+        } catch (err) {
+            throw err;
+        }
+    })();
+
+    console.log(roles);
+    
+</script>
+
+<svelte:head>
+    <title>Nieuwe gebruiker</title>
+</svelte:head>
+
+<AppLayout>
+    <div class="form-alignment">
+        <form class="padding-all bg-primary border-radius" onsubmit={submit}>
+            <div class="h1 padding-btm center-flex">Nieuwe account aanmaken</div>
+            <div class="flex-m-gap">
+                <div class="padding-btm col-flex">
+                    <Label for="first_name">Voornaam</Label>
+                    <div class="flex-s-gap align-center">
+                        <User />
+                        <Input
+                            id="first_name"
+                            type="text"
+                            required
+                            autofocus
+                            tabindex={1}
+                            autocomplete="name"
+                            bind:value={$form.first_name}
+                            placeholder="Volledige"
+                        />
+                    </div>
+                    <InputError message={$form.errors.first_name} />
+                </div>
+    
+                <div class="padding-btm col-flex">
+                    <Label for="infix">Tussenvoegsel</Label>
+                    <div class="flex-s-gap align-center">
+                        <ScanLine />
+                        <Input id="infix" type="text" autofocus tabindex={1} autocomplete="name" bind:value={$form.infix} placeholder="Volledige" />
+                    </div>
+                    <InputError message={$form.errors.infix} />
+                </div>
+            </div>
+
+            <div class="padding-btm col-flex">
+                <Label for="last_name">Achternaam</Label>
+                <div class="flex-s-gap align-center">
+                    <FolderPen />
+                    <Input
+                        id="last_name"
+                        type="text"
+                        required
+                        autofocus
+                        tabindex={1}
+                        autocomplete="name"
+                        bind:value={$form.last_name}
+                        placeholder="Volledige"
+                    />
+                </div>
+                <InputError message={$form.errors.last_name} />
+            </div>
+
+            <div class="padding-btm col-flex">
+                <Label for="phone_number">Telefoonnummer</Label>
+                <div class="flex-s-gap align-center">
+                    <Phone />
+                    <Input
+                        id="phone_number"
+                        type="text"
+                        autofocus
+                        tabindex={1}
+                        autocomplete="name"
+                        bind:value={$form.phone_number}
+                        placeholder="Volledige"
+                    />
+                </div>
+                <InputError message={$form.errors.phone_number} />
+            </div>
+
+            <div class="flex-m-gap">
+                <div class="padding-btm col-flex">
+                    <Label for="address">Adres</Label>
+                    <div class="flex-s-gap align-center">
+                        <LandPlot />
+                        <Input id="address" type="text" autofocus tabindex={1} autocomplete="name" bind:value={$form.address} placeholder="Volledige" />
+                    </div>
+                    <InputError message={$form.errors.address} />
+                </div>
+                <div class="padding-btm col-flex">
+                    <Label for="zip_code">Postcode</Label>
+                    <div class="flex-s-gap align-center">
+                        <Milestone />
+                        <Input id="zip_code" type="text" autofocus tabindex={1} autocomplete="name" bind:value={$form.zip_code} placeholder="Volledige" />
+                    </div>
+                    <InputError message={$form.errors.zip_code} />
+                </div>
+            </div>
+
+            <div class="padding-btm col-flex">
+                <Label for="email">Email adres</Label>
+                <div class="flex-s-gap align-center">
+                    <Mail />
+                    <Input
+                        id="email"
+                        type="email"
+                        required
+                        tabindex={2}
+                        autocomplete="email"
+                        bind:value={$form.email}
+                        placeholder="email@example.com"
+                    />
+                </div>
+                <InputError message={$form.errors.email} />
+            </div>
+
+            <div class="padding-btm col-flex">
+                <Label for="password">Wachtwoord</Label>
+                <div class="flex-s-gap align-center">
+                    <Lock />
+                    <Input
+                        id="password"
+                        type="password"
+                        required
+                        tabindex={3}
+                        autocomplete="new-password"
+                        bind:value={$form.password}
+                        placeholder="Wachtwoord"
+                    />
+                </div>
+                <InputError message={$form.errors.password} />
+            </div>
+
+            <div class="padding-btm col-flex">
+                <Label for="password_confirmation">Bevestig wachtwoord</Label>
+                <div class="flex-s-gap align-center">
+                    <Lock />
+                    <Input
+                        id="password_confirmation"
+                        type="password"
+                        required
+                        tabindex={4}
+                        autocomplete="new-password"
+                        bind:value={$form.password_confirmation}
+                        placeholder="Bevestig wachtwoord"
+                    />
+                </div>
+                <InputError message={$form.errors.password_confirmation} />
+            </div>
+
+            <div class="padding-btm full-width">
+                {#await rolesPromise}
+                    <div>Laden...</div>
+                {:then}
+                    {#if allowedRoles.length > 0}
+                        <div class="col-flex padding-btm">
+                            <Label for="role_id">Rol</Label>
+                            <div class="flex-s-gap align-center">
+                                <ScanLine />
+                                <select
+                                    id="role_id"
+                                    class="full-width padding-s bg-secondary border-radius base"
+                                    bind:value={$form.role_id}
+                                    tabindex={6}
+                                >
+                                    <option value="" disabled selected>Kies een rol</option>
+                                    {#each allowedRoles as role}
+                                        <option value={role.id}>{role.name}</option>
+                                    {/each}
+                                </select>
+                            </div>
+                        </div>
+                    {/if}
+                {:catch error}
+                    <div>Fout bij het laden van rollen: {error.message}</div>
+                {/await}
+            </div>
+
+            {#if $page.props?.flash?.success}
+                <div class="padding-btm succes-message">{$page.props.flash.success}</div>
+            {/if}
+
+            <div>
+                <Button class="full-width relative" type="submit" tabindex={5} disabled={$form.processing}>
+                    {#if $form.processing}
+                        <LoaderCircle class="spinner" />
+                    {/if}
+                    Account aanmaken
+                </Button>
+            </div>
+        </form>
+    </div>
+</AppLayout>

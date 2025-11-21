@@ -12,8 +12,15 @@
     {
         public function handle(Request $request, Closure $next)
         {
-            // Alleen admin (role_id = 3) mag door
-            if (Auth::check() && $request->user()->role_id === 3) {
+            $userRole = Auth::user()->role_id;
+            $userRole = match ($userRole) {
+                1 => 'rechthebbende',
+                2 => 'beheerder',
+                3 => 'admin',
+                4 => 'super admin',
+            };
+            
+            if ($userRole === 'admin' || $userRole === 'super admin' || $userRole === 'beheerder') {
                 return $next($request);
             }
     

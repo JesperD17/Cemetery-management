@@ -21,9 +21,9 @@ Route::get('/admin', [AdminController::class, 'index'])
     ->middleware([EnsureAdminRole::class])
     ->name('admin');
 
-Route::inertia('/import', 'Import')
-    ->middleware(['auth', 'verified'])
-    ->name('import');
+// Route::inertia('/import', 'Import')
+//     ->middleware(['auth', 'verified'])
+//     ->name('import');
 
 Route::post('/import', [ExcelController::class, 'import'])->name('import');
 

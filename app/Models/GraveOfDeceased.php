@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class GraveOfDeceased extends Model
 {
+    protected $table = 'grave_of_deceased';
     protected $guarded = [];
 
     public function deceased()
