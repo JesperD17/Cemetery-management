@@ -59,7 +59,6 @@
             <textarea bind:value={form.description}></textarea>
         </label>
 
-        <!-- Afbeelding -->
         <label>
             Afbeelding
             <input

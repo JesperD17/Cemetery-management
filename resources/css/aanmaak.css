@@ -19,7 +19,8 @@ h1 {
     gap: 1rem;
 }
 
-label {
+
+label, .form div > label {
     display: flex;
     flex-direction: column;
     font-weight: 600;
@@ -38,11 +39,18 @@ textarea {
     resize: vertical;
 }
 
+
 .row-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
+
+.row-2 > div {
+    display: flex;
+    flex-direction: column;
+}
+
 
 button {
     margin-top: 1rem;
@@ -60,7 +68,7 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* Responsive */
+
 @media (max-width: 600px) {
     .row-2 {
         grid-template-columns: 1fr;
