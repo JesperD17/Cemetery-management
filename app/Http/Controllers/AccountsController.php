@@ -25,4 +25,22 @@ class AccountsController extends Controller
 
         return response()->json($accounts);
     }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'infix' => 'nullable|string|max:50',
+            'last_name' => 'required|string|max:255',
+            'phone_number' => 'nullable|string|max:20',
+            'address' => 'required|string|max:255',
+            'zip_code' => 'required|string|max:20',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+        ]);
+
+        $user->update($validatedData);
+
+        return response()->json(['message' => 'Account bijgewerkt']);
+    }
 }

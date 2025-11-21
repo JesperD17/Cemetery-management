@@ -22,18 +22,19 @@
             <Link href={route('begraafplaatsen')}>
                 begraafplaatsen
             </Link>
-            {#if (userRole === 'admin' || userRole === 'super admin')}
+            {#if (userRole !== 'rechthebbende')}
                 <!-- <Link href={route('import')}>
                     Excel import
                 </Link> -->
                 <Link href={route('admin')}>
                     Admin
                 </Link>
-                {#if (userRole === 'admin' || userRole === 'super admin' || userRole === 'beheerder')}
-                    <Link href={route('nieuwe-gebruiker')}>
-                        Nieuwe gebruiker
-                    </Link>
-                {/if}
+                <Link href={route('nieuwe-gebruiker')}>
+                    Nieuwe gebruiker
+                </Link>
+                <Link href={route('accounts')}>
+                    Accounts
+                </Link>
             {/if}
             <Link class="btn primary" href={route('logout')} method="post" as="button">
                 Uitloggen

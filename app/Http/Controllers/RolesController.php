@@ -9,11 +9,22 @@ class RolesController extends Controller
 {
     public function index(Request $request)
     {
-        if (!$request->ajax() && !$request->expectsJson()) {
-            return redirect('/');
-        }
+        // $roles = DB::table('roles')->get();
+        // return response()->json($roles);
 
-        $roles = DB::table('roles')->get();
+        $role = $request->user()?->load('role');
+        $mapping = [
+        'super admin' => ['admin', 'beheerder', 'rechthebbende'],
+        'admin' => ['beheerder', 'rechthebbende'],
+        'beheerder' => ['rechthebbende'],
+        ];
+
+        $allowedRoles = $mapping[$role->role->name] ?? [];
+        
+        $roles = DB::table('roles')
+            ->whereIn('name', $allowedRoles)
+            ->get();
+
         return response()->json($roles);
     }
 }
