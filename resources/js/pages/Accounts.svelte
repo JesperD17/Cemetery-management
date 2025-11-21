@@ -1,9 +1,9 @@
 <script lang="js">
-    import InputError from "@/components/InputError.svelte";
-    import Input from "@/Components/ui/input/input.svelte";
-    import Label from "@/Components/ui/label/label.svelte";
-    import AppLayout from "@/layouts/AppLayout.svelte";
-    import { User } from "lucide-svelte";
+    import InputError from '@/components/InputError.svelte';
+    import Input from '@/Components/ui/input/input.svelte';
+    import Label from '@/Components/ui/label/label.svelte';
+    import AppLayout from '@/layouts/AppLayout.svelte';
+    import { User } from 'lucide-svelte';
 
     var accounts = 'laden...';
     let showModal = false;
@@ -17,8 +17,18 @@
         address: '',
         zip_code: '',
         email: '',
-        role_id: null
+        role_id: null,
     };
+
+    let search = '';
+    $: filteredAccounts = Array.isArray(accounts)
+        ? (search.trim() === ''
+            ? accounts
+            : accounts.filter(a => {
+                const name = `${a.first_name ?? ''} ${a.infix ?? ''} ${a.last_name ?? ''}`.toLowerCase();
+                return name.includes(search.trim().toLowerCase());
+            }))
+        : accounts;
 
     async function fetchAccounts() {
         try {
@@ -32,7 +42,7 @@
             const data = await response.json();
             accounts = data;
         } catch (error) {
-            accounts = "error";
+            accounts = 'error';
         }
     }
 
@@ -46,7 +56,7 @@
             address: account.address ?? '',
             zip_code: account.zip_code ?? '',
             email: account.email ?? '',
-            role_id: account.role ? account.role.id : null
+            role_id: account.role ? account.role.id : null,
         };
         showModal = true;
     }
@@ -57,7 +67,7 @@
     }
 
     function getXsrfFromCookie() {
-        const c = document.cookie.split('; ').find(r => r.startsWith('XSRF-TOKEN='));
+        const c = document.cookie.split('; ').find((r) => r.startsWith('XSRF-TOKEN='));
         return c ? decodeURIComponent(c.split('=')[1]) : null;
     }
 
@@ -67,17 +77,17 @@
         try {
             const payload = { ...form };
             const csrfToken = getXsrfFromCookie();
-            
+
             const res = await fetch(`/updateAccount/${selected.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
-                    'X-XSRF-TOKEN': csrfToken
+                    'X-XSRF-TOKEN': csrfToken,
                 },
                 credentials: 'include',
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
             });
             if (!res.ok) throw new Error('Update failed');
             await fetchAccounts();
@@ -102,7 +112,6 @@
 </svelte:head>
 
 <AppLayout>
-
     <div class="padding-all">
         <h1 class="h2 margin-bottom start-text">Accounts</h1>
 
@@ -110,6 +119,19 @@
             <p>Laden...</p>
         {:then}
             {#if Array.isArray(accounts)}
+                <div class="padding-btm">
+                    <Label for="search">Zoeken op naam</Label>
+                    <div class="flex-s-gap align-center">
+                        <Input
+                            id="search"
+                            type="search"
+                            placeholder="Zoek op voornaam, tussenvoegsel of achternaam..."
+                            bind:value={search}
+                            autocomplete="off"
+                        />
+                    </div>
+                </div>
+
                 <table class="table full-width">
                     <thead>
                         <tr class="start-text">
@@ -121,7 +143,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {#each accounts as account}
+                        {#each filteredAccounts as account}
                             <tr class="start-text">
                                 <td>{account.first_name} {account.infix} {account.last_name}</td>
                                 <td>{account.phone_number ? account.phone_number : 'Leeg'}</td>
@@ -144,123 +166,109 @@
 </AppLayout>
 
 {#if showModal}
-<div class="bg-modal-primary">
-    <div open={showModal} onClose={closeModal} class="modal-primary">
-        <h2 class="h2 margin-bottom">Account bewerken</h2>
-        <form onsubmit={saveAccount}>
-            <div class="flex-m-gap col-flex">
-                <div class="flex-m-gap">
+    <div class="bg-modal-primary">
+        <div open={showModal} onClose={closeModal} class="modal-primary">
+            <h2 class="h2 margin-bottom">Account bewerken</h2>
+            <form onsubmit={saveAccount}>
+                <div class="flex-m-gap col-flex">
+                    <div class="flex-m-gap">
+                        <div class="col-flex">
+                            <Label for="first_name">Voornaam</Label>
+                            <div class="flex-s-gap align-center">
+                                <Input
+                                    id="first_name"
+                                    type="text"
+                                    required
+                                    autofocus
+                                    tabindex={1}
+                                    autocomplete="name"
+                                    bind:value={form.first_name}
+                                    placeholder="Volledige"
+                                />
+                            </div>
+                            <InputError message={form.errors?.first_name} />
+                        </div>
+                        <div class="col-flex">
+                            <Label for="infix">Tussenvoegsel</Label>
+                            <div class="flex-s-gap align-center">
+                                <Input id="infix" type="text" tabindex={1} autocomplete="name" bind:value={form.infix} placeholder="Volledige" />
+                            </div>
+                            <InputError message={form.errors?.infix} />
+                        </div>
+                    </div>
                     <div class="col-flex">
-                        <Label for="first_name">Voornaam</Label>
+                        <Label for="last_name">Achternaam</Label>
                         <div class="flex-s-gap align-center">
                             <Input
-                                id="first_name"
+                                id="last_name"
                                 type="text"
                                 required
-                                autofocus
                                 tabindex={1}
                                 autocomplete="name"
-                                bind:value={form.first_name}
+                                bind:value={form.last_name}
                                 placeholder="Volledige"
                             />
                         </div>
-                        <InputError message={form.errors?.first_name} />
+                        <InputError message={form.errors?.last_name} />
                     </div>
                     <div class="col-flex">
-                        <Label for="infix">Tussenvoegsel</Label>
+                        <Label for="phone_number">Telefoonnummer</Label>
                         <div class="flex-s-gap align-center">
                             <Input
-                                id="infix"
+                                id="phone_number"
                                 type="text"
                                 tabindex={1}
                                 autocomplete="name"
-                                bind:value={form.infix}
+                                bind:value={form.phone_number}
                                 placeholder="Volledige"
                             />
                         </div>
-                        <InputError message={form.errors?.infix} />
+                        <InputError message={form.errors?.phone_number} />
                     </div>
-                </div>
-                <div class="col-flex">
-                    <Label for="last_name">Achternaam</Label>
-                    <div class="flex-s-gap align-center">
-                        <Input
-                            id="last_name"
-                            type="text"
-                            required
-                            tabindex={1}
-                            autocomplete="name"
-                            bind:value={form.last_name}
-                            placeholder="Volledige"
-                        />
+                    <div class="flex-m-gap">
+                        <div class="col-flex">
+                            <Label for="address">Adres</Label>
+                            <div class="flex-s-gap align-center">
+                                <Input id="address" type="text" tabindex={1} autocomplete="name" bind:value={form.address} placeholder="Volledige" />
+                            </div>
+                            <InputError message={form.errors?.address} />
+                        </div>
+                        <div class="col-flex">
+                            <Label for="zip_code">Postcode</Label>
+                            <div class="flex-s-gap align-center">
+                                <Input
+                                    id="zip_code"
+                                    type="text"
+                                    tabindex={1}
+                                    autocomplete="postal-code"
+                                    bind:value={form.zip_code}
+                                    placeholder="Volledige"
+                                />
+                            </div>
+                            <InputError message={form.errors?.zip_code} />
+                        </div>
                     </div>
-                    <InputError message={form.errors?.last_name} />
-                </div>
-                <div class="col-flex">
-                    <Label for="phone_number">Telefoonnummer</Label>
-                    <div class="flex-s-gap align-center">
-                        <Input
-                            id="phone_number"
-                            type="text"
-                            tabindex={1}
-                            autocomplete="name"
-                            bind:value={form.phone_number}
-                            placeholder="Volledige"
-                        />
-                    </div>
-                    <InputError message={form.errors?.phone_number} />
-                </div>
-                <div class="flex-m-gap">
-                    <div class="col-flex">
-                        <Label for="address">Adres</Label>
+                    <div class="padding-btm col-flex">
+                        <Label for="email">Email</Label>
                         <div class="flex-s-gap align-center">
                             <Input
-                                id="address"
-                                type="text"
+                                id="email"
+                                type="email"
+                                required
                                 tabindex={1}
-                                autocomplete="name"
-                                bind:value={form.address}
+                                autocomplete="email"
+                                bind:value={form.email}
                                 placeholder="Volledige"
                             />
                         </div>
-                        <InputError message={form.errors?.address} />
+                        <InputError message={form.errors?.email} />
                     </div>
-                    <div class="col-flex">
-                        <Label for="zip_code">Postcode</Label>
-                        <div class="flex-s-gap align-center">
-                            <Input
-                                id="zip_code"
-                                type="text"
-                                tabindex={1}
-                                autocomplete="postal-code"
-                                bind:value={form.zip_code}
-                                placeholder="Volledige"
-                            />
-                        </div>
-                        <InputError message={form.errors?.zip_code} />
+                    <div class="full-width flex-m-gap">
+                        <button class="base full-width" type="button" onclick={closeModal}>Annuleer</button>
+                        <button class="base full-width" type="submit">Opslaan</button>
                     </div>
                 </div>
-                <div class="padding-btm col-flex">
-                    <Label for="email">Email</Label>
-                    <div class="flex-s-gap align-center">
-                        <Input
-                            id="email"
-                            type="email"
-                            required
-                            tabindex={1}
-                            autocomplete="email"
-                            bind:value={form.email}
-                            placeholder="Volledige"
-                        />
-                    </div>
-                    <InputError message={form.errors?.email} />
-                </div>
-                <div class="full-width flex-m-gap">
-                    <button class="base full-width" type="button" onclick={closeModal}>Annuleer</button>
-                    <button class="base full-width" type="submit">Opslaan</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 {/if}
