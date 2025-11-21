@@ -3,7 +3,7 @@
     import Input from '@/Components/ui/input/input.svelte';
     import Label from '@/Components/ui/label/label.svelte';
     import AppLayout from '@/layouts/AppLayout.svelte';
-    import { User } from 'lucide-svelte';
+    import Choice from '@/layouts/custom/components/RoleChoice.svelte';
 
     var accounts = 'laden...';
     let showModal = false;
@@ -263,6 +263,7 @@
                         </div>
                         <InputError message={form.errors?.email} />
                     </div>
+                    <Choice bind:form />
                     <div class="full-width flex-m-gap">
                         <button class="base full-width" type="button" onclick={closeModal}>Annuleer</button>
                         <button class="base full-width" type="submit">Opslaan</button>

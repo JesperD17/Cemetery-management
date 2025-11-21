@@ -8,8 +8,9 @@
     import AuthBase from '@/layouts/AuthLayout.svelte';
     import { useForm, page } from '@inertiajs/svelte';
     import { LoaderCircle, Mail, User, Lock, ScanLine, FolderPen, Phone, LandPlot, Milestone } from 'lucide-svelte';
+    import Choice from '@/layouts/custom/components/RoleChoice.svelte';
 
-    const form = useForm({
+    let form = useForm({
         first_name: '',
         infix: '',
         last_name: '',
@@ -198,33 +199,7 @@
                 <InputError message={$form.errors.password_confirmation} />
             </div>
 
-            <div class="padding-btm full-width">
-                {#await rolesPromise}
-                    <div>Laden...</div>
-                {:then}
-                    {#if roles.length > 0}
-                        <div class="col-flex padding-btm">
-                            <Label for="role_id">Rol</Label>
-                            <div class="flex-s-gap align-center">
-                                <ScanLine />
-                                <select
-                                    id="role_id"
-                                    class="full-width padding-s bg-secondary border-radius base"
-                                    bind:value={$form.role_id}
-                                    tabindex={6}
-                                >
-                                    <option value="" disabled selected>Kies een rol</option>
-                                    {#each roles as role}
-                                        <option value={role.id}>{role.name}</option>
-                                    {/each}
-                                </select>
-                            </div>
-                        </div>
-                    {/if}
-                {:catch error}
-                    <div>Fout bij het laden van rollen: {error.message}</div>
-                {/await}
-            </div>
+            <Choice bind:form />
 
             {#if $page.props?.flash?.success}
                 <div class="padding-btm succes-message">{$page.props.flash.success}</div>

@@ -37,6 +37,7 @@ class AccountsController extends Controller
             'address' => 'required|string|max:255',
             'zip_code' => 'required|string|max:20',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'role_id' => 'required|exists:roles,id',
         ]);
 
         $user->update($validatedData);
