@@ -19,15 +19,16 @@ h1 {
     gap: 1rem;
 }
 
-
-label, .form div > label {
+label {
     display: flex;
     flex-direction: column;
     font-weight: 600;
     gap: 0.4rem;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
     padding: 0.7rem;
     border: 1px solid #bbb;
     border-radius: 6px;
@@ -39,18 +40,11 @@ textarea {
     resize: vertical;
 }
 
-
 .row-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
-
-.row-2 > div {
-    display: flex;
-    flex-direction: column;
-}
-
 
 button {
     margin-top: 1rem;
@@ -67,7 +61,6 @@ button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
-
 
 @media (max-width: 600px) {
     .row-2 {

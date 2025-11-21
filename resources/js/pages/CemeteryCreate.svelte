@@ -1,7 +1,6 @@
-<script>
+<script lang="js">
     import { useForm } from "@inertiajs/svelte";
 
- 
     let form = useForm({
         name: "",
         location: "",
@@ -14,12 +13,12 @@
         image: null,
     });
 
-    function submit() {
+    const submit = () => {
         form.post("/begraafplaatsen", {
             forceFormData: true,
-            onSuccess: () => form.reset(),
+            onSuccess: () => form.reset()
         });
-    }
+    };
 </script>
 
 <div class="create-container">
@@ -27,7 +26,6 @@
 
     <form on:submit|preventDefault={submit} class="form">
 
-        <!-- Naam -->
         <label>
             Naam
             <input type="text" bind:value={form.name} required />
@@ -38,18 +36,19 @@
                 Adres
                 <input type="text" bind:value={form.address} required />
             </label>
-    
+
             <label>
                 Postcode
                 <input type="text" bind:value={form.zipcode} required />
             </label>
         </div>
+
         <label>
             Plaats
-            <input type="text" bind:value={form.address} required />
+            <input type="text" bind:value={form.location} required />
         </label>
 
-          <label>
+        <label>
             Gemeente
             <input type="text" bind:value={form.municipality} required />
         </label>
@@ -61,8 +60,8 @@
 
         <label>
             Afbeelding
-            <input
-                type="file"
+            <input 
+                type="file" 
                 accept="image/*"
                 on:change={(e) => form.image = e.target.files[0]}
             />
