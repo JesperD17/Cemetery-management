@@ -20,7 +20,7 @@
     @vite(['resources/css/admin.css'])
     @vite(['resources/css/NotFound.css'])
     @vite(['resources/css/BadRequest.css'])
-    @vite(['resources/css/aanmaak.css'])
+    @vite(['resources/css/CemeteryCreate.css'])
 
     @inertiaHead
 </head>
