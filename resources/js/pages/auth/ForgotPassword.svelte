@@ -67,7 +67,7 @@
                 </Button>
                 <div class="row-flex gap justify-end">
                     <TextLink href={route('login')}>Inloggen</TextLink>
-                    <TextLink href={route('register')}>Registreren</TextLink>
+                    <!-- <TextLink href={route('register')}>Registreren</TextLink> -->
                 </div>
             </div>
         </form>

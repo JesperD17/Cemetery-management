@@ -14,13 +14,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\GetGraves;
 use App\Http\Controllers\GetRightsHolders;
+use App\Http\Controllers\RolesController;
+use App\Http\Middleware\EnsureAdminRole;
 
 Route::middleware('guest')->group(function () {
-    // Route::get('register', [RegisteredUserController::class, 'create'])
-    //     ->name('register');
-
-    Route::post('register', [RegisteredUserController::class, 'store']);
-
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
@@ -40,6 +37,12 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('nieuwe-gebruiker', [RegisteredUserController::class, 'create'])
+        ->middleware([EnsureAdminRole::class])
+        ->name('nieuwe-gebruiker');
+
+    Route::post('nieuwe-gebruiker', [RegisteredUserController::class, 'store']);
+
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
@@ -68,4 +71,6 @@ Route::middleware('auth')->group(function () {
     Route::get('getRightsHolders', [GetRightsHolders::class, 'index']);
 
     Route::get('/getGraves', [GetGraves::class, 'index']);
+
+    Route::get('/roles', [RolesController::class, 'index']);
 });

@@ -23,9 +23,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Roles (link to permissions)
-        Roles::create(['name' => 'user']);
-        Roles::create(['name' => 'editor']);
+        Roles::create(['name' => 'rechthebbende']);
+        Roles::create(['name' => 'beheerder']);
         Roles::create(['name' => 'admin']);
+        Roles::create(['name' => 'super admin']);
 
         // Municipalities
         Municipalities::create(['name' => 'Zwolle']);
@@ -64,9 +65,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'first_name' => 'Editor',
+            'first_name' => 'Beheerder',
             'last_name' => 'User',
-            'email' => 'editor@example.com',
+            'email' => 'beheerder@example.com',
             'role_id' => 2,
             'password_hash' => Hash::make('password'),
         ]);
@@ -76,6 +77,14 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'User',
             'email' => 'admin@example.com',
             'role_id' => 3,
+            'password_hash' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
+            'first_name' => 'Super',
+            'last_name' => 'Admin',
+            'email' => 'superadmin@example.com',
+            'role_id' => 4,
             'password_hash' => Hash::make('password'),
         ]);
 
