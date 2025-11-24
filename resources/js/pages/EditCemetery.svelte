@@ -99,6 +99,9 @@
         <div class="section">
             <div>Loading cemetery data...</div>
         </div>
+        <div class="overlay-w-h">
+            <Loader class="icon spin" />
+        </div>
     {:then}
         {#if cemeteryData === 'error'}
         <div class="section">
