@@ -377,6 +377,11 @@ html, body {
     background: #ededed;
 }
 
+/* colors */
+.black, .black svg {
+    color: black;
+}
+
 /* blocks */
 .overlay-w-h {
     position: fixed;
@@ -396,6 +401,7 @@ html, body {
 .card-loc {
     max-width: 300px;
     width: -webkit-fill-available;
+    position: relative;
 }
 
 .card-grave {
@@ -451,6 +457,12 @@ th, td {
     padding: var(--margin-padding);
     border-radius: var(--border-radius);
     z-index: 3; 
+}
+
+.top-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 /* animations */
