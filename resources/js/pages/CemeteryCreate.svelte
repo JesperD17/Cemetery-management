@@ -30,7 +30,6 @@
             Naam
             <input type="text" bind:value={form.name} required />
         </label>
-
         <div class="row-2">
             <label>
                 Adres

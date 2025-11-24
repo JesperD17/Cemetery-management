@@ -27,9 +27,9 @@ Route::get('/admin', [AdminController::class, 'index'])
 
 Route::post('/import', [ExcelController::class, 'import'])->name('import');
 
-Route::get('/CemeteryCreate', function () {
-    return Inertia::render('CemeteryCreate');
-});
+Route::inertia('/CemeteryCreate', 'CemeteryCreate')
+    ->name('CemeteryCreate');
+
 
 
 require __DIR__.'/settings.php';
