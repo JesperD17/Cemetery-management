@@ -10,9 +10,9 @@ class GetCemeteries extends Controller
 {
     public function index(Request $request)
     {
-        // if (!$request->ajax() && !$request->expectsJson()) {
-        //     return redirect('/');
-        // }
+        if (!$request->ajax() && !$request->expectsJson()) {
+            return redirect('/');
+        }
 
         $userRoleID = $request->user()->role_id;
         $dbRole = DB::table('roles')->where('id', $userRoleID)->first();
