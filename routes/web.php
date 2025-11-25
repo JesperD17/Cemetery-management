@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Controllers\UserApiController;
 
-Route::get('/user', [UserApiController::class, 'profile']);
+Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
 
 
 Route::inertia('/', 'Home')

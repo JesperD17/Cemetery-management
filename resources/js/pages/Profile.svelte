@@ -1,6 +1,8 @@
 <script lang="js">
+    import { onMount } from "svelte";
     import { useForm } from "@inertiajs/svelte";
 
+    // Formulier met velden
     let form = useForm({
         first_name: "",
         infix: "",
@@ -12,6 +14,32 @@
         avatar: null,
     });
 
+    // Haal ingelogde gebruiker op bij het laden van de pagina
+    onMount(async () => {
+        try {
+            const res = await fetch("/user", {
+                credentials: "same-origin" // ⚠️ essentieel voor sessie-auth
+            });
+
+            if (!res.ok) throw new Error("Kon gebruiker niet ophalen");
+
+            const data = await res.json();
+
+            // Direct toewijzen aan form fields
+            form.first_name = data.first_name || "";
+            form.infix = data.infix || "";
+            form.last_name = data.last_name || "";
+            form.address = data.address || "";
+            form.postal_code = data.postal_code || "";
+            form.email = data.email || "";
+            form.phone = data.phone || "";
+
+        } catch (error) {
+            console.error("Fout bij ophalen gebruiker:", error);
+        }
+    });
+
+    // Verzenden van het formulier via Inertia
     function submit() {
         form.post("/profiel", {
             forceFormData: true,
@@ -21,7 +49,7 @@
 </script>
 
 <div class="create-container">
-    <h1>Profiel aanmaken</h1>
+    <h1>Profiel bewerken</h1>
 
     <form on:submit|preventDefault={submit} class="form">
         <div class="row-3">
@@ -41,7 +69,6 @@
             </label>
         </div>
 
-        <!-- ADRES + POSTCODE -->
         <div class="row-2">
             <label>
                 Adres
@@ -63,10 +90,9 @@
             Telefoonnummer
             <input type="text" bind:value={form.phone} />
         </label>
-        <button type="submit" disabled={form.processing}>
-            Aanmaken
-        </button>
 
+        <button type="submit" disabled={form.processing}>
+            Opslaan
+        </button>
     </form>
 </div>
-

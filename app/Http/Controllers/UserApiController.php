@@ -9,14 +9,20 @@ class UserApiController extends Controller
 {
     public function profile(Request $request)
     {
-        // Haal de huidige ingelogde gebruiker op
         $user = Auth::user();
 
         if (!$user) {
             return response()->json(['error' => 'Not authenticated'], 401);
         }
 
-        // Geef de gebruikersgegevens als JSON terug
-        return response()->json($user);
+        return response()->json([
+            'first_name' => $user->first_name,
+            'infix' => $user->infix,
+            'last_name' => $user->last_name,
+            'address' => $user->address,
+            'postal_code' => $user->postal_code,
+            'email' => $user->email,
+            'phone' => $user->phone,
+        ]);
     }
 }
