@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\EnsureAdminRole;
+use App\Http\Controllers\UserApiController;
+
+Route::get('/user', [UserApiController::class, 'profile']);
+
 
 Route::inertia('/', 'Home')
     ->name('home');
