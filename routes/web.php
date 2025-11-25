@@ -30,7 +30,8 @@ Route::post('/import', [ExcelController::class, 'import'])->name('import');
 Route::inertia('/CemeteryCreate', 'CemeteryCreate')
     ->name('CemeteryCreate');
 
-
+Route::inertia('/profile', 'Profile')
+    ->name('profile');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
