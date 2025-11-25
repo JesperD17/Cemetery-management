@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import { useForm } from "@inertiajs/svelte";
 
-    // Formulier met velden
+
     let form = useForm({
         first_name: "",
         infix: "",
@@ -14,11 +14,11 @@
         avatar: null,
     });
 
-    // Haal ingelogde gebruiker op bij het laden van de pagina
+ 
     onMount(async () => {
         try {
             const res = await fetch("/user", {
-                credentials: "same-origin" // ⚠️ essentieel voor sessie-auth
+                credentials: "same-origin" 
             });
 
             if (!res.ok) throw new Error("Kon gebruiker niet ophalen");
@@ -39,7 +39,6 @@
         }
     });
 
-    // Verzenden van het formulier via Inertia
     function submit() {
         form.post("/profiel", {
             forceFormData: true,
