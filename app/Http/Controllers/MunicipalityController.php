@@ -25,8 +25,26 @@ class MunicipalityController extends Controller
             ->update([
                 'name' => $validatedData['name'],
                 'description' => $validatedData['description'],
+                'updated_at' => now(),
             ]);
 
         return response()->json(['message' => 'Municipality updated successfully']);
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+        ]);
+
+        DB::table('municipalities')->insert([
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return response()->json(['message' => 'Municipality created successfully']);
     }
 }

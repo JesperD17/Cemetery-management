@@ -407,6 +407,12 @@ input.base, select.base {
     padding: var(--padding-fields);
 }
 
+/* .desc input {
+    width: 300px;
+    height: 150px;
+    align-items: flex-start;
+} */
+
 /* btns */
 button.base, a.base, .btn {
     padding: var(--padding-fields);
@@ -451,6 +457,17 @@ th, td {
     padding: var(--margin-padding);
     border-radius: var(--border-radius);
     z-index: 3; 
+}
+
+.table {
+    max-height: 50vh;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+.table > table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
 /* animations */

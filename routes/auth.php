@@ -86,6 +86,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/municipalities', [MunicipalityController::class, 'show'])
         ->middleware(EnsureAdminRole::class);
 
+    Route::post('/municipalities', [MunicipalityController::class, 'store'])
+        ->middleware(EnsureAdminRole::class);
+
     Route::put('/municipalities/{id}', [MunicipalityController::class, 'update'])
     ->middleware(EnsureAdminRole::class);
 });
