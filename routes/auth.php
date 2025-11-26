@@ -18,6 +18,7 @@ use App\Http\Controllers\GetRightsHolders;
 use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Middleware\RequestTypes;
+use App\Http\Controllers\GraveController;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
@@ -44,6 +45,8 @@ Route::middleware('auth')->group(function () {
         ->name('nieuwe-gebruiker');
 
     Route::post('nieuwe-gebruiker', [RegisteredUserController::class, 'store']);
+        
+    Route::post('/nieuw-graf', [GraveController::class, 'create']);
 
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
