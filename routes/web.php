@@ -18,8 +18,12 @@ Route::inertia('/begraafplaatsen', 'Cemeteries')
     ->middleware(['auth'])
     ->name('begraafplaatsen');
 
-Route::get('/begraafplaatsen/overzicht/{name}', function ($name) {
-    return Inertia::render('Overview', ['name' => $name]);
+Route::get('/begraafplaatsen/bewerk/{id}', function ($id) {
+    return Inertia::render('EditCemetery', ['id' => $id]);
+})->middleware(['auth'])->name('begraafplaatsen.bewerk');
+
+Route::get('/begraafplaatsen/overzicht/{id}', function ($id) {
+    return Inertia::render('Overview', ['id' => $id]);
 })->middleware(['auth'])->name('begraafplaatsen.overzicht');
 
 Route::get('/admin', [AdminController::class, 'index'])

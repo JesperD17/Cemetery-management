@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\GetGraves;
 
 class GetCemeteries extends Controller
 {
@@ -19,7 +20,7 @@ class GetCemeteries extends Controller
         $getGravesController = new GetGraves();
         $graves = $getGravesController->fetchByUser($request->user()->id);
 
-        if ($dbRole && in_array($dbRole->name, ['admin', 'super admin', 'editor'])) {
+        if ($dbRole && in_array($dbRole->name, ['super admin', 'admin', 'beheerder'])) {
             $cemeteries = DB::table('cemeteries')->get();
         } else {
             $cemeteryIds = $graves->pluck('cemetery_id')->unique()->filter()->values()->all();
@@ -30,5 +31,31 @@ class GetCemeteries extends Controller
             }
         }
         return response()->json($cemeteries);
+    }
+
+    public function id(Request $request)
+    {
+        $id = $request->query('id');
+
+        $cemetery = DB::table('cemeteries')->where('id', $id)->first();
+        
+        return response()->json($cemetery);
+    }
+
+    public function updateCemetery($id)
+    {
+        $data = request()->only([
+            'name',
+            'address',
+            'zip_code',
+            'city',
+            'phone_number',
+            'email',
+            'description',
+        ]);
+
+        DB::table('cemeteries')->where('id', $id)->update($data);
+
+        return response()->json(['message' => 'Cemetery updated successfully']);
     }
 }

@@ -66,7 +66,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/getCityName', [GetCityName::class, 'index']);
 
-    Route::get('/getCemeteries', [GetCemeteries::class, 'index']);
+    Route::get('/cemeteries', [GetCemeteries::class, 'index']);
+
+    Route::get('/cemeteryById', [GetCemeteries::class, 'id']);
+
+    Route::put('/updateCemetery/{id}', [GetCemeteries::class, 'updateCemetery']);
     
     Route::delete('/delRightsHolder/{id}', [AdminController::class, 'destroy']);
 
