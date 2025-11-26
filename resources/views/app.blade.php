@@ -22,6 +22,7 @@
     {{-- @vite(['resources/css/BadRequest.css']) --}}
     @vite(['resources/css/CemeteryCreate.css'])
     @vite(['resources/css/profile.css'])
+    @vite(['resources/css/graves.css'])
     @inertiaHead
 </head>
 

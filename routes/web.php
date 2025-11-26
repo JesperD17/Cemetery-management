@@ -7,6 +7,7 @@ use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Controllers\UserApiController;
+use App\Http\Controllers\GraveController;
 
 // Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
 // Route::middleware(['auth'])->post('/profiel', [UserProfileController::class, 'update']);
@@ -46,7 +47,12 @@ Route::inertia('/CemeteryCreate', 'CemeteryCreate')
 
 Route::inertia('/profile', 'Profile')
     ->name('profile');
-
+    
+Route::inertia('/graves', 'Graves')
+    ->name('graves');
+    
+    Route::middleware('auth')->get('/api/graven', [GraveController::class, 'index']);
+    Route::middleware('auth')->get('/api/graven/{id}', [GraveController::class, 'show']);
     
 Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
 Route::middleware(['auth'])->put('/profiel', [UserApiController::class, 'update']);
