@@ -2,7 +2,11 @@
     import { onMount } from "svelte";
     import { useForm } from "@inertiajs/svelte";
 
-   
+    // Meldingen
+    let successMessage = "";
+    let errorMessage = "";
+
+    // Formulier
     let form = useForm({
         first_name: "",
         infix: "",
@@ -13,18 +17,17 @@
         phone_number: "",
     });
 
-   
+    // User laden
     onMount(async () => {
         try {
             const res = await fetch("/user", {
-                credentials: "same-origin" 
+                credentials: "same-origin"
             });
 
             if (!res.ok) throw new Error("Kon gebruiker niet ophalen");
 
             const data = await res.json();
 
-     
             form.first_name = data.first_name || "";
             form.infix = data.infix || "";
             form.last_name = data.last_name || "";
@@ -32,57 +35,71 @@
             form.zip_code = data.zip_code || "";
             form.email = data.email || "";
             form.phone_number = data.phone_number || "";
-
         } catch (error) {
             console.error("Fout bij ophalen gebruiker:", error);
         }
     });
 
+    // XSRF token uit cookie
     function getXsrfFromCookie() {
-        const c = document.cookie.split('; ').find((r) => r.startsWith('XSRF-TOKEN='));
-        return c ? decodeURIComponent(c.split('=')[1]) : null;
+        const c = document.cookie
+            .split("; ")
+            .find((r) => r.startsWith("XSRF-TOKEN="));
+
+        return c ? decodeURIComponent(c.split("=")[1]) : null;
     }
 
+    // Data opslaan
     async function saveNewUserData(e) {
-    e.preventDefault();
-    console.log(form);
+        e.preventDefault();
+        successMessage = "";
+        errorMessage = "";
 
-    try {
-        const payload = { ...form };
-        const csrfToken = getXsrfFromCookie();
+        try {
+            const csrfToken = getXsrfFromCookie();
 
-        const res = await fetch("/profiel", {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-XSRF-TOKEN': csrfToken,
-            },
-            credentials: 'include',
-            body: JSON.stringify(payload),
-        });
+            const res = await fetch("/profiel", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    "X-XSRF-TOKEN": csrfToken,
+                },
+                credentials: "same-origin",
+                body: JSON.stringify({ ...form }),
+            });
 
-        const data = await res.json();
+            let data = {};
+            try {
+                const text = await res.text();
+                if (text) data = JSON.parse(text);
+            } catch {
+                console.warn("Geen geldige JSON terug");
+            }
 
-        if (!res.ok) {
-            alert(data.error || "Er is iets misgegaan");
-            return;
+            if (!res.ok) {
+                errorMessage = data?.error || "Er is iets misgegaan.";
+                return;
+            }
+
+            successMessage = data?.message || "Profiel opgeslagen!";
+        } catch (err) {
+            console.error(err);
+            errorMessage = "Er is een fout opgetreden bij opslaan.";
         }
-
-        // ✅ Succesmelding
-        alert(data.message || "Profiel succesvol geüpdatet!");
-
-    } catch (err) {
-        console.error(err);
-        alert('Aanmaken mislukt');
     }
-}
-
 </script>
 
 <div class="create-container">
     <h1>Profiel bewerken</h1>
+
+    {#if successMessage}
+        <p class="success">{successMessage}</p>
+    {/if}
+
+    {#if errorMessage}
+        <p class="error">{errorMessage}</p>
+    {/if}
 
     <form on:submit|preventDefault={saveNewUserData} class="form">
         <div class="row-3">
@@ -124,8 +141,9 @@
             <input type="text" bind:value={form.phone_number} />
         </label>
 
-        <button type="submit" disabled={form.processing}>
+        <button type="submit">
             Opslaan
         </button>
     </form>
 </div>
+

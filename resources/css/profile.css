@@ -70,7 +70,27 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* Responsive: vallen rijen onder elkaar op kleinere schermen */
+/* Meldingen styling */
+.alert {
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
 @media (max-width: 600px) {
     .row-2,
     .row-3 {
