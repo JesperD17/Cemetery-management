@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountsController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExcelController;
@@ -24,6 +25,10 @@ Route::get('/begraafplaatsen/overzicht/{name}', function ($name) {
 Route::get('/admin', [AdminController::class, 'index'])
     ->middleware([EnsureAdminRole::class])
     ->name('admin');
+
+Route::inertia('/accounts', 'Accounts')
+    ->middleware(['auth'])
+    ->name('accounts');
 
 // Route::inertia('/import', 'Import')
 //     ->middleware(['auth', 'verified'])
