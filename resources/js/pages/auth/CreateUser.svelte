@@ -78,7 +78,7 @@
                             tabindex={1}
                             autocomplete="name"
                             bind:value={$form.first_name}
-                            placeholder="Volledige"
+                            placeholder="Ruben"
                         />
                     </div>
                     <InputError message={$form.errors.first_name} />
@@ -88,7 +88,15 @@
                     <Label for="infix">Tussenvoegsel</Label>
                     <div class="flex-s-gap align-center">
                         <ScanLine />
-                        <Input id="infix" type="text" autofocus tabindex={1} autocomplete="name" bind:value={$form.infix} placeholder="Volledige" />
+                        <Input 
+                            id="infix" 
+                            type="text" 
+                            autofocus 
+                            tabindex={1} 
+                            autocomplete="name" 
+                            bind:value={$form.infix} 
+                            placeholder="Van" 
+                        />
                     </div>
                     <InputError message={$form.errors.infix} />
                 </div>
@@ -106,7 +114,7 @@
                         tabindex={1}
                         autocomplete="name"
                         bind:value={$form.last_name}
-                        placeholder="Volledige"
+                        placeholder="Veen"
                     />
                 </div>
                 <InputError message={$form.errors.last_name} />
@@ -123,7 +131,7 @@
                         tabindex={1}
                         autocomplete="name"
                         bind:value={$form.phone_number}
-                        placeholder="Volledige"
+                        placeholder="0612345678"
                     />
                 </div>
                 <InputError message={$form.errors.phone_number} />
@@ -134,7 +142,14 @@
                     <Label for="address">Adres</Label>
                     <div class="flex-s-gap align-center">
                         <LandPlot />
-                        <Input id="address" type="text" autofocus tabindex={1} autocomplete="name" bind:value={$form.address} placeholder="Volledige" />
+                        <Input `
+                            id="address" 
+                            type="text" 
+                            autofocus 
+                            tabindex={1} 
+                            autocomplete="name" 
+                            bind:value={$form.address} 
+                            placeholder="Dorpsstraat 15" />
                     </div>
                     <InputError message={$form.errors.address} />
                 </div>
@@ -142,7 +157,14 @@
                     <Label for="zip_code">Postcode</Label>
                     <div class="flex-s-gap align-center">
                         <Milestone />
-                        <Input id="zip_code" type="text" autofocus tabindex={1} autocomplete="name" bind:value={$form.zip_code} placeholder="Volledige" />
+                        <Input 
+                            id="zip_code" 
+                            type="text" 
+                            autofocus 
+                            tabindex={1} 
+                            autocomplete="name" 
+                            bind:value={$form.zip_code} 
+                            placeholder="1234 AB" />
                     </div>
                     <InputError message={$form.errors.zip_code} />
                 </div>
