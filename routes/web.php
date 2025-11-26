@@ -8,7 +8,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Controllers\UserApiController;
 
-Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
+// Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
+// Route::middleware(['auth'])->post('/profiel', [UserProfileController::class, 'update']);
 
 
 Route::inertia('/', 'Home')
@@ -45,6 +46,10 @@ Route::inertia('/CemeteryCreate', 'CemeteryCreate')
 
 Route::inertia('/profile', 'Profile')
     ->name('profile');
+
+    
+Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
+Route::middleware(['auth'])->put('/profiel', [UserApiController::class, 'update']);
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

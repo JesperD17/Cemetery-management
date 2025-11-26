@@ -2,19 +2,18 @@
     import { onMount } from "svelte";
     import { useForm } from "@inertiajs/svelte";
 
-
+   
     let form = useForm({
         first_name: "",
         infix: "",
         last_name: "",
         address: "",
-        postal_code: "",
+        zip_code: "",
         email: "",
-        phone: "",
-        avatar: null,
+        phone_number: "",
     });
 
- 
+   
     onMount(async () => {
         try {
             const res = await fetch("/user", {
@@ -25,32 +24,67 @@
 
             const data = await res.json();
 
-            // Direct toewijzen aan form fields
+     
             form.first_name = data.first_name || "";
             form.infix = data.infix || "";
             form.last_name = data.last_name || "";
             form.address = data.address || "";
-            form.postal_code = data.postal_code || "";
+            form.zip_code = data.zip_code || "";
             form.email = data.email || "";
-            form.phone = data.phone || "";
+            form.phone_number = data.phone_number || "";
 
         } catch (error) {
             console.error("Fout bij ophalen gebruiker:", error);
         }
     });
 
-    function submit() {
-        form.post("/profiel", {
-            forceFormData: true,
-            onSuccess: () => form.reset(),
-        });
+    function getXsrfFromCookie() {
+        const c = document.cookie.split('; ').find((r) => r.startsWith('XSRF-TOKEN='));
+        return c ? decodeURIComponent(c.split('=')[1]) : null;
     }
+
+    async function saveNewUserData(e) {
+    e.preventDefault();
+    console.log(form);
+
+    try {
+        const payload = { ...form };
+        const csrfToken = getXsrfFromCookie();
+
+        const res = await fetch("/profiel", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-XSRF-TOKEN': csrfToken,
+            },
+            credentials: 'include',
+            body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert(data.error || "Er is iets misgegaan");
+            return;
+        }
+
+        // ✅ Succesmelding
+        alert(data.message || "Profiel succesvol geüpdatet!");
+
+    } catch (err) {
+        console.error(err);
+        alert('Aanmaken mislukt');
+    }
+}
+
 </script>
 
 <div class="create-container">
     <h1>Profiel bewerken</h1>
 
-    <form on:submit|preventDefault={submit} class="form">
+    <form on:submit|preventDefault={saveNewUserData} class="form">
         <div class="row-3">
             <label>
                 Voornaam
@@ -76,7 +110,7 @@
 
             <label>
                 Postcode
-                <input type="text" bind:value={form.postal_code} required />
+                <input type="text" bind:value={form.zip_code} required />
             </label>
         </div>
 
@@ -87,7 +121,7 @@
 
         <label>
             Telefoonnummer
-            <input type="text" bind:value={form.phone} />
+            <input type="text" bind:value={form.phone_number} />
         </label>
 
         <button type="submit" disabled={form.processing}>
