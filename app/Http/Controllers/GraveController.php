@@ -10,7 +10,20 @@ class GraveController extends Controller
 {
     public function index(Request $request)
     {
-        dd($request);
+        // $request->validate([
+        //     'cemetery_id' => 'required|integer',
+        //     'latitude' => 'required|string',
+        //     'longitude' => 'required|string',
+        //     'image_hash_url' => 'required|string',
+        //     'grave_number' => 'required|integer',
+        //     'status_id' => 'required|integer',
+        //     'description' => 'nullable|string',
+        //     'start_date' => 'nullable|date',
+        //     'end_date' => 'nullable|date',
+        // ]);
+
+        // dd($request->input('latitude'));
+
         DB::table('graves')->insert([
             'cemetery_id' => $request->input('cemetery_id'),
             'latitude' => $request->input('latitude'),

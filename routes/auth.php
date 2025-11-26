@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('nieuwe-gebruiker', [RegisteredUserController::class, 'store']);
         
-    Route::post('/nieuw-graf', [GraveController::class, 'create']);
+    Route::post('/nieuw-graf', [GraveController::class, 'index']);
 
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
