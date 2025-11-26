@@ -22,33 +22,33 @@ class GetGraves extends Controller
                 $roleName = $dbRole->name ?? null;
             } else {
                 $dbRole = DB::table('role_user')
-                    ->join('roles', 'role_user.role_id', '=', 'roles.id')
-                    ->where('role_user.user_id', $userId)
-                    ->select('roles.name')
-                    ->first();
+                ->join('roles', 'role_user.role_id', '=', 'roles.id')
+                ->where('role_user.user_id', $userId)
+                ->select('roles.name')
+                ->first();
                 $roleName = $dbRole->name ?? null;
             }
         }
-
+        
         $cemeteryID = request()->query('cemeteryID');
-
+        
         if (in_array(strtolower($roleName ?? ''), ['admin', 'super admin', 'editor'])) {
             $query = DB::table('graves as G')
                 ->select(
                     'G.cemetery_id',
                     'G.latitude',
                     'G.longitude',
-                    'G.image_url',
-                    'G.number',
-                    'G.costs',
-                    'G.type',
-                    'G.term'
+                    'G.image_hash_url',
+                    'G.grave_number',
+                    'G.status_id',
+                    'G.description',
+                    'G.start_date',
+                    'G.end_date'
                 );
 
             if ($cemeteryID) {
                 $query->where('G.cemetery_id', $cemeteryID);
             }
-
             return $query->get();
         }
 
