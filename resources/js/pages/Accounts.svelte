@@ -183,7 +183,7 @@
                                     tabindex={1}
                                     autocomplete="name"
                                     bind:value={form.first_name}
-                                    placeholder="Volledige"
+                                    placeholder="Ruben"
                                 />
                             </div>
                             <InputError message={form.errors?.first_name} />
@@ -191,7 +191,7 @@
                         <div class="col-flex">
                             <Label for="infix">Tussenvoegsel</Label>
                             <div class="flex-s-gap align-center">
-                                <Input id="infix" type="text" tabindex={1} autocomplete="name" bind:value={form.infix} placeholder="Volledige" />
+                                <Input id="infix" type="text" tabindex={1} autocomplete="name" bind:value={form.infix} placeholder="Van" />
                             </div>
                             <InputError message={form.errors?.infix} />
                         </div>
@@ -206,7 +206,7 @@
                                 tabindex={1}
                                 autocomplete="name"
                                 bind:value={form.last_name}
-                                placeholder="Volledige"
+                                placeholder="Veen"
                             />
                         </div>
                         <InputError message={form.errors?.last_name} />
@@ -218,9 +218,9 @@
                                 id="phone_number"
                                 type="text"
                                 tabindex={1}
-                                autocomplete="name"
+                                autocomplete="tel"
                                 bind:value={form.phone_number}
-                                placeholder="Volledige"
+                                placeholder="0612345678"
                             />
                         </div>
                         <InputError message={form.errors?.phone_number} />
@@ -229,7 +229,12 @@
                         <div class="col-flex">
                             <Label for="address">Adres</Label>
                             <div class="flex-s-gap align-center">
-                                <Input id="address" type="text" tabindex={1} autocomplete="name" bind:value={form.address} placeholder="Volledige" />
+                                <Input id="address" 
+                                    type="text" 
+                                    tabindex={1} 
+                                    autocomplete="name" 
+                                    bind:value={form.address} 
+                                    placeholder="1234 AB" />
                             </div>
                             <InputError message={form.errors?.address} />
                         </div>
@@ -242,7 +247,7 @@
                                     tabindex={1}
                                     autocomplete="postal-code"
                                     bind:value={form.zip_code}
-                                    placeholder="Volledige"
+                                    placeholder="0123 AB"
                                 />
                             </div>
                             <InputError message={form.errors?.zip_code} />
@@ -258,7 +263,7 @@
                                 tabindex={1}
                                 autocomplete="email"
                                 bind:value={form.email}
-                                placeholder="Volledige"
+                                placeholder="voorbeeld@domein.com"
                             />
                         </div>
                         <InputError message={form.errors?.email} />

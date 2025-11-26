@@ -2,14 +2,14 @@
     import Button from "@/Components/ui/button/button.svelte";
     import AppLayout from "@/layouts/AppLayout.svelte";
     import { Link } from "@inertiajs/svelte";
-    import { Loader } from "lucide-svelte";
+    import { Loader, Pen } from "lucide-svelte";
 
     var location = "laden...";
     var cards = [];
 
     async function fetchCemeteries() {
         try {
-            const response = await fetch(`/getCemeteries`, {
+            const response = await fetch(`/cemeteries`, {
                 headers: {
                     Accept: 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
@@ -30,6 +30,8 @@
             throw err;
         }
     })();
+    console.log(cemeteriesPromise);
+    
 </script>
 
 <svelte:head>
@@ -60,9 +62,15 @@
                             <div class="col-flex">
                                 <div class="padding-all col-flex">
                                     <div class="center-text bold line-clamp">{card.name}</div>
-                                    <div class="center-text">Locatie {card.municipality}</div>
+                                    <div class="center-text">Locatie {card.city}</div>
                                 </div>
-                                <Button class="margin-noTop" href={`/begraafplaatsen/overzicht/${encodeURIComponent(card.name)}`}>Selecteer</Button>
+                                <Button class="margin-noTop" href={`/begraafplaatsen/overzicht/${encodeURIComponent(card.id)}`}>Selecteer</Button>
+                            </div>
+
+                            <div class="top-right black">
+                                <Link href={`/begraafplaatsen/bewerk/${encodeURIComponent(card.id)}`}>
+                                    <Pen />
+                                </Link>
                             </div>
                         </div>
                     {/each}
