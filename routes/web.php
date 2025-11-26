@@ -22,10 +22,6 @@ Route::get('/begraafplaatsen/overzicht/{id}', function ($id) {
     return Inertia::render('Overview', ['id' => $id]);
 })->middleware(['auth'])->name('begraafplaatsen.overzicht');
 
-Route::get('/admin', [AdminController::class, 'index'])
-    ->middleware([EnsureAdminRole::class])
-    ->name('admin');
-
 Route::inertia('/accounts', 'Accounts')
     ->middleware(['auth'])
     ->name('accounts');
