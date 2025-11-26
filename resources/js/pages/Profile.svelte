@@ -2,11 +2,9 @@
     import { onMount } from "svelte";
     import { useForm } from "@inertiajs/svelte";
 
-    // Meldingen
     let successMessage = "";
     let errorMessage = "";
 
-    // Formulier
     let form = useForm({
         first_name: "",
         infix: "",
@@ -17,7 +15,6 @@
         phone_number: "",
     });
 
-    // User laden
     onMount(async () => {
         try {
             const res = await fetch("/user", {
@@ -40,7 +37,6 @@
         }
     });
 
-    // XSRF token uit cookie
     function getXsrfFromCookie() {
         const c = document.cookie
             .split("; ")
@@ -49,7 +45,6 @@
         return c ? decodeURIComponent(c.split("=")[1]) : null;
     }
 
-    // Data opslaan
     async function saveNewUserData(e) {
         e.preventDefault();
         successMessage = "";
