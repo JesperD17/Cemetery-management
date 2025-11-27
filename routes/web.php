@@ -44,12 +44,12 @@ Route::post('/import', [ExcelController::class, 'import'])->name('import');
 Route::inertia('/CemeteryCreate', 'CemeteryCreate')
     ->name('CemeteryCreate');
 
-Route::inertia('/profile', 'Profile')
+Route::inertia('/profiel', 'Profile')
     ->name('profile');
 
     
 Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
-Route::middleware(['auth'])->put('/profiel', [UserApiController::class, 'update']);
+Route::middleware(['auth'])->put('/profile', [UserApiController::class, 'update']);
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
