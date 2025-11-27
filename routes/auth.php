@@ -79,11 +79,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/getGraves', [GetGraves::class, 'index']);
 
     Route::get('/roles', [RolesController::class, 'index'])
-        ->middleware(RequestTypes::class);
+    ->middleware(RequestTypes::class);
 
-    Route::get('/getAccounts', [AccountsController::class, 'index'])
-        ->middleware(RequestTypes::class);
+Route::get('/getAccounts', [AccountsController::class, 'index'])
+    ->middleware(RequestTypes::class);
 
+Route::put('/updateAccount/{id}', [AccountsController::class, 'update'])
+    ->middleware(RequestTypes::class);
+    
     Route::put('/updateAccount/{id}', [AccountsController::class, 'update'])
         ->middleware(RequestTypes::class);
 

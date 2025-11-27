@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\EnsureAdminRole;
+use App\Http\Controllers\UserApiController;
+
 
 Route::inertia('/', 'Home')
     ->name('home');
@@ -39,6 +41,12 @@ Route::post('/import', [ExcelController::class, 'import'])->name('import');
 Route::inertia('/CemeteryCreate', 'CemeteryCreate')
     ->name('CemeteryCreate');
 
+Route::inertia('/profiel', 'Profile')
+    ->name('profile');
+
+    
+Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
+Route::middleware(['auth'])->put('/profile', [UserApiController::class, 'update']);
 Route::inertia('/gemeentes', 'Municipality')
     ->middleware(['auth', EnsureAdminRole::class])
     ->name('gemeentes');
