@@ -47,7 +47,7 @@
                 <div class="padding-btm col-flex">
                     <Label for="latitude">Latitude</Label>
                     <div class="flex-s-gap align-center">
-                        <Input type="text" name="latitude" id="latitude" placeholder="Latitude" bind:value={$form.latitude} />
+                        <Input type="text" name="latitude" id="latitude" placeholder="Latitude" required bind:value={$form.latitude} />
                         <Asterisk />
                     </div>
                     <InputError message={$form.errors.latitude} />
@@ -56,7 +56,7 @@
                 <div class="padding-btm col-flex">
                     <Label for="latitude">Longitude</Label>
                     <div class="flex-s-gap align-center">
-                        <Input type="text" name="longitude" id="longitude" placeholder="Longitude" bind:value={$form.longitude} />
+                        <Input type="text" name="longitude" id="longitude" placeholder="Longitude" required bind:value={$form.longitude} />
                         <Asterisk />
                     </div>
                     <InputError message={$form.errors.longitude} />
@@ -66,7 +66,7 @@
             <div class="padding-btm col-flex">
                 <Label for="latitude">Afbeelding</Label>
                 <div class="flex-s-gap align-center">
-                    <input type="file" id="image_hash_url" name="image_hash_url"  bind:value={$form.image_hash_url} />
+                    <input type="file" id="image_hash_url" name="image_hash_url" required bind:value={$form.image_hash_url} />
                     <Asterisk />
                 </div>
                 <InputError message={$form.errors.image_hash_url} />
@@ -75,7 +75,7 @@
             <div class="padding-btm col-flex">
                 <Label for="latitude">Grafnummer</Label>
                 <div class="flex-s-gap align-center">
-                    <Input type="number" name="grave_number" id="grave_number" placeholder="ex: 1" bind:value={$form.grave_number} />
+                    <Input type="number" name="grave_number" id="grave_number" placeholder="bijv: 1" required bind:value={$form.grave_number} />
                     <Asterisk />
                 </div>
                 <InputError message={$form.errors.grave_number} />
@@ -84,7 +84,7 @@
             <div class="padding-btm col-flex">
                 <Label for="latitude">Status</Label>
                 <div class="flex-s-gap align-center">
-                    <select class="full-width" name="status_id" id="status_id" bind:value={$form.status_id}>
+                    <select class="full-width" name="status_id" id="status_id" required bind:value={$form.status_id}>
                         <option value="1">Beschikbaar</option>
                         <option value="2">Bezet</option>
                         <option value="3">Gereserveerd</option>
@@ -97,7 +97,7 @@
             <div class="padding-btm col-flex">
                 <Label for="latitude">Beschrijving</Label>
                 <div class="flex-s-gap align-center">
-                    <textarea class="full-width" name="description" id="description" placeholder="Lorem ipsum dolor sit amet." bind:value={$form.description}></textarea>
+                    <textarea class="full-width" name="description" id="description" placeholder="Lorem ipsum dolor sit amet." required bind:value={$form.description}></textarea>
                     <Asterisk />
                 </div>
                 <InputError message={$form.errors.description} />
@@ -107,7 +107,7 @@
                 <div class="padding-btm col-flex full-width">
                     <Label for="latitude">Startdatum</Label>
                     <div class="flex-s-gap align-center">
-                        <input class="full-width" type="date" name="start_date" id="start_date" placeholder="Start Date" bind:value={$form.start_date} />
+                        <input class="full-width" type="date" name="start_date" id="start_date" placeholder="Start Date" required bind:value={$form.start_date} />
                         <Asterisk />
                     </div>
                     <InputError message={$form.errors.start_date} />
@@ -116,12 +116,19 @@
                 <div class="padding-btm col-flex full-width">
                     <Label for="latitude">Einddatum</Label>
                     <div class="flex-s-gap align-center">
-                        <input class="full-width" type="date" name="end_date" id="end_date" placeholder="End Date" bind:value={$form.end_date} />
+                        <input class="full-width" type="date" name="end_date" id="end_date" placeholder="End Date" required bind:value={$form.end_date} />
                         <Asterisk />
                     </div>
                     <InputError message={$form.errors.end_date} />
                 </div>
             </div>
+
+            {#if $page.props?.flash?.success}
+                <div class="padding-btm succes-message">{$page.props.flash.success}</div>
+            {/if}
+            {#if $page.props?.flash?.error}
+                <InputError message={$page.props.flash.error} />
+            {/if}
             
             <div>
                 <Button class="full-width relative" type="submit" tabindex={5} disabled={$form.processing} >

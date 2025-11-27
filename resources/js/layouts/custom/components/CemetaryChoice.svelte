@@ -8,7 +8,7 @@
 
     async function fetchCemeteries() {
         try {
-            const response = await fetch(`/getCemeteries`, {
+            const response = await fetch(`/cemeteries`, {
                 headers: {
                     Accept: 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
@@ -43,11 +43,11 @@
                         id="cemetery_id"
                         name="cemetery_id"
                         class="full-width padding-s bg-secondary border-radius base"
+                        required
                         bind:value={$form.cemetery_id}
                         tabindex={6}
                     >
                         <option value="" disabled>-- Kies een begraafplaats --</option>
-                        <option value="69" id="69">Begraafplaats 69</option>
                         {#each cemeteries as cemetery}
                             <option value={cemetery.id} id={cemetery.id}>{cemetery.name}</option>
                         {/each}
