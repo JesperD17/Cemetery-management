@@ -32,6 +32,9 @@
                 <Link href={route('accounts')}>
                     Accounts
                 </Link>
+                <Link href={route('profiel')}>
+                    Profiel
+                </Link>
             {/if}
             {#if (userRole === 'super admin' || userRole === 'admin')}
                 <Link href={route('gemeentes')}>
