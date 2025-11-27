@@ -413,11 +413,10 @@ input.base, select.base {
     padding: var(--padding-fields);
 }
 
-/* .desc input {
-    width: 300px;
+.desc textarea {
     height: 150px;
     align-items: flex-start;
-} */
+}
 
 /* btns */
 button.base, a.base, .btn {
