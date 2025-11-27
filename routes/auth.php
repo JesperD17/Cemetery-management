@@ -18,7 +18,6 @@ use App\Http\Controllers\GetRightsHolders;
 use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Middleware\RequestTypes;
-use App\Http\Controllers\UserProfileController;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
@@ -79,6 +78,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/getGraves', [GetGraves::class, 'index']);
 
-    Route::get('/roles', [RolesController::class, 'index']);
+    Route::get('/roles', [RolesController::class, 'index'])
+    ->middleware(RequestTypes::class);
+
+Route::get('/getAccounts', [AccountsController::class, 'index'])
+    ->middleware(RequestTypes::class);
+
+Route::put('/updateAccount/{id}', [AccountsController::class, 'update'])
+    ->middleware(RequestTypes::class);
     
 });

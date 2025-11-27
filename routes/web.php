@@ -8,9 +8,6 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Controllers\UserApiController;
 
-// Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
-// Route::middleware(['auth'])->post('/profiel', [UserProfileController::class, 'update']);
-
 
 Route::inertia('/', 'Home')
     ->name('home');
