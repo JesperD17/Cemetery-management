@@ -38,7 +38,7 @@ Route::inertia('/CemeteryCreate', 'CemeteryCreate')
     ->name('CemeteryCreate');
 
 Route::inertia('/profiel', 'Profile')
-    ->name('profile');
+    ->name('profiel');
 
     
 Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);

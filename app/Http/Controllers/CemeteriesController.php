@@ -10,16 +10,16 @@ class CemeteriesController extends Controller
 {
     public function index(Request $request)
     {
-        if (!$request->ajax() && !$request->expectsJson()) {
-            return redirect('/');
-        }
-
+        // if (!$request->ajax() && !$request->expectsJson()) {
+        //     return redirect('/');
+        // }
+        
         $userRoleID = $request->user()->role_id;
         $dbRole = DB::table('roles')->where('id', $userRoleID)->first();
         
         $gravesController = new GravesController();
         $graves = $gravesController->fetchByUser($request->user()->id);
-
+        
         if ($dbRole && in_array($dbRole->name, ['super admin', 'admin', 'beheerder'])) {
             $cemeteries = DB::table('cemeteries')->get();
         } else {
