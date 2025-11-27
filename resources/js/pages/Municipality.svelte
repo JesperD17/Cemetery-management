@@ -192,7 +192,7 @@
             <h2 class="h2 margin-bottom">Gemeente bewerken</h2>
             <form onsubmit={saveMunicipality}>
                 <div class="flex-m-gap col-flex">
-                    <div class="flex-m-gap">
+                    <div class="flex-m-gap col-flex">
                         <div class="col-flex">
                             <Label for="name">Naam</Label>
                             <div class="flex-s-gap align-center">
@@ -212,14 +212,12 @@
                         <div class="col-flex">
                             <Label for="description">Beschrijving</Label>
                             <div class="flex-s-gap align-center">
-                                <Input
-                                    id="description"
-                                    type="text"
-                                    tabindex={1}
-                                    autocomplete="name"
-                                    bind:value={form.description}
-                                    placeholder="Volledige"
-                                />
+                                <textarea 
+                                    rows="7" 
+                                    cols="50" 
+                                    bind:value={form.description} 
+                                    placeholder="Optioneel">
+                                </textarea>
                             </div>
                             <InputError message={form.errors?.description} />
                         </div>
@@ -257,17 +255,9 @@
                     <div class="col-flex desc">
                         <Label for="description">Beschrijving</Label>
                         <div class="flex-s-gap align-center">
-                            <!-- <Input
-                                id="description"
-                                type="text"
-                                tabindex={1}
-                                autocomplete="name"
-                                bind:value={form2.description}
-                                placeholder="Optioneel"
-                            /> -->
                             <textarea 
-                                rows="5" 
-                                cols="40" 
+                                rows="7" 
+                                cols="50" 
                                 bind:value={form2.description} 
                                 placeholder="Optioneel">
                             </textarea>
