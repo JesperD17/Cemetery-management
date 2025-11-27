@@ -506,6 +506,12 @@ tbody tr:last-child td:first-child {
     height: 100%;
 }
 
+.top-right {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
 /*  */
 .succes-message {
     color:#399239;
