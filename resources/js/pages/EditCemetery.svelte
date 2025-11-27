@@ -4,6 +4,7 @@
     import Label from '@/Components/ui/label/label.svelte';
     import AppLayout from '@/layouts/AppLayout.svelte';
     import { Link } from '@inertiajs/svelte';
+    import { Loader } from 'lucide-svelte';
 
     export let id;
 

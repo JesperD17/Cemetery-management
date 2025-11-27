@@ -3,9 +3,11 @@
     import AppLayout from "@/layouts/AppLayout.svelte";
     import { Link } from "@inertiajs/svelte";
     import { Loader, Pen } from "lucide-svelte";
+    import { page } from "@inertiajs/svelte";
 
     var location = "laden...";
     var cards = [];
+    const userRole = $derived($page?.props?.auth?.user?.role?.name || null);
 
     async function fetchCemeteries() {
         try {
@@ -67,11 +69,13 @@
                                 <Button class="margin-noTop" href={`/begraafplaatsen/overzicht/${encodeURIComponent(card.id)}`}>Selecteer</Button>
                             </div>
 
+                            {#if userRole === 'super admin' || userRole === 'admin'}
                             <div class="top-right black">
                                 <Link href={`/begraafplaatsen/bewerk/${encodeURIComponent(card.id)}`}>
                                     <Pen />
                                 </Link>
                             </div>
+                            {/if}
                         </div>
                     {/each}
                 </div>

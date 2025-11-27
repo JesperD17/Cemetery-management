@@ -142,7 +142,7 @@
                     <Label for="address">Adres</Label>
                     <div class="flex-s-gap align-center">
                         <LandPlot />
-                        <Input `
+                        <Input
                             id="address" 
                             type="text" 
                             autofocus 
