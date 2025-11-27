@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("image_hash_url")->nullable();
             $table->unsignedInteger("grave_number");
             $table->unsignedBigInteger("status_id");
-            $table->string("description")->nullable();
+            $table->text("description")->nullable();
             $table->date("start_date");
             $table->date("end_date");
             $table->timestamps();

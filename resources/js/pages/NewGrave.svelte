@@ -6,7 +6,7 @@
     import { useForm, page } from '@inertiajs/svelte';
     import InputError from "@/components/InputError.svelte";
     import { LoaderCircle } from 'lucide-svelte';
-    import CemeteryChoice from '@/layouts/custom/components/CemetaryChoice.svelte';
+    import CemeteryChoice from '@/layouts/custom/components/CemeteryChoice.svelte';
     import Asterisk from "@/layouts/custom/components/Asterisk.svelte";
 
     let form = useForm({
