@@ -32,6 +32,11 @@ Route::inertia('/accounts', 'Accounts')
     ->middleware(['auth'])
     ->name('accounts');
 
+Route::get('/nieuw-graf', function () {
+    return Inertia::render('NewGrave');
+})->middleware(['auth'])->name('nieuw-graf');
+
+
 // Route::inertia('/import', 'Import')
 //     ->middleware(['auth', 'verified'])
 //     ->name('import');

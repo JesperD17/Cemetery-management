@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('graves', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("cemetery_id");
-            $table->unsignedInteger("latitude");
-            $table->unsignedInteger("longitude");
-            $table->string("image_hash_url");
+            $table->string("latitude");
+            $table->string("longitude");
+            $table->string("image_hash_url")->nullable();
             $table->unsignedInteger("grave_number");
             $table->unsignedBigInteger("status_id");
             $table->text("description")->nullable();
