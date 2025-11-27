@@ -33,6 +33,11 @@
                     Accounts
                 </Link>
             {/if}
+            {#if (userRole === 'super admin' || userRole === 'admin')}
+                <Link href={route('gemeentes')}>
+                    Gemeentes
+                </Link>
+            {/if}
             <Link class="btn primary" href={route('logout')} method="post" as="button">
                 Uitloggen
             </Link>

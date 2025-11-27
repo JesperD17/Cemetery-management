@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CemeteriesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GravesController;
+use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Middleware\RequestTypes;
@@ -37,7 +38,6 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('nieuwe-gebruiker', [RegisteredUserController::class, 'create'])
-        ->middleware([EnsureAdminRole::class])
         ->name('nieuwe-gebruiker');
 
     Route::post('nieuwe-gebruiker', [RegisteredUserController::class, 'store']);
@@ -71,4 +71,13 @@ Route::middleware('auth')->group(function () {
         ->middleware(RequestTypes::class);
     Route::put('/updateAccount/{id}', [AccountsController::class, 'update'])
         ->middleware(RequestTypes::class);
+
+    Route::get('/municipalities', [MunicipalityController::class, 'show'])
+        ->middleware(EnsureAdminRole::class);
+
+    Route::post('/municipalities', [MunicipalityController::class, 'store'])
+        ->middleware(EnsureAdminRole::class);
+
+    Route::put('/municipalities/{id}', [MunicipalityController::class, 'update'])
+    ->middleware(EnsureAdminRole::class);
 });
