@@ -37,6 +37,13 @@
                 </Link>
                 <Link href={route('graves')}>
                     Graven
+                <Link href={route('profiel')}>
+                    Profiel
+                </Link>
+            {/if}
+            {#if (userRole === 'super admin' || userRole === 'admin')}
+                <Link href={route('gemeentes')}>
+                    Gemeentes
                 </Link>
             {/if}
             <Link class="btn primary" href={route('logout')} method="post" as="button">

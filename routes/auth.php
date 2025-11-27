@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\GetGraves;
 use App\Http\Controllers\GetRightsHolders;
+use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Middleware\RequestTypes;
-use App\Http\Controllers\UserProfileController;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
@@ -41,7 +41,6 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('nieuwe-gebruiker', [RegisteredUserController::class, 'create'])
-        ->middleware([EnsureAdminRole::class])
         ->name('nieuwe-gebruiker');
 
     Route::post('nieuwe-gebruiker', [RegisteredUserController::class, 'store']);
@@ -79,6 +78,24 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/getGraves', [GetGraves::class, 'index']);
 
-    Route::get('/roles', [RolesController::class, 'index']);
+    Route::get('/roles', [RolesController::class, 'index'])
+    ->middleware(RequestTypes::class);
+
+Route::get('/getAccounts', [AccountsController::class, 'index'])
+    ->middleware(RequestTypes::class);
+
+Route::put('/updateAccount/{id}', [AccountsController::class, 'update'])
+    ->middleware(RequestTypes::class);
     
+    Route::put('/updateAccount/{id}', [AccountsController::class, 'update'])
+        ->middleware(RequestTypes::class);
+
+    Route::get('/municipalities', [MunicipalityController::class, 'show'])
+        ->middleware(EnsureAdminRole::class);
+
+    Route::post('/municipalities', [MunicipalityController::class, 'store'])
+        ->middleware(EnsureAdminRole::class);
+
+    Route::put('/municipalities/{id}', [MunicipalityController::class, 'update'])
+    ->middleware(EnsureAdminRole::class);
 });

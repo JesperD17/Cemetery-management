@@ -9,9 +9,6 @@ use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Controllers\UserApiController;
 use App\Http\Controllers\GraveController;
 
-// Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
-// Route::middleware(['auth'])->post('/profiel', [UserProfileController::class, 'update']);
-
 
 Route::inertia('/', 'Home')
     ->name('home');
@@ -29,7 +26,7 @@ Route::get('/begraafplaatsen/overzicht/{id}', function ($id) {
 })->middleware(['auth'])->name('begraafplaatsen.overzicht');
 
 Route::get('/admin', [AdminController::class, 'index'])
-    ->middleware([EnsureAdminRole::class])
+    ->middleware(['auth', EnsureAdminRole::class])
     ->name('admin');
 
 Route::inertia('/accounts', 'Accounts')
@@ -45,7 +42,7 @@ Route::post('/import', [ExcelController::class, 'import'])->name('import');
 Route::inertia('/CemeteryCreate', 'CemeteryCreate')
     ->name('CemeteryCreate');
 
-Route::inertia('/profile', 'Profile')
+Route::inertia('/profiel', 'Profile')
     ->name('profile');
     
 Route::inertia('/graves', 'Graves')
@@ -55,7 +52,10 @@ Route::inertia('/graves', 'Graves')
     Route::middleware('auth')->get('/api/graven/{id}', [GraveController::class, 'show']);
     
 Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
-Route::middleware(['auth'])->put('/profiel', [UserApiController::class, 'update']);
+Route::middleware(['auth'])->put('/profile', [UserApiController::class, 'update']);
+Route::inertia('/gemeentes', 'Municipality')
+    ->middleware(['auth', EnsureAdminRole::class])
+    ->name('gemeentes');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
