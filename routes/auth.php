@@ -9,12 +9,10 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\GetCemeteries;
-use App\Http\Controllers\GetCityName;
+use App\Http\Controllers\CemeteriesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\GetGraves;
-use App\Http\Controllers\GetRightsHolders;
+use App\Http\Controllers\GravesController;
 use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Middleware\RequestTypes;
@@ -64,26 +62,15 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
-    Route::get('/getCityName', [GetCityName::class, 'index']);
-
-    Route::get('/cemeteries', [GetCemeteries::class, 'index']);
-
-    Route::get('/cemeteryById', [GetCemeteries::class, 'id']);
-
-    Route::put('/updateCemetery/{id}', [GetCemeteries::class, 'updateCemetery']);
-    
+    Route::get('/cemeteries', [CemeteriesController::class, 'index']);
+    Route::get('/cemeteryById', [CemeteriesController::class, 'id']);
+    Route::put('/updateCemetery/{id}', [CemeteriesController::class, 'updateCemetery']);
     Route::delete('/delRightsHolder/{id}', [AdminController::class, 'destroy']);
-
-    Route::get('getRightsHolders', [GetRightsHolders::class, 'index']);
-
-    Route::get('/getGraves', [GetGraves::class, 'index']);
-
+    Route::get('/graves', [GravesController::class, 'index']);
     Route::get('/roles', [RolesController::class, 'index'])
         ->middleware(RequestTypes::class);
-
     Route::get('/getAccounts', [AccountsController::class, 'index'])
         ->middleware(RequestTypes::class);
-
     Route::put('/updateAccount/{id}', [AccountsController::class, 'update'])
         ->middleware(RequestTypes::class);
 });
