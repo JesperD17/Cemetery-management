@@ -132,32 +132,34 @@
                     </div>
                 </div>
 
-                <table class="table full-width">
-                    <thead>
-                        <tr class="start-text">
-                            <th>Naam</th>
-                            <th>Telefoonnummer</th>
-                            <th>Adres</th>
-                            <th>Email</th>
-                            <th>Rol</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {#each filteredAccounts as account}
+                <div class="table full-width">
+                    <table>
+                        <thead>
                             <tr class="start-text">
-                                <td>{account.first_name} {account.infix} {account.last_name}</td>
-                                <td>{account.phone_number ? account.phone_number : 'Leeg'}</td>
-                                <td>{account.address} {account.zip_code ? account.zip_code : 'Leeg'}</td>
-                                <td>{account.email}</td>
-                                <td>{account.role.name}</td>
-                                <!-- edit data popup -->
-                                <td class="border-unset">
-                                    <button class="base" id={account.id} onclick={() => openEdit(account)}>Bewerk</button>
-                                </td>
+                                <th>Naam</th>
+                                <th>Telefoonnummer</th>
+                                <th>Adres</th>
+                                <th>Email</th>
+                                <th>Rol</th>
                             </tr>
-                        {/each}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {#each filteredAccounts as account}
+                                <tr class="start-text">
+                                    <td>{account.first_name} {account.infix} {account.last_name}</td>
+                                    <td>{account.phone_number ? account.phone_number : 'Leeg'}</td>
+                                    <td>{account.address} {account.zip_code ? account.zip_code : 'Leeg'}</td>
+                                    <td>{account.email}</td>
+                                    <td>{account.role.name}</td>
+                                    <!-- edit data popup -->
+                                    <td class="border-unset">
+                                        <button class="base" id={account.id} onclick={() => openEdit(account)}>Bewerk</button>
+                                    </td>
+                                </tr>
+                            {/each}
+                        </tbody>
+                    </table>
+                </div>
             {:else}
                 <p>{accounts}</p>
             {/if}

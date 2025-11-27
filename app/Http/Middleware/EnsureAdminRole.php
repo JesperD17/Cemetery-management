@@ -20,7 +20,7 @@
                 4 => 'super admin',
             };
             
-            if ($userRole === 'admin' || $userRole === 'super admin' || $userRole === 'beheerder') {
+            if ($userRole === 'admin' || $userRole === 'super admin') {
                 return $next($request);
             }
     
