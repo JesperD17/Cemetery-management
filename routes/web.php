@@ -33,9 +33,9 @@ Route::inertia('/accounts', 'Accounts')
     ->middleware(['auth'])
     ->name('accounts');
 
-// Route::inertia('/import', 'Import')
-//     ->middleware(['auth', 'verified'])
-//     ->name('import');
+Route::get('/nieuw-graf', function () {
+    return Inertia::render('NewGrave');
+})->middleware(['auth'])->name('nieuw-graf');
 
 Route::post('/import', [ExcelController::class, 'import'])->name('import');
 
@@ -51,8 +51,11 @@ Route::inertia('/graves', 'Graves')
     Route::middleware('auth')->get('/api/graven', [GraveController::class, 'index']);
     Route::middleware('auth')->get('/api/graven/{id}', [GraveController::class, 'show']);
     
+    ->name('profiel');
+
 Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
 Route::middleware(['auth'])->put('/profile', [UserApiController::class, 'update']);
+
 Route::inertia('/gemeentes', 'Municipality')
     ->middleware(['auth', EnsureAdminRole::class])
     ->name('gemeentes');

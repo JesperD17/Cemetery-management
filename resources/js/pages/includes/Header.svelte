@@ -32,6 +32,9 @@
                 <Link href={route('nieuwe-gebruiker')}>
                     Nieuwe gebruiker
                 </Link>
+                <Link href={route('nieuw-graf')}>
+                    Nieuw graf
+                </Link>
                 <Link href={route('accounts')}>
                     Accounts
                 </Link>
