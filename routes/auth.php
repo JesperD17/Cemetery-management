@@ -11,7 +11,6 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CemeteriesController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\GravesController;
 use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureAdminRole;
@@ -65,7 +64,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/cemeteries', [CemeteriesController::class, 'index']);
     Route::get('/cemeteryById', [CemeteriesController::class, 'id']);
     Route::put('/updateCemetery/{id}', [CemeteriesController::class, 'updateCemetery']);
-    Route::delete('/delRightsHolder/{id}', [AdminController::class, 'destroy']);
     Route::get('/graves', [GravesController::class, 'index']);
     Route::get('/roles', [RolesController::class, 'index'])
         ->middleware(RequestTypes::class);
