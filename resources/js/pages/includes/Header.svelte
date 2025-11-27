@@ -35,6 +35,9 @@
                 <Link href={route('accounts')}>
                     Accounts
                 </Link>
+                <Link href={route('graves')}>
+                    Graven
+                </Link>
             {/if}
             <Link class="btn primary" href={route('logout')} method="post" as="button">
                 Uitloggen
