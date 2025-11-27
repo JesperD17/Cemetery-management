@@ -19,24 +19,12 @@
             Home
         </Link>
         {#if (propUser ?? derivedUser)}
-            <Link href={route('begraafplaatsen')}>
-                begraafplaatsen
-            </Link>
             {#if (userRole !== 'rechthebbende')}
                 <!-- <Link href={route('import')}>
                     Excel import
                 </Link> -->
                 <Link href={route('admin')}>
                     Admin
-                </Link>
-                <Link href={route('nieuwe-gebruiker')}>
-                    Nieuwe gebruiker
-                </Link>
-                <Link href={route('nieuw-graf')}>
-                    Nieuw graf
-                </Link>
-                <Link href={route('accounts')}>
-                    Accounts
                 </Link>
             {/if}
             <Link class="btn primary" href={route('logout')} method="post" as="button">
