@@ -413,6 +413,12 @@ input.base, select.base {
     padding: var(--padding-fields);
 }
 
+/* .desc input {
+    width: 300px;
+    height: 150px;
+    align-items: flex-start;
+} */
+
 /* btns */
 button.base, a.base, .btn {
     padding: var(--padding-fields);
@@ -431,12 +437,6 @@ button.primary:hover, a.primary:hover, .btn.primary:hover {
     background: #dcd9d9;
 }
 
-th, td {
-    padding: var(--padding-fields);
-    border: solid 2px #d7d7d7;
-    border-radius: var(--border-radius);
-    text-align: left;
-}
 
 .bg-modal-primary {
     position: absolute;
@@ -459,10 +459,40 @@ th, td {
     z-index: 3; 
 }
 
-.top-right {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+.table {
+    max-height: 50vh;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+.table > table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+th, td {
+    padding: var(--padding-fields);
+    border: solid 2px #d7d7d7;
+    text-align: left;
+}
+
+thead tr th:first-child { 
+    border-top-left-radius: var(--border-radius);
+}
+thead tr th:last-child { 
+    border-top-right-radius: var(--border-radius);
+}
+tbody tr:last-child td:last-child { 
+    border-bottom-right-radius: var(--border-radius);
+}
+tbody tr:last-child td:nth-last-child(2) {
+    border-bottom-right-radius: var(--border-radius);
+}
+tbody tr:last-child td:first-child { 
+    border-bottom-left-radius: var(--border-radius);
 }
 
 /* animations */

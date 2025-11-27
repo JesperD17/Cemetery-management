@@ -25,7 +25,7 @@ Route::get('/begraafplaatsen/overzicht/{id}', function ($id) {
 })->middleware(['auth'])->name('begraafplaatsen.overzicht');
 
 Route::get('/admin', [AdminController::class, 'index'])
-    ->middleware([EnsureAdminRole::class])
+    ->middleware(['auth', EnsureAdminRole::class])
     ->name('admin');
 
 Route::inertia('/accounts', 'Accounts')
@@ -47,6 +47,9 @@ Route::inertia('/profiel', 'Profile')
     
 Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
 Route::middleware(['auth'])->put('/profile', [UserApiController::class, 'update']);
+Route::inertia('/gemeentes', 'Municipality')
+    ->middleware(['auth', EnsureAdminRole::class])
+    ->name('gemeentes');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
