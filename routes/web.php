@@ -23,7 +23,7 @@ Route::get('/begraafplaatsen/overzicht/{id}', function ($id) {
 })->middleware(['auth'])->name('begraafplaatsen.overzicht');
 
 Route::get('/admin', [AdminController::class, 'index'])
-    ->middleware([EnsureAdminRole::class])
+    ->middleware(['auth', EnsureAdminRole::class])
     ->name('admin');
 
 Route::inertia('/accounts', 'Accounts')
@@ -39,7 +39,9 @@ Route::post('/import', [ExcelController::class, 'import'])->name('import');
 Route::inertia('/CemeteryCreate', 'CemeteryCreate')
     ->name('CemeteryCreate');
 
-
+Route::inertia('/gemeentes', 'Municipality')
+    ->middleware(['auth', EnsureAdminRole::class])
+    ->name('gemeentes');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
