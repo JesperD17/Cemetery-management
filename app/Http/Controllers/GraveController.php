@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 Use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class GraveController extends Controller
 {
     public function index(Request $request)
     {
-        $validatedData = $request->validate([
+        $rules = [
             'cemetery_id' => 'required|integer',
             'latitude' => 'required|string|max:255',
             'longitude' => 'required|string|max:255',
@@ -21,7 +22,15 @@ class GraveController extends Controller
             'description' => 'nullable|string|max:1000',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
-        ]);
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $validatedData = $validator->validated();
 
         try {
             DB::table('graves')->insert([
