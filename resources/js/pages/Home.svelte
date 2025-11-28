@@ -48,6 +48,15 @@
                     </p>
                 </a>
             {/if}
+            {#if (userRole === 'super admin' || userRole === 'admin')}
+                <a href={route('gemeentes')} class="tile">
+                    <TableOfContents size={60} />
+                    <p class="tile-text">
+                        Gemeentes
+                    </p>
+                </a>
+            {/if}
+            
         {/if}
     </div>
 </AppLayout>
