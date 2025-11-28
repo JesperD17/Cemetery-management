@@ -1,0 +1,38 @@
+.forbidden {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  padding: 0 1rem;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.forbidden h1 {
+  font-size: 6rem;
+  color: #e63946;
+  margin-bottom: 1rem;
+}
+
+.forbidden .message {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.forbidden .link-text {
+  font-size: 1.2rem;
+  white-space: nowrap;
+}
+
+.forbidden .inline-link {
+  color: #1d3557;
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.forbidden .inline-link:hover {
+  color: #457b9d;
+}

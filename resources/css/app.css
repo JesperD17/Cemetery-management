@@ -1,4 +1,5 @@
-@import 'tailwindcss';
+/* @import 'tailwindcss';
+
 
 @plugin 'tailwindcss-animate';
 
@@ -58,14 +59,7 @@
     --color-sidebar-ring: hsl(var(--sidebar-ring));
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
 
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
     *,
     ::after,
@@ -164,5 +158,367 @@
 
     body {
         @apply bg-background text-foreground;
+    }
+} */
+
+/* reusable colors, margin, padding etc */
+:root {
+    --margin-padding: 16px;
+    --border-radius: 8px;
+    --padding-fields: 6px 12px;
+}
+
+html, body {
+    font-family: "poppins", sans-serif;
+    margin: unset;
+    height: 100vh;
+}
+
+#app {
+    /* min-height: 100vh; */
+    height: 100%;
+}
+
+/* auto page margin */
+.page-width {
+    max-width: 1000px;
+    padding: calc(1rem + 1vw);
+    margin: 0 auto;
+    height: -webkit-fill-available;
+}
+
+.section {
+    margin: 40px 0px;
+}
+
+/* fonts */
+.h1 {
+    font-size: 28px;
+}
+
+.h2 {
+    font-size: 22px;
+}
+
+.baseText {
+    font-size: 15px;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+/* padding, margin, radius etc */
+.padding-all {
+    padding: var(--margin-padding);
+}
+
+.pading-noTop {
+    padding: var(--margin-padding);
+    padding-top: unset;
+}
+
+.padding-btm {
+    padding-bottom: var(--margin-padding);
+}
+
+.margin-noTop {
+    margin: var(--margin-padding);
+    margin-top: unset;
+}
+
+.margin-all {
+    margin: var(--margin-padding);
+}
+
+.margin-btm {
+    margin-bottom: var(--margin-padding);
+}
+
+.border-radius {
+    border-radius: var(--border-radius);
+}
+
+.border-radius-r {
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+.border-radius-l {
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+}
+
+.border-radius-t {
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
+.col-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.row-flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.center-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.start-text {
+    text-align: left;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-end {
+    justify-content: end;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+.flex-s-gap {
+    display: flex;
+    gap: 5px;
+}
+
+.relative {
+    position: relative;
+}
+
+.flex-m-gap {
+    display: flex;
+    gap: 8px;
+}
+
+.gap {
+    gap: 12px;
+}
+
+.emptyGap-ss {
+    height: 50px;
+}
+
+.emptyGap-s {
+    height: 100px;
+}
+
+.emptyGap-m {
+    height: 150px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.full-height-full-width {
+    width: 100%;
+    height: 100%;
+}
+
+.h-fit {
+    height: fit-content;
+}
+
+/* text */
+.text-end {
+    text-align: end;
+}
+
+.errorMsg {
+    margin: 5px 0px 0px;
+    color: red;
+}
+
+/* colors */
+.border-primary {
+    border: solid 2px #d7d7d7;
+}
+
+.border-primary-l {
+    border-left: solid 2px #d7d7d7;
+}
+
+.border-primary-btm {
+    border-bottom: solid 2px #d7d7d7;
+}
+
+.border-unset {
+    border: none;
+}
+
+.bg-primary {
+    background: rgb(247 247 247);
+}
+
+.bg-secondary {
+    background: #ededed;
+}
+
+/* colors */
+.black, .black svg {
+    color: black;
+}
+
+/* blocks */
+.overlay-w-h {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+}
+
+/* location cards */
+.card-loc {
+    max-width: 300px;
+    width: -webkit-fill-available;
+    position: relative;
+}
+
+.card-grave {
+    height: 125px;
+}
+
+/* input fields */
+input.base, select.base {
+    padding: var(--padding-fields);
+}
+
+/* .desc input {
+    width: 300px;
+    height: 150px;
+    align-items: flex-start;
+} */
+
+/* btns */
+button.base, a.base, .btn {
+    padding: var(--padding-fields);
+    border-radius: var(--border-radius);
+    transition: all 0.2s;
+    border: solid 2px black;
+    text-align: center;
+    text-decoration: none;
+}
+
+button.base:hover, a.base:hover, .btn:hover {
+    cursor: pointer;
+}
+
+button.primary:hover, a.primary:hover, .btn.primary:hover {
+    background: #dcd9d9;
+}
+
+
+.bg-modal-primary {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.modal-primary {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: var(--margin-padding);
+    border-radius: var(--border-radius);
+    z-index: 3; 
+}
+
+.table {
+    max-height: 50vh;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+.table > table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+th, td {
+    padding: var(--padding-fields);
+    border: solid 2px #d7d7d7;
+    text-align: left;
+}
+
+thead tr th:first-child { 
+    border-top-left-radius: var(--border-radius);
+}
+thead tr th:last-child { 
+    border-top-right-radius: var(--border-radius);
+}
+tbody tr:last-child td:last-child { 
+    border-bottom-right-radius: var(--border-radius);
+}
+tbody tr:last-child td:nth-last-child(2) {
+    border-bottom-right-radius: var(--border-radius);
+}
+tbody tr:last-child td:first-child { 
+    border-bottom-left-radius: var(--border-radius);
+}
+
+/* animations */
+/* spinner */
+.spinner {
+    animation: spinner 1s linear infinite;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 97%;
+    height: 100%;
+}
+
+.top-right {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+/*  */
+.succes-message {
+    color:#399239;
+}
+
+@keyframes spinner {
+    100% {
+        transform: rotate(360deg);
     }
 }

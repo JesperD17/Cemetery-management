@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -8,14 +9,16 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\CemeteriesController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GravesController;
+use App\Http\Controllers\MunicipalityController;
+use App\Http\Controllers\RolesController;
+use App\Http\Middleware\EnsureAdminRole;
+use App\Http\Middleware\RequestTypes;
+use App\Http\Controllers\GraveController;
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
-
-    Route::post('register', [RegisteredUserController::class, 'store']);
-
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
@@ -35,6 +38,13 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('nieuwe-gebruiker', [RegisteredUserController::class, 'create'])
+        ->name('nieuwe-gebruiker');
+
+    Route::post('nieuwe-gebruiker', [RegisteredUserController::class, 'store']);
+        
+    Route::post('/nieuw-graf', [GraveController::class, 'index']);
+
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
@@ -52,5 +62,25 @@ Route::middleware('auth')->group(function () {
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
+    ->name('logout');
+
+    Route::get('/cemeteries', [CemeteriesController::class, 'index']);
+    Route::get('/cemeteryById', [CemeteriesController::class, 'id']);
+    Route::put('/updateCemetery/{id}', [CemeteriesController::class, 'updateCemetery']);
+    Route::get('/graves', [GravesController::class, 'index']);
+    Route::get('/roles', [RolesController::class, 'index'])
+        ->middleware(RequestTypes::class);
+    Route::get('/getAccounts', [AccountsController::class, 'index'])
+        ->middleware(RequestTypes::class);
+    Route::put('/updateAccount/{id}', [AccountsController::class, 'update'])
+        ->middleware(RequestTypes::class);
+
+    Route::get('/municipalities', [MunicipalityController::class, 'show'])
+        ->middleware(EnsureAdminRole::class);
+
+    Route::post('/municipalities', [MunicipalityController::class, 'store'])
+        ->middleware(EnsureAdminRole::class);
+
+    Route::put('/municipalities/{id}', [MunicipalityController::class, 'update'])
+    ->middleware(EnsureAdminRole::class);
 });

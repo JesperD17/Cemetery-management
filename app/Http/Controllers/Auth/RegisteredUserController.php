@@ -9,6 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -20,7 +22,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('auth/Register');
+        return Inertia::render('auth/CreateUser');
     }
 
     /**
@@ -30,22 +32,53 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+        $rules = [
+            'first_name' => 'required|string|max:255',
+            'infix' => 'nullable|string|max:50',
+            'last_name' => 'required|string|max:255',
+            'phone_number' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:255',
+            'zip_code' => 'nullable|string|max:20',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+            'role_id' => 'nullable|integer',
+        ];
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $validator = Validator::make($request->all(), $rules);
 
-        event(new Registered($user));
+        if ($validator->fails()) {
+            Log::info('Registration validation failed', [
+                'errors' => $validator->errors()->toArray(),
+                'input' => $request->except(['password', 'password_confirmation']),
+            ]);
 
-        Auth::login($user);
+            // Return with validation errors (Inertia / normal redirect compatible)
+            return back()->withErrors($validator)->withInput();
+        }
 
-        return to_route('dashboard');
+        try {
+            $user = User::create([
+                'first_name' => $request->first_name,
+                'infix' => $request->infix,
+                'last_name' => $request->last_name,
+                'phone_number' => $request->phone_number,
+                'address' => $request->address,
+                'zip_code' => $request->zip_code,
+                'email' => $request->email,
+                'password_hash' => Hash::make($request->password),
+                'role_id' => $request->role_id ?? 1,
+            ]);
+
+            event(new Registered($user));
+
+            return back()->with('success', 'Account succesvol aangemaakt.');
+        } catch (\Throwable $e) {
+            Log::error('Failed to create user', [
+                'exception' => $e,
+                'input' => $request->except(['password', 'password_confirmation']),
+            ]);
+
+            return back()->withErrors(['error' => 'Server error while creating account. Check logs.']);
+        }
     }
 }

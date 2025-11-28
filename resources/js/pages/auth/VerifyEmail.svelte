@@ -19,24 +19,22 @@
 </script>
 
 <svelte:head>
-    <title>Verify Email</title>
+    <title>Verificatie E-mail</title>
 </svelte:head>
 
-<AuthLayout title="Verify email" description="Please verify your email address by clicking on the link we just emailed to you.">
-    {#if status === 'verification-link-sent'}
-        <div class="mb-4 text-center text-sm font-medium text-green-600">
-            A new verification link has been sent to the email address you provided during registration.
-        </div>
-    {/if}
+{#if status === 'verification-link-sent'}
+    <div class="mb-4 text-center text-sm font-medium text-green-600">
+        Een nieuwe verificatielink is naar uw e-mailadres verzonden.
+    </div>
+{/if}
 
-    <form onsubmit={submit} class="space-y-6 text-center">
-        <Button disabled={$form.processing} variant="secondary">
-            {#if $form.processing}
-                <LoaderCircle class="h-4 w-4 animate-spin" />
-            {/if}
-            Resend verification email
-        </Button>
+<form onsubmit={submit} class="space-y-6 text-center">
+    <Button class="full-width relative" disabled={$form.processing} variant="secondary">
+        {#if $form.processing}
+            <LoaderCircle class="spinner" />
+        {/if}
+        Opnieuw verificatie e-mail verzenden
+    </Button>
 
-        <TextLink href={route('logout')} method="post" as="button" class="mx-auto block text-sm">Log out</TextLink>
-    </form>
-</AuthLayout>
+    <TextLink href={route('logout')} method="post" as="button" class="mx-auto block text-sm">Uitloggen</TextLink>
+</form>
