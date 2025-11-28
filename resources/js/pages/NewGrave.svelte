@@ -84,7 +84,8 @@
             <div class="padding-btm col-flex">
                 <Label for="latitude">Status</Label>
                 <div class="flex-s-gap align-center">
-                    <select class="full-width" name="status_id" id="status_id" required bind:value={$form.status_id}>
+                    <select class="full-width padding-s bg-secondary border-radius base" name="status_id" id="status_id" required bind:value={$form.status_id}>
+                        <option value="" disabled selected>Kies een status</option>
                         <option value="1">Beschikbaar</option>
                         <option value="2">Bezet</option>
                         <option value="3">Gereserveerd</option>
@@ -96,8 +97,8 @@
         
             <div class="padding-btm col-flex">
                 <Label for="latitude">Beschrijving</Label>
-                <div class="flex-s-gap align-center">
-                    <textarea class="full-width" name="description" id="description" placeholder="Lorem ipsum dolor sit amet." required bind:value={$form.description}></textarea>
+                <div class="flex-s-gap align-center desc">
+                    <textarea class="full-width padding-s border-radius base desc" name="description" id="description" placeholder="Lorem ipsum dolor sit amet." required bind:value={$form.description}></textarea>
                     <Asterisk />
                 </div>
                 <InputError message={$form.errors.description} />
@@ -107,7 +108,7 @@
                 <div class="padding-btm col-flex full-width">
                     <Label for="latitude">Startdatum</Label>
                     <div class="flex-s-gap align-center">
-                        <input class="full-width" type="date" name="start_date" id="start_date" placeholder="Start Date" required bind:value={$form.start_date} />
+                        <input class="full-width padding-s bg-secondary border-radius base" type="date" name="start_date" id="start_date" placeholder="Start Date" required bind:value={$form.start_date} />
                         <Asterisk />
                     </div>
                     <InputError message={$form.errors.start_date} />
@@ -116,7 +117,7 @@
                 <div class="padding-btm col-flex full-width">
                     <Label for="latitude">Einddatum</Label>
                     <div class="flex-s-gap align-center">
-                        <input class="full-width" type="date" name="end_date" id="end_date" placeholder="End Date" required bind:value={$form.end_date} />
+                        <input class="full-width padding-s bg-secondary border-radius base" type="date" name="end_date" id="end_date" placeholder="End Date" required bind:value={$form.end_date} />
                         <Asterisk />
                     </div>
                     <InputError message={$form.errors.end_date} />

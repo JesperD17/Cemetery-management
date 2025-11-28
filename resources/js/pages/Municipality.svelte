@@ -211,8 +211,9 @@
                         </div>
                         <div class="col-flex">
                             <Label for="description">Beschrijving</Label>
-                            <div class="flex-s-gap align-center">
+                            <div class="flex-s-gap align-center desc">
                                 <textarea 
+                                    class="border-radius"
                                     rows="7" 
                                     cols="50" 
                                     bind:value={form.description} 
@@ -254,8 +255,9 @@
                     </div>
                     <div class="col-flex desc">
                         <Label for="description">Beschrijving</Label>
-                        <div class="flex-s-gap align-center">
+                        <div class="flex-s-gap align-center desc">
                             <textarea 
+                                class="border-radius"
                                 rows="7" 
                                 cols="50" 
                                 bind:value={form2.description} 
