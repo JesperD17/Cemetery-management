@@ -23,9 +23,6 @@
                 <!-- <Link href={route('import')}>
                     Excel import
                 </Link> -->
-                <Link href={route('admin')}>
-                    Admin
-                </Link>
                 <Link href={route('profiel')}>
                     Profiel
                 </Link>

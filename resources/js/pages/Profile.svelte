@@ -53,7 +53,7 @@
         try {
             const csrfToken = getXsrfFromCookie();
 
-            const res = await fetch("/profiel", {
+            const res = await fetch("/profile", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
