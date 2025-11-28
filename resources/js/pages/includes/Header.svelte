@@ -19,22 +19,10 @@
             Home
         </Link>
         {#if (propUser ?? derivedUser)}
-            <Link href={route('begraafplaatsen')}>
-                begraafplaatsen
-            </Link>
             {#if (userRole !== 'rechthebbende')}
                 <!-- <Link href={route('import')}>
                     Excel import
                 </Link> -->
-                <Link href={route('nieuwe-gebruiker')}>
-                    Nieuwe gebruiker
-                </Link>
-                <Link href={route('nieuw-graf')}>
-                    Nieuw graf
-                </Link>
-                <Link href={route('accounts')}>
-                    Accounts
-                </Link>
                 <Link href={route('profiel')}>
                     Profiel
                 </Link>
