@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class UserApiController extends Controller
 {
@@ -34,15 +35,19 @@ class UserApiController extends Controller
             return response()->json(['error' => 'Not authenticated'], 401);
         }
 
-        $validated = $request->validate([
-            'first_name'   => 'required|string|max:255',
-            'infix'        => 'nullable|string|max:255',
-            'last_name'    => 'required|string|max:255',
-            'address'      => 'required|string|max:255',
-            'zip_code'     => 'required|string|max:20',
-            'email'        => 'required|email|max:255|unique:users,email,' . $user->id,
-            'phone_number' => 'nullable|string|max:20',
-        ]);
+        try {
+            $validated = $request->validate([
+                'first_name'   => 'required|string|max:255',
+                'infix'        => 'nullable|string|max:255',
+                'last_name'    => 'required|string|max:255',
+                'address'      => 'required|string|max:255',
+                'zip_code'     => 'required|string|max:20',
+                'email'        => 'required|email|max:255|unique:users,email,' . $user->id,
+                'phone_number' => 'nullable|string|max:20',
+            ]);
+        } catch (ValidationException $e) {
+            return back(303)->withErrors($e->errors());
+        }
 
         $user->update($validated);
 

@@ -128,7 +128,9 @@
                 <div class="padding-btm succes-message">{$page.props.flash.success}</div>
             {/if}
             {#if $page.props?.flash?.error}
-                <InputError message={$page.props.flash.error} />
+                <div class="padding-btm">
+                    <InputError message={$page.props.flash.error} />
+                </div>
             {/if}
             
             <div>

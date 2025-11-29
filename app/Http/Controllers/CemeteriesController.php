@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\GravesController;
+use Illuminate\Validation\ValidationException;
 
 class CemeteriesController extends Controller
 {
@@ -42,20 +43,22 @@ class CemeteriesController extends Controller
         return response()->json($cemetery);
     }
 
-    public function updateCemetery($id)
+    public function updateCemetery(Request $request, $id)
     {
-        $data = request()->only([
-            'name',
-            'address',
-            'zip_code',
-            'city',
-            'phone_number',
-            'email',
-            'description',
-        ]);
-
-        DB::table('cemeteries')->where('id', $id)->update($data);
-
-        return response()->json(['message' => 'Cemetery updated successfully']);
+        try {
+            $data = $request->validate([
+                'name' => 'required|string|max:255',
+                'address' => 'nullable|string|max:255',
+                'zip_code' => 'nullable|string|max:20',
+                'city' => 'nullable|string|max:100',
+                'phone_number' => 'nullable|string|max:50',
+                'email' => 'nullable|email|max:255',
+                'description' => 'nullable|string',
+            ]);
+            DB::table('cemeteries')->where('id', $id)->update($data);
+            return response()->json(['message' => 'Cemetery updated successfully']);
+        } catch (ValidationException $e) {
+            return back(303)->withErrors($e->errors());
+        }
     }
 }

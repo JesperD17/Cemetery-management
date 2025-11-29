@@ -17,14 +17,22 @@ class GraveController extends Controller
             'latitude' => 'required|string|max:255',
             'longitude' => 'required|string|max:255',
             'image_hash_url' => 'required|string|max:255',
-            'grave_number' => 'required|string|max:255',
+            'grave_number' => 'required|string|max:255|unique:graves,grave_number',
             'status_id' => 'required|integer',
             'description' => 'nullable|string|max:1000',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+         $messages = [
+            'grave_number.unique' => 'Dit graafnummer is al in gebruik.',
+        ];
+
+        $attributes = [
+            'grave_number' => 'graafnummer',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages, $attributes);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
