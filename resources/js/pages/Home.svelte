@@ -1,7 +1,7 @@
 <script lang="ts">
     import AppLayout from '@/layouts/AppLayout.svelte';
     import { Link, page } from '@inertiajs/svelte';
-    import { TableOfContents, BookPlus, UserRoundPlus, UsersRound } from 'lucide-svelte';
+    import { TableOfContents, BookPlus, UserRoundPlus, UsersRound, Warehouse } from 'lucide-svelte';
 
     interface Props {
         user?: any;
@@ -50,7 +50,7 @@
             {/if}
             {#if (userRole === 'super admin' || userRole === 'admin')}
                 <a href={route('gemeentes')} class="tile">
-                    <TableOfContents size={60} />
+                    <Warehouse size={60} />
                     <p class="tile-text">
                         Gemeentes
                     </p>
