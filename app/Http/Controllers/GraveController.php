@@ -6,22 +6,39 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 Use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class GraveController extends Controller
 {
     public function index(Request $request)
     {
-        $validatedData = $request->validate([
+        $rules = [
             'cemetery_id' => 'required|integer',
             'latitude' => 'required|string|max:255',
             'longitude' => 'required|string|max:255',
             'image_hash_url' => 'required|string|max:255',
-            'grave_number' => 'required|string|max:255',
+            'grave_number' => 'required|string|max:255|unique:graves,grave_number',
             'status_id' => 'required|integer',
             'description' => 'nullable|string|max:1000',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
-        ]);
+        ];
+
+         $messages = [
+            'grave_number.unique' => 'Dit graafnummer is al in gebruik.',
+        ];
+
+        $attributes = [
+            'grave_number' => 'graafnummer',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages, $attributes);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $validatedData = $validator->validated();
 
         try {
             DB::table('graves')->insert([

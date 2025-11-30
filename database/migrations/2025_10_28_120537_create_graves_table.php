@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string("latitude");
             $table->string("longitude");
             $table->string("image_hash_url")->nullable();
-            $table->unsignedInteger("grave_number");
+            $table->unsignedInteger("grave_number")->unique();
             $table->unsignedBigInteger("status_id");
             $table->text("description")->nullable();
             $table->date("start_date");

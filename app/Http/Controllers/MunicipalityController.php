@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class MunicipalityController extends Controller
 {
@@ -15,10 +16,14 @@ class MunicipalityController extends Controller
 
     public function update(Request $request, $id)
     {
+        try {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
         ]);
+        } catch (ValidationException $e) {
+            return back(303)->withErrors($e->errors());
+        }
 
         DB::table('municipalities')
             ->where('id', $id)
@@ -33,10 +38,14 @@ class MunicipalityController extends Controller
 
     public function store(Request $request)
     {
+        try {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
         ]);
+        } catch (ValidationException $e) {
+            return back(303)->withErrors($e->errors());
+        }
 
         DB::table('municipalities')->insert([
             'name' => $validatedData['name'],
@@ -46,5 +55,6 @@ class MunicipalityController extends Controller
         ]);
 
         return response()->json(['message' => 'Municipality created successfully']);
+
     }
 }
