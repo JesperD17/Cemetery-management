@@ -25,11 +25,11 @@ class GraveController extends Controller
         ];
 
          $messages = [
-            'grave_number.unique' => 'Dit graafnummer is al in gebruik.',
+            'grave_number.unique' => 'Dit grafnummer is al in gebruik.',
         ];
 
         $attributes = [
-            'grave_number' => 'graafnummer',
+            'grave_number' => 'grafnummer',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages, $attributes);
