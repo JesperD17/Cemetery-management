@@ -116,20 +116,28 @@
                 <div class="col-flex gap">
                     <div class="row-flex gap justify-between">
                         <div>Naam:</div>
-                        {cemeteryData.name}
+                        <div>
+                            {cemeteryData.name}
+                        </div>
                     </div>
                     <div class="row-flex gap justify-between">
                         <div>Locatie:</div>
-                        {cemeteryData.city}
+                        <div>
+                            {cemeteryData.city}
+                        </div>
                     </div>
                     <div class="row-flex gap justify-between">
                         <div>Beschrijving:</div>
-                        {cemeteryData.description ? cemeteryData.description : 'Lege beschrijving'}
+                        <div class="overflow-scroll-description">
+                            {cemeteryData.description ? cemeteryData.description : 'Lege beschrijving'}
+                        </div>
                     </div>
                     <div class="row-flex gap justify-between">
                         <div>Adres:</div>
-                        {cemeteryData.address}
-                        {cemeteryData.zip_code}
+                        <div>
+                            {cemeteryData.address}
+                            {cemeteryData.zip_code}
+                        </div>
                     </div>
                     <div class="row-flex gap justify-between">
                         <Link class="btn primary" href="/begraafplaatsen/overzicht/{cemeteryData.id}" as="button">Ga naar overzicht</Link>
@@ -213,7 +221,16 @@
                     <div class="col-flex padding-btm">
                         <Label for="description">Beschrijving</Label>
                         <div class="flex-s-gap align-center">
-                            <Input id="description" type="text" tabindex={1} autocomplete="name" bind:value={form.description} />
+                            <!-- <Input id="description" type="text" tabindex={1} autocomplete="name" bind:value={form.description} /> -->
+                            <textarea
+                                id="description"
+                                rows="7" 
+                                cols="50" 
+                                class="input full-width"
+                                tabindex={1}
+                                bind:value={form.description}
+                                placeholder="Optioneel"
+                            ></textarea>
                         </div>
                         <InputError message={form.errors?.description} />
                     </div>

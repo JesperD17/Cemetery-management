@@ -74,9 +74,9 @@
                 Locatie {cemeteryDetails.name}
             </div>
             <div class="section">
-                <div class="flex-m-gap">
+                <div class="flex-m-gap wrap">
                     {#each cards as card}
-                        <div class="row-flex full-width card-grave border-radius border-primary">
+                        <div class="row-flex full-width card-grave border-radius border-primary" style="width: 49%;">
                             <img src="/images/dummy.png" alt="dummy img" class="border-radius-t cover full-height" />
                             <div class="col-flex justify-center">
                                 <div class="padding-all col-flex">

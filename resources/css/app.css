@@ -413,11 +413,10 @@ input.base, select.base {
     padding: var(--padding-fields);
 }
 
-/* .desc input {
-    width: 300px;
+.desc textarea {
     height: 150px;
     align-items: flex-start;
-} */
+}
 
 /* btns */
 button.base, a.base, .btn {
@@ -495,6 +494,15 @@ tbody tr:last-child td:first-child {
     border-bottom-left-radius: var(--border-radius);
 }
 
+.overflow-scroll-description {
+    display: flex;
+    max-width: 80%;
+    max-height: 500px;
+    overflow: auto;
+    word-break: break-word;
+    justify-content: end;
+}
+
 /* animations */
 /* spinner */
 .spinner {
@@ -510,6 +518,12 @@ tbody tr:last-child td:first-child {
     position: absolute;
     top: 16px;
     right: 16px;
+}
+
+/* global styles */
+textarea {
+    resize: none;
+    border-radius: var(--border-radius);
 }
 
 /*  */
