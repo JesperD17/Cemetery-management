@@ -17,6 +17,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Middleware\RequestTypes;
 use App\Http\Controllers\GraveController;
+use App\Http\Controllers\UserApiController;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
@@ -42,6 +43,10 @@ Route::middleware('auth')->group(function () {
         ->name('nieuwe-gebruiker');
 
     Route::post('nieuwe-gebruiker', [RegisteredUserController::class, 'store']);
+
+    Route::get('/user', [UserApiController::class, 'profile']);
+    Route::put('/profile', [UserApiController::class, 'update']);
+
         
     Route::post('/nieuw-graf', [GraveController::class, 'index']);
 
