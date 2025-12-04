@@ -43,9 +43,9 @@ Route::inertia('/profiel', 'Profile')
 Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
 Route::middleware(['auth'])->put('/profile', [UserApiController::class, 'update']);
 
-Route::inertia('/gemeentes', 'Municipality')
-    ->middleware(['auth', EnsureAdminRole::class])
-    ->name('gemeentes');
+// Route::inertia('/gemeentes', 'Municipality')
+//     ->middleware(['auth', EnsureAdminRole::class])
+//     ->name('gemeentes');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
