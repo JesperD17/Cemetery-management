@@ -1,5 +1,4 @@
 <script lang="js">
-    import InputError from '@/components/InputError.svelte';
     import Input from '@/Components/ui/input/input.svelte';
     import Label from '@/Components/ui/label/label.svelte';
     import AppLayout from '@/layouts/AppLayout.svelte';
@@ -185,38 +184,9 @@
     </div>
 </AppLayout>
 
-    <ModalLayout bind:this={editModal} title="Gemeente bewerken" on:open={onEditOpen} on:close={onModalClose}>
-        <form on:submit={saveMunicipality}>
-            <div class="flex-m-gap col-flex">
-                <div class="flex-m-gap col-flex">
-                    <SingleInput
-                        type="text"
-                        name="name"
-                        visible_name="Naam"
-                        placeholder="Vul de naam van de gemeente in"
-                        requiredBool={true}
-                        bind:form
-                    />
-                    <SingleInput
-                        type="textarea"
-                        name="description"
-                        visible_name="Beschrijving"
-                        placeholder="Vul een beschrijving van de gemeente in"
-                        requiredBool={false}
-                        bind:form
-                    />
-                </div>
-                <div class="full-width flex-m-gap">
-                    <button class="base full-width" type="button" on:click={() => editModal.close()}>Annuleer</button>
-                    <button class="base full-width" type="submit">Opslaan</button>
-                </div>
-            </div>
-        </form>
-    </ModalLayout>
-    
-
-    <ModalLayout bind:this={createModal} title="Gemeente aanmaken" on:open={onCreateOpen} on:close={onModalClose}>
-        <form on:submit={saveNewMunicipality}>
+<ModalLayout bind:this={editModal} title="Gemeente bewerken" on:open={onEditOpen} on:close={onModalClose}>
+    <form on:submit={saveMunicipality}>
+        <div class="flex-m-gap col-flex">
             <div class="flex-m-gap col-flex">
                 <SingleInput
                     type="text"
@@ -224,7 +194,7 @@
                     visible_name="Naam"
                     placeholder="Vul de naam van de gemeente in"
                     requiredBool={true}
-                    bind:form={form2}
+                    bind:form
                 />
                 <SingleInput
                     type="textarea"
@@ -232,13 +202,42 @@
                     visible_name="Beschrijving"
                     placeholder="Vul een beschrijving van de gemeente in"
                     requiredBool={false}
-                    bind:form={form2}
+                    bind:form
                 />
-                <div class="full-width flex-m-gap">
-                    <button class="base full-width" type="button" on:click={() => createModal.close()}>Annuleer</button>
-                    <button class="base full-width" type="submit">Opslaan</button>
-                </div>
             </div>
-        </form>
-    </ModalLayout>
+            <div class="full-width flex-m-gap">
+                <button class="base full-width" type="button" on:click={() => editModal.close()}>Annuleer</button>
+                <button class="base full-width" type="submit">Opslaan</button>
+            </div>
+        </div>
+    </form>
+</ModalLayout>
+
+
+<ModalLayout bind:this={createModal} title="Gemeente aanmaken" on:open={onCreateOpen} on:close={onModalClose}>
+    <form on:submit={saveNewMunicipality}>
+        <div class="flex-m-gap col-flex">
+            <SingleInput
+                type="text"
+                name="name"
+                visible_name="Naam"
+                placeholder="Vul de naam van de gemeente in"
+                requiredBool={true}
+                bind:form={form2}
+            />
+            <SingleInput
+                type="textarea"
+                name="description"
+                visible_name="Beschrijving"
+                placeholder="Vul een beschrijving van de gemeente in"
+                requiredBool={false}
+                bind:form={form2}
+            />
+            <div class="full-width flex-m-gap">
+                <button class="base full-width" type="button" on:click={() => createModal.close()}>Annuleer</button>
+                <button class="base full-width" type="submit">Opslaan</button>
+            </div>
+        </div>
+    </form>
+</ModalLayout>
     
