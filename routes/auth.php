@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CemeteriesController;
+use App\Http\Controllers\DeceasedController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GravesController;
 use App\Http\Controllers\MunicipalityController;
@@ -87,5 +88,8 @@ Route::middleware('auth')->group(function () {
         ->middleware(EnsureAdminRole::class);
 
     Route::put('/municipalities/{id}', [MunicipalityController::class, 'update'])
-    ->middleware(EnsureAdminRole::class);
+        ->middleware(EnsureAdminRole::class);
+
+    Route::post('/api/new-deceased', [DeceasedController::class, 'store'])
+        ->middleware(EnsureAdminRole::class);
 });

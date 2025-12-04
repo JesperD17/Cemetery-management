@@ -2,7 +2,8 @@
     import AppLayout from "@/layouts/AppLayout.svelte";
     import DuoInput from "@/layouts/custom/components/DuoInput.svelte";
     import SingleInput from "@/layouts/custom/components/SingleInput.svelte";
-    import { useForm } from "@inertiajs/svelte";
+    import InputError from "@/components/InputError.svelte";
+    import { useForm, page } from "@inertiajs/svelte";
 
     let form = useForm({
         first_name: '',
@@ -17,9 +18,9 @@
         e.preventDefault();
         console.log($form);
 
-        $form.post(route('new-deceased'), {
+        $form.post(route('api.new-deceased'), {
             forceFormData: true,
-            onFinish: () => $form.reset(),
+            onSuccess: () => $form.reset(),
         });
     };
 </script>
@@ -77,6 +78,15 @@
                 requiredBool={false}
                 bind:form
             />
+
+            {#if $page.props?.flash?.success}
+                <div class="padding-btm succes-message">{$page.props.flash.success}</div>
+            {/if}
+            {#if $page.props?.flash?.error}
+                <div class="padding-btm">
+                    <InputError message={$page.props.flash.error} />
+                </div>
+            {/if}
 
             <div class="full-width flex-m-gap">
                 <button class="base full-width" type="submit">Overledene opslaan</button>
