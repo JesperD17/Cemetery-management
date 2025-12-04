@@ -1,7 +1,4 @@
 <?php
-
-
-
     namespace App\Http\Middleware;
     
     use Closure;
@@ -20,7 +17,7 @@
                 4 => 'super admin',
             };
             
-            if ($userRole === 'admin' || $userRole === 'super admin') {
+            if ($userRole === 'super admin' || $userRole === 'beheerder') {
                 return $next($request);
             }
     
