@@ -3,22 +3,25 @@
     import Input from '@/Components/ui/input/input.svelte';
     import Label from '@/Components/ui/label/label.svelte';
     import AppLayout from '@/layouts/AppLayout.svelte';
-    import Choice from '@/layouts/custom/components/RoleChoice.svelte';
+    import SingleInput from "@/layouts/custom/components/SingleInput.svelte";
+    import ModalLayout from '@/layouts/custom/components/ModalLayout.svelte';
+    import { useForm } from '@inertiajs/svelte';
 
     var municipalities = 'laden...';
-    let showModal = false;
-    let showModal2 = false;
+    
     let selected = null;
+    let editModal;
+    let createModal;
 
-    let form = {
+    let form = useForm({
         name: '',
         description: '',
-    };
+    });
 
-    let form2 = {
+    let form2 = useForm({
         name: '',
         description: '',
-    };
+    });
 
     let search = '';
     $: filteredMunicipalities = Array.isArray(municipalities)
@@ -46,26 +49,22 @@
         }
     }
 
-    function openEdit(municipality) {
-        selected = municipality;
-        form = {
-            name: municipality.name ?? '',
-            description: municipality.description ?? '',
-        };
-        showModal = true;
+    function onEditOpen(e) {
+        const payload = e.detail;
+        
+        selected = payload;
+        $form.name = payload?.name ?? '';
+        $form.description = payload?.description ?? '';
+        $form.errors = {};
     }
 
-    function openEdit2() {
-        showModal2 = true;
+    function onCreateOpen() {
+        $form2.name = '';
+        $form2.description = '';
+        $form2.errors = {};
     }
 
-    function closeModal() {
-        showModal = false;
-        selected = null;
-    }
-
-    function closeModal2() {
-        showModal2 = false;
+    function onModalClose() {
         selected = null;
     }
 
@@ -78,7 +77,7 @@
         e.preventDefault();
         if (!selected) return;
         try {
-            const payload = { ...form };
+            const payload = { ...$form };
             const csrfToken = getXsrfFromCookie();
 
             const res = await fetch(`/municipalities/${selected.id}`, {
@@ -94,7 +93,7 @@
             });
             if (!res.ok) throw new Error('Update failed');
             await fetchMunicipalities();
-            closeModal();
+            editModal.close();
         } catch (err) {
             console.error(err);
             alert('Bijwerken mislukt');
@@ -104,9 +103,9 @@
     async function saveNewMunicipality(e) {
         e.preventDefault();
         try {
-            const payload = { ...form2 };
+            const payload = { ...$form2 };
             const csrfToken = getXsrfFromCookie();
-
+            
             const res = await fetch(`/municipalities`, {
                 method: 'POST',
                 headers: {
@@ -120,7 +119,7 @@
             });
             if (!res.ok) throw new Error('Creation failed');
             await fetchMunicipalities();
-            closeModal2();
+            createModal.close();
         } catch (err) {
             console.error(err);
             alert('Aanmaken mislukt');
@@ -144,7 +143,7 @@
     <div class="padding-all">
         <h1 class="h2 margin-bottom start-text row-flex justify-between align-center">
             Gemeentes beheren
-            <button class="base" onclick={openEdit2}>Nieuwe gemeente</button>
+            <button class="base" on:click={() => createModal.open()}>Nieuwe gemeente</button>
         </h1>
 
         {#await municipalitiesPromise}
@@ -172,7 +171,7 @@
                                     <td>{municipality.name}</td>
                                     <td>{municipality.description ?? 'Leeg'}</td>
                                     <td class="border-unset">
-                                        <button class="base" id={municipality.id} onclick={() => openEdit(municipality)}>Bewerk</button>
+                                        <button class="base" id={municipality.id} on:click={() => editModal.open(municipality)}>Bewerk</button>
                                     </td>
                                 </tr>
                             {/each}
@@ -186,92 +185,60 @@
     </div>
 </AppLayout>
 
-{#if showModal}
-    <div class="bg-modal-primary">
-        <div open={showModal} onClose={closeModal} class="modal-primary">
-            <h2 class="h2 margin-bottom">Gemeente bewerken</h2>
-            <form onsubmit={saveMunicipality}>
+    <ModalLayout bind:this={editModal} title="Gemeente bewerken" on:open={onEditOpen} on:close={onModalClose}>
+        <form on:submit={saveMunicipality}>
+            <div class="flex-m-gap col-flex">
                 <div class="flex-m-gap col-flex">
-                    <div class="flex-m-gap col-flex">
-                        <div class="col-flex">
-                            <Label for="name">Naam</Label>
-                            <div class="flex-s-gap align-center">
-                                <Input
-                                    id="name"
-                                    type="text"
-                                    required
-                                    autofocus
-                                    tabindex={1}
-                                    autocomplete="name"
-                                    bind:value={form.name}
-                                    placeholder="Volledige"
-                                />
-                            </div>
-                            <InputError message={form.errors?.name} />
-                        </div>
-                        <div class="col-flex">
-                            <Label for="description">Beschrijving</Label>
-                            <div class="flex-s-gap align-center desc">
-                                <textarea 
-                                    class="border-radius"
-                                    rows="7" 
-                                    cols="50" 
-                                    bind:value={form.description} 
-                                    placeholder="Optioneel">
-                                </textarea>
-                            </div>
-                            <InputError message={form.errors?.description} />
-                        </div>
-                    </div>
-                    <div class="full-width flex-m-gap">
-                        <button class="base full-width" type="button" onclick={closeModal}>Annuleer</button>
-                        <button class="base full-width" type="submit">Opslaan</button>
-                    </div>
+                    <SingleInput
+                        type="text"
+                        name="name"
+                        visible_name="Naam"
+                        placeholder="Vul de naam van de gemeente in"
+                        requiredBool={true}
+                        bind:form
+                    />
+                    <SingleInput
+                        type="textarea"
+                        name="description"
+                        visible_name="Beschrijving"
+                        placeholder="Vul een beschrijving van de gemeente in"
+                        requiredBool={false}
+                        bind:form
+                    />
                 </div>
-            </form>
-        </div>
-    </div>
-{:else if showModal2}
-    <div class="bg-modal-primary">
-        <div open={showModal2} onClose={closeModal2} class="modal-primary">
-            <h2 class="h2 margin-bottom">Gemeente aanmaken</h2>
-            <form onsubmit={saveNewMunicipality}>
-                <div class="flex-m-gap col-flex">
-                    <div class="col-flex">
-                        <Label for="name">Naam</Label>
-                        <div class="flex-s-gap align-center">
-                            <Input
-                                id="name"
-                                type="text"
-                                required
-                                autofocus
-                                tabindex={1}
-                                autocomplete="name"
-                                bind:value={form2.name}
-                                placeholder="Verplicht"
-                            />
-                        </div>
-                        <InputError message={form2.errors?.name} />
-                    </div>
-                    <div class="col-flex desc">
-                        <Label for="description">Beschrijving</Label>
-                        <div class="flex-s-gap align-center desc">
-                            <textarea 
-                                class="border-radius"
-                                rows="7" 
-                                cols="50" 
-                                bind:value={form2.description} 
-                                placeholder="Optioneel">
-                            </textarea>
-                        </div>
-                        <InputError message={form2.errors?.description} />
-                    </div>
-                    <div class="full-width flex-m-gap">
-                        <button class="base full-width" type="button" onclick={closeModal2}>Annuleer</button>
-                        <button class="base full-width" type="submit">Opslaan</button>
-                    </div>
+                <div class="full-width flex-m-gap">
+                    <button class="base full-width" type="button" on:click={() => editModal.close()}>Annuleer</button>
+                    <button class="base full-width" type="submit">Opslaan</button>
                 </div>
-            </form>
-        </div>
-    </div>
-{/if}
+            </div>
+        </form>
+    </ModalLayout>
+    
+
+    <ModalLayout bind:this={createModal} title="Gemeente aanmaken" on:open={onCreateOpen} on:close={onModalClose}>
+        <form on:submit={saveNewMunicipality}>
+            <div class="flex-m-gap col-flex">
+                <SingleInput
+                    type="text"
+                    name="name"
+                    visible_name="Naam"
+                    placeholder="Vul de naam van de gemeente in"
+                    requiredBool={true}
+                    bind:form={form2}
+                />
+                <SingleInput
+                    type="textarea"
+                    name="description"
+                    visible_name="Beschrijving"
+                    placeholder="Vul een beschrijving van de gemeente in"
+                    requiredBool={false}
+                    bind:form={form2}
+                />
+                <div class="full-width flex-m-gap">
+                    <button class="base full-width" type="button" on:click={() => createModal.close()}>Annuleer</button>
+                    <button class="base full-width" type="submit">Opslaan</button>
+                </div>
+            </div>
+        </form>
+    </ModalLayout>
+    
