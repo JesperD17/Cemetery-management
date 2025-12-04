@@ -329,6 +329,10 @@ html, body {
     height: 150px;
 }
 
+.content-width {
+    width: max-content;
+}
+
 .full-width {
     width: 100%;
 }
@@ -413,7 +417,7 @@ input.base, select.base {
     padding: var(--padding-fields);
 }
 
-.desc textarea {
+.desc textarea, .desc {
     height: 150px;
     align-items: flex-start;
 }
@@ -451,6 +455,7 @@ button.primary:hover, a.primary:hover, .btn.primary:hover {
     position: absolute;
     top: 50%;
     left: 50%;
+    min-width: 400px;
     transform: translate(-50%, -50%);
     background: white;
     padding: var(--margin-padding);
@@ -476,6 +481,7 @@ th, td {
     padding: var(--padding-fields);
     border: solid 2px #d7d7d7;
     text-align: left;
+    word-break: break-word;
 }
 
 thead tr th:first-child { 
