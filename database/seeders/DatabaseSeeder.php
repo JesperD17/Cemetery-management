@@ -3,11 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Roles;
-use App\Models\Cemeteries;
-use App\Models\Graves;
-use App\Models\Deceased;
-use App\Models\GraveOfDeceased;
-use App\Models\GraveUsers;
 use App\Models\GraveStatuses;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
