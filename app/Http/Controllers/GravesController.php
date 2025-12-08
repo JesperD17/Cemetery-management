@@ -35,6 +35,7 @@ class GravesController extends Controller
         if (in_array(strtolower($roleName ?? ''), ['admin', 'super admin', 'editor'])) {
             $query = DB::table('graves as G')
                 ->select(
+                    'G.id AS grave_id',
                     'G.cemetery_id',
                     'G.latitude',
                     'G.longitude',

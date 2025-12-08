@@ -12,11 +12,11 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CemeteriesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GravesController;
+use App\Http\Controllers\GraveController;
 use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Middleware\RequestTypes;
-use App\Http\Controllers\GraveController;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/cemeteryById', [CemeteriesController::class, 'id']);
     Route::put('/updateCemetery/{id}', [CemeteriesController::class, 'updateCemetery']);
     Route::get('/graves', [GravesController::class, 'index']);
+    Route::get('/graveById', [GraveController::class, 'id']);
     Route::get('/roles', [RolesController::class, 'index'])
         ->middleware(RequestTypes::class);
     Route::get('/getAccounts', [AccountsController::class, 'index'])
