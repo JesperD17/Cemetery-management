@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GravesController;
 use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\RolesController;
-use App\Http\Middleware\EnsureAdminRole;
+use App\Http\Middleware\EnsureMangerRole;
 use App\Http\Middleware\RequestTypes;
 use App\Http\Controllers\GraveController;
+use App\Http\Controllers\GraveDeceasedController;
 use App\Http\Controllers\UserApiController;
 
 Route::middleware('guest')->group(function () {
@@ -70,10 +71,12 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
-    Route::get('/cemeteries', [CemeteriesController::class, 'index']);
+    Route::get('/api/cemeteries', [CemeteriesController::class, 'index']);
     Route::get('/cemeteryById', [CemeteriesController::class, 'id']);
     Route::put('/updateCemetery/{id}', [CemeteriesController::class, 'updateCemetery']);
     Route::get('/graves', [GravesController::class, 'index']);
+    Route::get('/api/gravesByCemetery/{cemeteryID}', [GravesController::class, 'show']);
+    Route::get('/api/graveDeceased/{graveID}/{deceasedID}', [GraveDeceasedController::class, 'store']);
     Route::get('/roles', [RolesController::class, 'index'])
         ->middleware(RequestTypes::class);
     Route::get('/getAccounts', [AccountsController::class, 'index'])
@@ -82,14 +85,14 @@ Route::middleware('auth')->group(function () {
         ->middleware(RequestTypes::class);
 
     Route::get('/municipalities', [MunicipalityController::class, 'show'])
-        ->middleware(EnsureAdminRole::class);
+        ->middleware(EnsureMangerRole::class);
 
     Route::post('/municipalities', [MunicipalityController::class, 'store'])
-        ->middleware(EnsureAdminRole::class);
+        ->middleware(EnsureMangerRole::class);
 
     Route::put('/municipalities/{id}', [MunicipalityController::class, 'update'])
-        ->middleware(EnsureAdminRole::class);
+        ->middleware(EnsureMangerRole::class);
 
     Route::post('/api/new-deceased', [DeceasedController::class, 'store'])
-        ->middleware(EnsureAdminRole::class);
+        ->middleware(EnsureMangerRole::class);
 });
