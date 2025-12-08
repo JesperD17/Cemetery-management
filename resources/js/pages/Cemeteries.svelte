@@ -11,7 +11,7 @@
 
     async function fetchCemeteries() {
         try {
-            const response = await fetch(`/cemeteries`, {
+            const response = await fetch(`/api/cemeteries`, {
                 headers: {
                     Accept: 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
