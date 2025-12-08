@@ -5,7 +5,7 @@
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
     
-    class EnsureAdminRole
+    class EnsureMangerRole
     {
         public function handle(Request $request, Closure $next)
         {
