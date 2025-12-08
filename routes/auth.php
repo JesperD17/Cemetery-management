@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CemeteriesController;
+use App\Http\Controllers\DeceasedController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GravesController;
 use App\Http\Controllers\GraveController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Middleware\RequestTypes;
+use App\Http\Controllers\UserApiController;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
@@ -42,6 +44,10 @@ Route::middleware('auth')->group(function () {
         ->name('nieuwe-gebruiker');
 
     Route::post('nieuwe-gebruiker', [RegisteredUserController::class, 'store']);
+
+    Route::get('/user', [UserApiController::class, 'profile']);
+    Route::put('/profile', [UserApiController::class, 'update']);
+
         
     Route::post('/nieuw-graf', [GraveController::class, 'index']);
 
@@ -83,5 +89,8 @@ Route::middleware('auth')->group(function () {
         ->middleware(EnsureAdminRole::class);
 
     Route::put('/municipalities/{id}', [MunicipalityController::class, 'update'])
-    ->middleware(EnsureAdminRole::class);
+        ->middleware(EnsureAdminRole::class);
+
+    Route::post('/api/new-deceased', [DeceasedController::class, 'store'])
+        ->middleware(EnsureAdminRole::class);
 });

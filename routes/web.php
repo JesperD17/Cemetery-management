@@ -1,12 +1,9 @@
 <?php
 
-use App\Http\Controllers\AccountsController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ExcelController;
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\EnsureAdminRole;
-use App\Http\Controllers\UserApiController;
+use App\Http\Middleware\EnsureNotRightHolder;
 
 
 Route::inertia('/', 'Home')
@@ -18,7 +15,7 @@ Route::inertia('/begraafplaatsen', 'Cemeteries')
 
 Route::get('/begraafplaatsen/bewerk/{id}', function ($id) {
     return Inertia::render('EditCemetery', ['id' => $id]);
-})->middleware(['auth'])->name('begraafplaatsen.bewerk');
+})->middleware(['auth', EnsureAdminRole::class])->name('begraafplaatsen.bewerk');
 
 Route::get('/begraafplaatsen/overzicht/{id}', function ($id) {
     return Inertia::render('Overview', ['id' => $id]);
@@ -34,18 +31,21 @@ Route::inertia('/accounts', 'Accounts')
 
 Route::get('/nieuw-graf', function () {
     return Inertia::render('NewGrave');
-})->middleware(['auth'])->name('nieuw-graf');
+})->middleware(['auth', EnsureAdminRole::class])->name('nieuw-graf');
 
-Route::post('/import', [ExcelController::class, 'import'])->name('import');
+// Route::post('/import', [ExcelController::class, 'import'])->name('import');
 
-Route::inertia('/CemeteryCreate', 'CemeteryCreate')
-    ->name('CemeteryCreate');
+Route::inertia('/begraafplaats-aanmaken', 'CemeteryCreate')
+    ->middleware(['auth', EnsureAdminRole::class])
+    ->name('begraafplaats-aanmaken');
 
 Route::inertia('/profiel', 'Profile')
+    ->middleware(['auth'])
     ->name('profiel');
 
-Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
-Route::middleware(['auth'])->put('/profile', [UserApiController::class, 'update']);
+Route::inertia('/nieuwe-overledene', 'NewDeceased')
+    ->middleware(['auth', EnsureAdminRole::class])
+    ->name('nieuwe-overledene');
 
 Route::inertia('/gemeentes', 'Municipality')
     ->middleware(['auth', EnsureAdminRole::class])

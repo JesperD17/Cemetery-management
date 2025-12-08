@@ -1,23 +1,26 @@
 <script lang="js">
-    import InputError from '@/components/InputError.svelte';
-    import Input from '@/Components/ui/input/input.svelte';
-    import Label from '@/Components/ui/label/label.svelte';
     import AppLayout from '@/layouts/AppLayout.svelte';
+    import { useForm } from '@inertiajs/svelte';
+    import ModalLayout from '@/layouts/custom/components/ModalLayout.svelte';
+    import SingleInput from '@/layouts/custom/components/SingleInput.svelte';
+    import DuoInput from '@/layouts/custom/components/DuoInput.svelte';
     import { Link } from '@inertiajs/svelte';
     import { Loader } from 'lucide-svelte';
 
     export let id;
 
     let cemeteryData = null;
-    let showModal = false;
     let selected = null;
-    let form = {
+    let editModal;
+
+    let form = useForm({
         name: '',
         city: '',
         address: '',
         zip_code: '',
         description: '',
-    };
+        errors: {},
+    });
 
     async function fetchCemeteryById(queryId = id) {
         console.log(queryId);
@@ -47,19 +50,21 @@
     })();
 
     function openEdit(data) {
-        selected = data;
-        form = {
-            name: data.name,
-            city: data.city,
-            address: data.address,
-            zip_code: data.zip_code,
-            description: data.description,
-        };
-        showModal = true;
+        editModal.open(data);
     }
 
-    function closeModal() {
-        showModal = false;
+    function onEditOpen(e) {
+        const payload = e.detail;
+        selected = payload;
+        $form.name = payload?.name ?? '';
+        $form.city = payload?.city ?? '';
+        $form.address = payload?.address ?? '';
+        $form.zip_code = payload?.zip_code ?? '';
+        $form.description = payload?.description ?? '';
+        $form.errors = {};
+    }
+
+    function onModalClose() {
         selected = null;
     }
 
@@ -72,7 +77,7 @@
         e.preventDefault();
         if (!selected) return;
         try {
-            const payload = { ...form };
+            const payload = { ...$form };
             const csrfToken = getXsrfFromCookie();
 
             const res = await fetch(`/updateCemetery/${selected.id}`, {
@@ -88,7 +93,7 @@
             });
             if (!res.ok) throw new Error('Update failed');
             await fetchCemeteryById(id);
-            closeModal();
+            editModal.close();
         } catch (err) {
             alert('Bijwerken mislukt');
         }
@@ -141,7 +146,7 @@
                     </div>
                     <div class="row-flex gap justify-between">
                         <Link class="btn primary" href="/begraafplaatsen/overzicht/{cemeteryData.id}" as="button">Ga naar overzicht</Link>
-                        <button class="base" onclick={() => openEdit(cemeteryData)} as="button">Gegevens bewerken</button>
+                        <button class="base" on:click={() => openEdit(cemeteryData)} as="button">Gegevens bewerken</button>
                     </div>
                 </div>
             </div>
@@ -157,89 +162,54 @@
     {/await}
 </AppLayout>
 
-{#if showModal}
-    <div class="bg-modal-primary">
-        <div open={showModal} onClose={closeModal} class="modal-primary">
-            <h2 class="h2 margin-bottom">Gegevens bewerken</h2>
-            <form onsubmit={saveCemetery}>
-                <div class="flex-m-gap col-flex">
-                    <div class="col-flex">
-                        <Label for="name">Naam</Label>
-                        <div class="flex-s-gap align-center">
-                            <Input
-                                id="name"
-                                type="text"
-                                required
-                                autofocus
-                                tabindex={1}
-                                autocomplete="name"
-                                bind:value={form.name}
-                                placeholder="Verplicht"
-                            />
-                        </div>
-                        <InputError message={form.errors?.name} />
-                    </div>
-                    <div class="col-flex">
-                        <Label for="city">Plaats</Label>
-                        <div class="flex-s-gap align-center">
-                            <Input id="city" type="text" tabindex={1} autocomplete="name" bind:value={form.city} placeholder="Verplicht" />
-                        </div>
-                        <InputError message={form.errors?.city} />
-                    </div>
-                    <div class="flex-m-gap">
-                        <div class="col-flex">
-                            <Label for="address">Adres</Label>
-                            <div class="flex-s-gap align-center">
-                                <Input
-                                    id="address"
-                                    type="text"
-                                    required
-                                    tabindex={1}
-                                    autocomplete="name"
-                                    bind:value={form.address}
-                                    placeholder="Verplicht"
-                                />
-                            </div>
-                            <InputError message={form.errors?.address} />
-                        </div>
-                        <div class="col-flex">
-                            <Label for="zip_code">Postcode</Label>
-                            <div class="flex-s-gap align-center">
-                                <Input
-                                    id="zip_code"
-                                    type="text"
-                                    tabindex={1}
-                                    required
-                                    autocomplete="name"
-                                    bind:value={form.zip_code}
-                                    placeholder="Verplicht"
-                                />
-                            </div>
-                            <InputError message={form.errors?.zip_code} />
-                        </div>
-                    </div>
-                    <div class="col-flex padding-btm">
-                        <Label for="description">Beschrijving</Label>
-                        <div class="flex-s-gap align-center">
-                            <!-- <Input id="description" type="text" tabindex={1} autocomplete="name" bind:value={form.description} /> -->
-                            <textarea
-                                id="description"
-                                rows="7" 
-                                cols="50" 
-                                class="input full-width"
-                                tabindex={1}
-                                bind:value={form.description}
-                                placeholder="Optioneel"
-                            ></textarea>
-                        </div>
-                        <InputError message={form.errors?.description} />
-                    </div>
-                    <div class="full-width flex-m-gap">
-                        <button class="base full-width" type="button" onclick={closeModal}>Annuleer</button>
-                        <button class="base full-width" type="submit">Opslaan</button>
-                    </div>
-                </div>
-            </form>
+<ModalLayout bind:this={editModal} title="Gegevens bewerken" on:open={onEditOpen} on:close={onModalClose}>
+    <form on:submit={saveCemetery}>
+        <div class="col-flex">
+            <SingleInput
+                type="text"
+                name="name"
+                visible_name="Naam"
+                placeholder="Verplicht"
+                requiredBool={true}
+                bind:form
+            />
+
+            <SingleInput
+                type="text"
+                name="city"
+                visible_name="Plaats"
+                placeholder="Verplicht"
+                requiredBool={true}
+                bind:form
+            />
+
+            <DuoInput
+                type="text"
+                type2="text"
+                name="address"
+                name2="zip_code"
+                visible_name="Adres"
+                visible_name2="Postcode"
+                placeholder="Straat en huisnummer"
+                placeholder2="0123 AB"
+                requiredBool={false}
+                requiredBool2={false}
+                bind:form
+            />
+
+            <SingleInput
+                type="textarea"
+                name="description"
+                visible_name="Beschrijving"
+                placeholder="Optioneel"
+                requiredBool={false}
+                bind:form
+            />
+
+            <div class="full-width flex-m-gap">
+                <button class="base full-width" type="button" on:click={() => editModal.close()}>Annuleer</button>
+                <button class="base full-width" type="submit">Opslaan</button>
+            </div>
         </div>
-    </div>
-{/if}
+    </form>
+</ModalLayout>

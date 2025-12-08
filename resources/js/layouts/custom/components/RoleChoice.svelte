@@ -41,7 +41,7 @@
                     <select
                         id="role_id"
                         class="full-width padding-s bg-secondary border-radius base"
-                        bind:value={form.role_id}
+                        bind:value={$form.role_id}
                         tabindex={6}
                     >
                         <option value="" disabled selected>Kies een rol</option>
