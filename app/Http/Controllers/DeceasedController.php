@@ -9,13 +9,6 @@ use Illuminate\Validation\ValidationException;
 
 class DeceasedController extends Controller
 {
-    protected $graveDeceasedController;
-
-    public function __construct(GraveDeceasedController $graveDeceasedController)
-    {
-        $this->graveDeceasedController = $graveDeceasedController;
-    }
-
     public function store(Request $request)
     {
         try {
@@ -43,13 +36,14 @@ class DeceasedController extends Controller
                 'updated_at' => now(),
             ]);
 
-            $this->graveDeceasedController->store(new Request([
+            $graveDeceased = new GraveDeceasedController();
+            $graveDeceased->store(new Request([
                 'grave_id' => $request->query('grave_id'),
                 'deceased_id' => DB::getPdo()->lastInsertId(),
             ]));
         } catch (QueryException $e) {
             return back()->with('error', 'Er is een fout opgetreden bij het aanmaken van de overledene.');
         }
-        return back()->with('success', 'Overledene succesvol toegevoegd.');
+        return back()->with('success1', 'Overledene succesvol toegevoegd.');
     }
 }

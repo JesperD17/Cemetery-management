@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Validators\ValidationException;
 
 class GraveDeceasedController extends Controller
 {
@@ -26,8 +27,8 @@ class GraveDeceasedController extends Controller
             ]);
 
             return back()->with('success', 'Overledene succesvol gekoppeld aan het graf.');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return back(303)->withErrors($e->errors());
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->errors());
         }
     }
 }
