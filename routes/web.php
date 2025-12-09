@@ -7,6 +7,7 @@ use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Controllers\UserApiController;
+use App\Http\Controllers\NotificationController;
 
 
 Route::inertia('/', 'Home')
@@ -47,5 +48,6 @@ Route::inertia('/gemeentes', 'Municipality')
     ->middleware(['auth', EnsureAdminRole::class])
     ->name('gemeentes');
 
+Route::middleware('auth')->get('/meldingen', fn() => Inertia::render('Notifications'))->name('meldingen');
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

@@ -17,6 +17,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureAdminRole;
 use App\Http\Middleware\RequestTypes;
 use App\Http\Controllers\GraveController;
+use App\Http\Controllers\NotificationController;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
@@ -83,4 +84,6 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/municipalities/{id}', [MunicipalityController::class, 'update'])
     ->middleware(EnsureAdminRole::class);
+
+    Route::get('/api/meldingen', [NotificationController::class, 'index']);
 });
