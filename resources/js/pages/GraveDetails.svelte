@@ -40,15 +40,29 @@
     </div>
     {:else}
         <div class="grave-details">
-            <h1>Grafdetails</h1>
-            <p><strong>Grafnummer:</strong> {graveDetails.grave_number}</p>
-            <p><strong>Status:</strong> {graveDetails.status_id}</p>
-            <p><strong>Beschrijving:</strong> {graveDetails.description}</p>
-            <p><strong>Startdatum:</strong> {graveDetails.start_date}</p>
-            <p><strong>Einddatum:</strong> {graveDetails.end_date}</p>
-            {#if graveDetails.image_hash_url}
-                <img src={graveDetails.image_hash_url} alt="Afbeelding van het graf" />
-            {/if}
+            <div class="h1 bold margin-bottom">Grafdetails</div>
+                <div class="flex-m-gap justify-between align-center">
+                    <div>
+                        <div class="flex-m-gap">
+                        <div class="bold">Grafnummer:</div>{graveDetails.grave_number}
+                    </div>
+                    <div class="flex-m-gap">
+                        <div class="bold">Status:</div>{graveDetails.status_id}
+                    </div>
+                    <div class="flex-m-gap">
+                        <div class="bold">Beschrijving:</div> {graveDetails.description}
+                    </div>
+                    <div class="flex-m-gap">
+                        <div class="bold">Startdatum:</div> {graveDetails.start_date}
+                    </div>
+                    <div class="flex-m-gap">
+                        <div class="bold">Einddatum:</div> {graveDetails.end_date}
+                    </div>
+                </div>
+                {#if graveDetails.image_hash_url}
+                <img class="image" src={graveDetails.image_hash_url} alt="Afbeelding van het graf" />
+                {/if}
+            </div>
         </div>
     {/if}
 </AppLayout>
