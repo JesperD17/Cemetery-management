@@ -4,7 +4,13 @@
     import SingleInput from "@/layouts/custom/components/SingleInput.svelte";
     import InputError from "@/components/InputError.svelte";
     import { useForm, page } from "@inertiajs/svelte";
+    import { fetchFromAPI } from "@/layouts/custom/components/Functions";
+    import Asterisk from "@/layouts/custom/components/Asterisk.svelte";
+    import { Input } from "@/Components/ui/input";
+    import SearchableSelect from "@/layouts/custom/components/SearchableSelect.svelte";
 
+    let gravesSelect = false;
+    let graves = null;
     let form = useForm({
         first_name: '',
         infix: '',
@@ -14,15 +20,30 @@
         description: '',
     });
 
+    let formPair = useForm({
+        grave_id: '',
+        deceased_id: '',
+    });
+
     const submit = (e) => {
         e.preventDefault();
-        console.log($form);
-
-        $form.post(route('api.new-deceased'), {
+        $form.post(`/api/new-deceased?grave_id=${$formPair.grave_id}`, {
             forceFormData: true,
             onSuccess: () => $form.reset(),
         });
     };
+
+    let cemeteries = fetchFromAPI('/api/cemeteries');
+    
+    const showGraves = (option) => {
+        if (option.id) {
+            graves = fetchFromAPI(`/api/gravesByCemetery/${option.id}`);
+            gravesSelect = true;
+        } else {
+            graves = null;
+            gravesSelect = false;
+        }
+    }
 </script>
 
 <svelte:head>
@@ -79,6 +100,34 @@
                 bind:form
             />
 
+            {#await cemeteries}
+                <div class="padding-btm">Laden...</div>
+            {:then cemeteries}
+                <SearchableSelect
+                    options={cemeteries}
+                    placeholder="Kies een begraafplaats"
+                    onSelect={showGraves}
+                    requiredBool={true}
+                />
+            {:catch error}
+                <div class="padding-btm">Er is een fout opgetreden bij het laden van begraafplaatsen.</div>
+            {/await}
+
+            {#if gravesSelect}
+                {#await graves}
+                    <div class="padding-btm">Laden...</div>
+                {:then graves}
+                    <SearchableSelect
+                        bind:value={$formPair.grave_id}
+                        options={graves}
+                        placeholder="Kies een graf"
+                        requiredBool={true}
+                    />
+                {:catch error}
+                    <div class="padding-btm">Er is een fout opgetreden bij het laden van graven.</div>
+                {/await}
+            {/if}
+
             {#if $page.props?.flash?.success}
                 <div class="padding-btm succes-message">{$page.props.flash.success}</div>
             {/if}
@@ -89,7 +138,12 @@
             {/if}
 
             <div class="full-width flex-m-gap">
-                <button class="base full-width" type="submit">Overledene opslaan</button>
+                <!-- makes the button unselectable while divs are loading -->
+                 {#if gravesSelect && !graves}
+                    <button class="base full-width" type="submit" disabled>Overledene opslaan</button>
+                {:else}
+                    <button class="base full-width" type="submit">Overledene opslaan</button>
+                {/if}
             </div>
         </form>
     </div>

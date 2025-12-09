@@ -2,7 +2,7 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\EnsureAdminRole;
+use App\Http\Middleware\EnsureMangerRole;
 use App\Http\Middleware\EnsureNotRightHolder;
 
 
@@ -15,7 +15,7 @@ Route::inertia('/begraafplaatsen', 'Cemeteries')
 
 Route::get('/begraafplaatsen/bewerk/{id}', function ($id) {
     return Inertia::render('EditCemetery', ['id' => $id]);
-})->middleware(['auth', EnsureAdminRole::class])->name('begraafplaatsen.bewerk');
+})->middleware(['auth', EnsureMangerRole::class])->name('begraafplaatsen.bewerk');
 
 Route::get('/begraafplaatsen/overzicht/{id}', function ($id) {
     return Inertia::render('Overview', ['id' => $id]);
@@ -31,12 +31,12 @@ Route::inertia('/accounts', 'Accounts')
 
 Route::get('/nieuw-graf', function () {
     return Inertia::render('NewGrave');
-})->middleware(['auth', EnsureAdminRole::class])->name('nieuw-graf');
+})->middleware(['auth', EnsureMangerRole::class])->name('nieuw-graf');
 
 // Route::post('/import', [ExcelController::class, 'import'])->name('import');
 
 Route::inertia('/begraafplaats-aanmaken', 'CemeteryCreate')
-    ->middleware(['auth', EnsureAdminRole::class])
+    ->middleware(['auth', EnsureMangerRole::class])
     ->name('begraafplaats-aanmaken');
 
 Route::inertia('/profiel', 'Profile')
@@ -44,11 +44,11 @@ Route::inertia('/profiel', 'Profile')
     ->name('profiel');
 
 Route::inertia('/nieuwe-overledene', 'NewDeceased')
-    ->middleware(['auth', EnsureAdminRole::class])
+    ->middleware(['auth', EnsureMangerRole::class])
     ->name('nieuwe-overledene');
 
 Route::inertia('/gemeentes', 'Municipality')
-    ->middleware(['auth', EnsureAdminRole::class])
+    ->middleware(['auth', EnsureMangerRole::class])
     ->name('gemeentes');
 
 require __DIR__.'/settings.php';

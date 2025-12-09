@@ -12,6 +12,11 @@ class GravesController extends Controller
         return response()->json($this->fetchByUser(auth()->id()));
     }
 
+    public function show($id)
+    {
+        return response()->json($this->fetchByCemeteryID($id));
+    }
+
     public function fetchByUser($userId)
     {
         $user = DB::table('users')->where('id', $userId)->first();
@@ -78,6 +83,29 @@ class GravesController extends Controller
         }
         $graves = $query->get();
 
+        return $graves;
+    }
+
+    public function fetchByCemeteryID($cemeteryID) {
+        $graves = DB::table('graves')
+            ->where('cemetery_id', $cemeteryID)
+            ->select('id', 'grave_number', 'cemetery_id', 'latitude', 'longitude', 'image_hash_url', 'status_id', 'description', 'start_date', 'end_date')
+            ->get()
+            ->map(function ($grave) {
+                return [
+                    'id' => $grave->id,
+                    'name' => (string) $grave->grave_number,
+                    'grave_number' => $grave->grave_number,
+                    'cemetery_id' => $grave->cemetery_id,
+                    'latitude' => $grave->latitude,
+                    'longitude' => $grave->longitude,
+                    'image_hash_url' => $grave->image_hash_url,
+                    'status_id' => $grave->status_id,
+                    'description' => $grave->description,
+                    'start_date' => $grave->start_date,
+                    'end_date' => $grave->end_date,
+                ];
+            });
         return $graves;
     }
 }
