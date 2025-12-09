@@ -60,4 +60,23 @@ class GraveController extends Controller
 
         return back()->with('success', 'Graf succesvol aangemaakt.')->with('success2', 'Graf succesvol aangemaakt.');
     }
+
+    public function id(Request $request)
+    {
+        $graveId = $request->query('id');
+
+        if (!$graveId) {
+            return response()->json(['error' => 'No grave ID provided'], 400);
+        }
+
+        $grave = DB::table('graves')
+            ->where('id', $graveId)
+            ->first();
+
+        if (!$grave) {
+            return response()->json(['error' => 'Grave not found'], 404);
+        }
+
+        return response()->json($grave);
+    }
 }
