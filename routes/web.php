@@ -21,6 +21,10 @@ Route::get('/begraafplaatsen/overzicht/{id}', function ($id) {
     return Inertia::render('Overview', ['id' => $id]);
 })->middleware(['auth'])->name('begraafplaatsen.overzicht');
 
+Route::get('/graf/{id}', function ($id) {
+    return Inertia::render('GraveDetails', ['id' => $id]);
+})->middleware(['auth'])->name('graf');
+
 Route::inertia('/accounts', 'Accounts')
     ->middleware(['auth'])
     ->name('accounts');

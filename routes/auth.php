@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/graves', [GravesController::class, 'index']);
     Route::get('/api/gravesByCemetery/{cemeteryID}', [GravesController::class, 'show']);
     Route::get('/api/graveDeceased/{graveID}/{deceasedID}', [GraveDeceasedController::class, 'store']);
+    Route::get('/graveById', [GraveController::class, 'id']);
     Route::get('/roles', [RolesController::class, 'index'])
         ->middleware(RequestTypes::class);
     Route::get('/getAccounts', [AccountsController::class, 'index'])

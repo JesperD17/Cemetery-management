@@ -76,7 +76,8 @@
             <div class="section">
                 <div class="flex-m-gap wrap">
                     {#each cards as card}
-                        <div class="row-flex full-width card-grave border-radius border-primary" style="width: 49%;">
+                    <a href={`/graf/${card.grave_id}`} style="text-decoration: none; color: inherit; width: 49%;">
+                        <div class="row-flex full-width card-grave border-radius border-primary">
                             <img src="/images/dummy.png" alt="dummy img" class="border-radius-t cover full-height" />
                             <div class="col-flex justify-center">
                                 <div class="padding-all col-flex">
@@ -90,6 +91,7 @@
                                 </div>
                             </div>
                         </div>
+                    </a>
                     {/each}
                 </div>
             </div>
