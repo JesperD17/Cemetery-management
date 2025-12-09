@@ -462,25 +462,29 @@ button.primary:hover, a.primary:hover, .btn.primary:hover {
 
 
 .bg-modal-primary {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .modal-primary {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    position: relative;
     min-width: 400px;
-    transform: translate(-50%, -50%);
+    max-height: 90vh;
     background: white;
     padding: var(--margin-padding);
     border-radius: var(--border-radius);
-    z-index: 3; 
+    z-index: 3;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .table {

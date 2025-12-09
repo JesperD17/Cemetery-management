@@ -8,6 +8,7 @@
     export let disabledText = "Kies een optie";
     export let onSelect = null;
     export let requiredBool = false;
+    export let additionalClasses = "";
 
     let search = "";
     let showList = false;
@@ -51,7 +52,7 @@
     });
 </script>
 
-<div class="flex-s-gap align-center padding-btm relative">
+<div class="flex-s-gap align-center relative full-width {additionalClasses}">
     <div class="full-width padding-s bg-primary border-radius base" bind:this={wrapper}>
         <input
             type="text"

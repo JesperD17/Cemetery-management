@@ -15,3 +15,16 @@ export async function fetchFromAPI(url) {
         return 'error';
     }
 }
+
+export async function saveNewData(url, formData, fetchFunction, closeModal, e) {
+    e.preventDefault();
+    formData.post(url, {
+        onSuccess: async () => {
+            await fetchFunction();
+            if (closeModal) closeModal();
+        },
+        onError: (errors) => {
+            console.error(errors);
+        }
+    });
+}

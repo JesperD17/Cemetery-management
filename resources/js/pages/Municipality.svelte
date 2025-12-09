@@ -5,6 +5,7 @@
     import SingleInput from "@/layouts/custom/components/SingleInput.svelte";
     import ModalLayout from '@/layouts/custom/components/ModalLayout.svelte';
     import { useForm } from '@inertiajs/svelte';
+    import { saveNewData } from '@/layouts/custom/components/Functions';
 
     var municipalities = 'laden...';
     
@@ -99,30 +100,46 @@
         }
     }
 
+    // async function saveNewMunicipality(e) {
+    //     e.preventDefault();
+    //     try {
+    //         const payload = { ...$form2 };
+    //         const csrfToken = getXsrfFromCookie();
+            
+    //         const res = await fetch(`/municipalities`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 Accept: 'application/json',
+    //                 'X-Requested-With': 'XMLHttpRequest',
+    //                 'X-XSRF-TOKEN': csrfToken,
+    //             },
+    //             credentials: 'include',
+    //             body: JSON.stringify(payload),
+    //         });
+    //         if (!res.ok) throw new Error('Creation failed');
+    //         await fetchMunicipalities();
+    //         createModal.close();
+    //     } catch (err) {
+    //         console.error(err);
+    //         alert('Aanmaken mislukt');
+    //     }
+    // }
+
+    saveNewData(form2, '/municipalities', fetchMunicipalities, createModal);
+
     async function saveNewMunicipality(e) {
         e.preventDefault();
-        try {
-            const payload = { ...$form2 };
-            const csrfToken = getXsrfFromCookie();
-            
-            const res = await fetch(`/municipalities`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-XSRF-TOKEN': csrfToken,
-                },
-                credentials: 'include',
-                body: JSON.stringify(payload),
-            });
-            if (!res.ok) throw new Error('Creation failed');
-            await fetchMunicipalities();
-            createModal.close();
-        } catch (err) {
-            console.error(err);
-            alert('Aanmaken mislukt');
-        }
+        $form2.post('/municipalities', {
+            onSuccess: () => {
+                fetchMunicipalities();
+                createModal.close();
+            },
+            onError: (errors) => {
+                console.error(errors);
+                alert('Aanmaken mislukt');
+            },
+        });
     }
 
     const municipalitiesPromise = (async () => {
