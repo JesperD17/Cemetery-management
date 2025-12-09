@@ -69,7 +69,7 @@
             />
 
             <SingleInput
-                type="number"
+                type="text"
                 name="grave_number"
                 visible_name="Grafnummer"
                 placeholder="bijv: 1"

@@ -18,7 +18,6 @@ use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureMangerRole;
 use App\Http\Middleware\RequestTypes;
 use App\Http\Controllers\GraveController;
-use App\Http\Controllers\GraveDeceasedController;
 use App\Http\Controllers\UserApiController;
 
 Route::middleware('guest')->group(function () {
@@ -49,8 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user', [UserApiController::class, 'profile']);
     Route::put('/profile', [UserApiController::class, 'update']);
 
-        
-    Route::post('/nieuw-graf', [GraveController::class, 'index']);
+    Route::post('/api/grave', [GraveController::class, 'store']);
 
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
@@ -76,7 +74,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/updateCemetery/{id}', [CemeteriesController::class, 'updateCemetery']);
     Route::get('/graves', [GravesController::class, 'index']);
     Route::get('/api/gravesByCemetery/{cemeteryID}', [GravesController::class, 'show']);
-    Route::get('/api/graveDeceased/{graveID}/{deceasedID}', [GraveDeceasedController::class, 'store']);
     Route::get('/roles', [RolesController::class, 'index'])
         ->middleware(RequestTypes::class);
     Route::get('/getAccounts', [AccountsController::class, 'index'])
