@@ -222,6 +222,12 @@ html, body {
     padding-bottom: var(--margin-padding);
 }
 
+
+.padding-L-R {
+    padding-left: var(--margin-padding);
+    padding-right: var(--margin-padding);
+}
+
 .margin-noTop {
     margin: var(--margin-padding);
     margin-top: unset;
@@ -331,6 +337,10 @@ html, body {
 
 .content-width {
     width: max-content;
+}
+
+.webkit-width {
+    width: -webkit-fill-available;
 }
 
 .full-width {
