@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GraveOfDeceased;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,11 +37,10 @@ class DeceasedController extends Controller
                 'updated_at' => now(),
             ]);
 
-            $graveDeceased = new GraveDeceasedController();
-            $graveDeceased->store(new Request([
+            GraveOfDeceased::create([
                 'grave_id' => $request->query('grave_id'),
                 'deceased_id' => DB::getPdo()->lastInsertId(),
-            ]));
+            ]);
         } catch (QueryException $e) {
             return back()->with('error', 'Er is een fout opgetreden bij het aanmaken van de overledene.');
         }
