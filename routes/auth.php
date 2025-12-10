@@ -85,5 +85,5 @@ Route::middleware('auth')->group(function () {
     Route::put('/municipalities/{id}', [MunicipalityController::class, 'update'])
     ->middleware(EnsureAdminRole::class);
 
-    Route::get('/api/meldingen', [NotificationController::class, 'index']);
+    Route::get('/api/notifications', [NotificationController::class, 'index']);
 });

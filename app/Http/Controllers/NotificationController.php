@@ -17,37 +17,36 @@ class NotificationController extends Controller
             return response()->json(['error' => 'Niet ingelogd'], 401);
         }
 
-        // Haal alle graven op (inclusief grave_number, start_date, end_date)
-        $graven = DB::table('graves')
+        $graves = DB::table('graves')
             ->select('id', 'grave_number', 'start_date', 'end_date')
             ->get();
 
-        $meldingen = [];
-        $vandaag = Carbon::today();
+        $notifications = [];
+        $today = Carbon::today();
 
-        foreach ($graven as $graf) {
-            if (!$graf->end_date) {
+        foreach ($graves as $grave) {
+            if (!$grave->end_date) {
                 continue;
             }
 
-            $eindDatum = Carbon::parse($graf->end_date);
-            $dagenTotEinde = $vandaag->diffInDays($eindDatum, false);
+            $endDate = Carbon::parse($grave->end_date);
+            $daysUntilEnd = $today->diffInDays($endDate, false);
 
-            if ($dagenTotEinde < 0) {
-                $meldingen[] = [
-                    'title' => 'Graf ' . $graf->grave_number,
-                    'message' => 'De rechten van dit graf zijn verlopen op ' . $eindDatum->format('d-m-Y') . '.',
+            if ($daysUntilEnd < 0) {
+                $notifications[] = [
+                    'title' => 'Graf ' . $grave->grave_number,
+                    'message' => 'De rechten van dit graf zijn verlopen op ' . $endDate->format('d-m-Y') . '.',
                     'type' => 'expired',
                 ];
-            } elseif ($dagenTotEinde <= 30) {
-                $meldingen[] = [
-                    'title' => 'Graf ' . $graf->grave_number,
-                    'message' => 'De rechten van dit graf verlopen binnen ' . $dagenTotEinde . ' dagen (op ' . $eindDatum->format('d-m-Y') . ').',
+            } elseif ($daysUntilEnd <= 30) {
+                $notifications[] = [
+                    'title' => 'Graf ' . $grave->grave_number,
+                    'message' => 'De rechten van dit graf verlopen binnen ' . $daysUntilEnd . ' dagen (op ' . $endDate->format('d-m-Y') . ').',
                     'type' => 'warning',
                 ];
             }
         }
 
-        return response()->json($meldingen);
+        return response()->json($notifications);
     }
 }

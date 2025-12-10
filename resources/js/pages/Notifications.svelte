@@ -7,7 +7,7 @@
 
     onMount(async () => {
         try {
-            const res = await fetch("/api/meldingen", { credentials: "same-origin" });
+            const res = await fetch("/api/notifications", { credentials: "same-origin" });
             if (!res.ok) throw new Error("Kon meldingen niet ophalen");
 
             meldingen = await res.json();
