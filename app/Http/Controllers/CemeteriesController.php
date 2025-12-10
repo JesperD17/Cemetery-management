@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\GravesController;
+use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 
 class CemeteriesController extends Controller
@@ -59,6 +60,45 @@ class CemeteriesController extends Controller
             return response()->json(['message' => 'Cemetery updated successfully']);
         } catch (ValidationException $e) {
             return back(303)->withErrors($e->errors());
+        }
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'municipality_id' => 'required|integer',
+                'city' => 'required|string|max:100',
+                'address' => 'required|string|max:255',
+                'zipcode' => 'required|string|max:20',
+                'image_hash_url' => 'nullable|string|max:255',
+                'description' => 'nullable|string',
+            ]);
+            
+            $data = [
+                'name' => $validated['name'],
+                'municipality_id' => $validated['municipality_id'],
+                'city' => $validated['city'],
+                'address' => $validated['address'],
+                'zip_code' => $validated['zipcode'],
+                'image_hash_url' => $validated['image_hash_url'] ?? 'default.jpg',
+                'description' => $validated['description'] ?? null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+            
+            // Todo fix 500 error
+            $cemeteryId = DB::table('cemeteries')->insertGetId($data);
+            return response()->json([
+                'success' => 'Begraafplaats succesvol toegevoegd', 
+                'success3' => 'Begraafplaats succesvol toegevoegd', 
+                'id' => $cemeteryId
+            ]);
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->errors());
+        } catch (QueryException $e) {
+            return back()->withErrors(['error' => 'Er is een fout opgetreden bij het toevoegen van de begraafplaats.']);
         }
     }
 }
