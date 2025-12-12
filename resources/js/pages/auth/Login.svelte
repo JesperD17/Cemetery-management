@@ -2,10 +2,9 @@
     import InputError from '@/components/InputError.svelte';
     import TextLink from '@/components/TextLink.svelte';
     import { Button } from '@/components/ui/button';
-    import { Checkbox } from '@/components/ui/checkbox';
     import { Input } from '@/components/ui/input';
     import { Label } from '@/components/ui/label';
-    import AuthBase from '@/layouts/AuthLayout.svelte';
+    import LoadingDiv from '@/layouts/custom/components/LoadingDiv.svelte';
     import { useForm } from '@inertiajs/svelte';
     import { LoaderCircle, Lock, Mail } from 'lucide-svelte';
 
@@ -96,9 +95,7 @@
                 
                 
                 <Button type="submit" tabindex={4} disabled={$form.processing} class="full-width relative margin-btm">
-                    {#if $form.processing}
-                        <LoaderCircle class="spinner" />
-                    {/if}
+                    <LoadingDiv {form} />
                     Inloggen
                 </Button>
 

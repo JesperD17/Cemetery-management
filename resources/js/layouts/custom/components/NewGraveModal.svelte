@@ -5,6 +5,7 @@
     import SingleInput from "./SingleInput.svelte";
     import Asterisk from "./Asterisk.svelte";
     import InputError from "@/components/InputError.svelte";
+    import LoadingDiv from "./LoadingDiv.svelte";
 
     export let selectedCemeteryId;
     export let cemeteries;
@@ -27,8 +28,6 @@
 <ModalLayout bind:this={modalRef} title="Nieuw graf aanmaken" on:open={onCreateGraveOpen}>
     <form on:submit={saveNewGrave}>
         <!-- <CemeteryChoice bind:form={graveForm} /> -->
-
-        <!-- cemeteries is json -->
         <div class="flex-m-gap">
             {#await cemeteries}
                 Laden...
@@ -63,8 +62,11 @@
         <SingleInput
             type="file"
             name="image_hash_url"
+            fileHashField="image_hash_url"
+            fileHashPrefix="cemetery"
+            accept="image/*"
             visible_name="Afbeelding"
-            placeholder="Vul de afbeelding URL in"
+            placeholder="Upload een afbeelding"
             requiredBool={true}
             bind:form={form}
         />
@@ -125,8 +127,11 @@
         {/if}
 
         <div class="full-width flex-m-gap">
-            <button class="base full-width" type="button" on:click={() => close()}>Annuleer</button>
-            <button class="base full-width" type="submit" on:click={() => $form.cemetery_id = selectedCemeteryId}>Opslaan</button>
+            <button class="base full-width" disabled={$form.processing} type="button" on:click={() => close()}>Annuleer</button>
+            <button class="base full-width relative" disabled={$form.processing} type="submit" on:click={() => $form.cemetery_id = selectedCemeteryId}>
+                <LoadingDiv {form} />
+                Opslaan
+            </button>
         </div>
     </form>
 </ModalLayout>

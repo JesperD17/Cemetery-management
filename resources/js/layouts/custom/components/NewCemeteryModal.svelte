@@ -1,10 +1,9 @@
 <script lang="js">
-    import Label from "@/Components/ui/label/label.svelte";
     import DuoInput from "./DuoInput.svelte";
     import ModalLayout from "./ModalLayout.svelte";
     import SingleInput from "./SingleInput.svelte";
-    import Asterisk from "./Asterisk.svelte";
     import InputError from "@/components/InputError.svelte";
+    import LoadingDiv from "./LoadingDiv.svelte";
 
     export let form;
     export let saveNewCemetery;
@@ -55,7 +54,7 @@
             type="text"
             type2="text"
             name="address"
-            name2="zipcode"
+            name2="zip_code"
             visible_name="Adres"
             visible_name2="Postcode"
             placeholder="Vul het adres in"
@@ -76,10 +75,10 @@
 
         <SingleInput
             type="file"
-            name="image"
+            name="image_hash_url"
             visible_name="Afbeelding"
             placeholder="Upload een afbeelding"
-            requiredBool={false}
+            requiredBool={true}
             bind:form
         />
 
@@ -90,8 +89,11 @@
         {/if}
 
         <div class="full-width flex-m-gap">
-            <button class="base full-width" type="button" on:click={() => close()}>Annuleer</button>
-            <button class="base full-width" type="submit">Opslaan</button>
+            <button class="base full-width" disabled={$form.processing} type="button" on:click={() => close()}>Annuleer</button>
+            <button class="base full-width relative" disabled={$form.processing} type="submit">
+                <LoadingDiv {form} />
+                Opslaan
+            </button>
         </div>
     </form>
 </ModalLayout>
