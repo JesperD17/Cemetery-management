@@ -366,6 +366,10 @@ html, body {
     color: red;
 }
 
+.capitalFirst::first-letter {
+    text-transform: capitalize;
+}
+
 /* images */
 .image {
     height: 200px;
@@ -537,11 +541,6 @@ tbody tr:last-child td:first-child {
 /* spinner */
 .spinner {
     animation: spinner 1s linear infinite;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 97%;
-    height: 100%;
 }
 
 .top-right {
@@ -559,6 +558,18 @@ textarea {
 /*  */
 .succes-message {
     color:#399239;
+}
+
+.spinner-bg {
+    display: flex;
+    height: 100%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    top: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
 }
 
 @keyframes spinner {

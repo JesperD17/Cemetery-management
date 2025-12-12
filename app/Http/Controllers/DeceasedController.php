@@ -44,6 +44,6 @@ class DeceasedController extends Controller
         } catch (QueryException $e) {
             return back()->with('error', 'Er is een fout opgetreden bij het aanmaken van de overledene.');
         }
-        return back()->with('success1', 'Overledene succesvol toegevoegd.');
+        return back()->with('success', 'Overledene succesvol toegevoegd.');
     }
 }

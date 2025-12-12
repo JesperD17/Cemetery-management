@@ -5,17 +5,15 @@
     import InputError from "@/components/InputError.svelte";
     import { useForm, page } from "@inertiajs/svelte";
     import { fetchFromAPI, saveNewData } from "@/layouts/custom/components/Functions";
-    import Asterisk from "@/layouts/custom/components/Asterisk.svelte";
-    import { Input } from "@/Components/ui/input";
     import SearchableSelect from "@/layouts/custom/components/SearchableSelect.svelte";
-    import ModalLayout from "@/layouts/custom/components/ModalLayout.svelte";
-    import CemeteryChoice from "@/layouts/custom/components/CemeteryChoice.svelte";
-    import Label from "@/Components/ui/label/label.svelte";
+    import NewGraveModal from "@/layouts/custom/components/NewGraveModal.svelte";
+    import NewCemeteryModal from "@/layouts/custom/components/NewCemeteryModal.svelte";
 
     let gravesSelect = false;
     let graves = null;
     let cemeteries = fetchFromAPI('/api/cemeteries');
     let createGraveModal;
+    let createCemeteryModal;
     let selectedCemeteryId = null;
 
     let form = useForm({
@@ -44,6 +42,16 @@
         end_date: '',
     });
 
+    let cemeteryForm = useForm({
+        name: " ",
+        municipality_id: '',
+        city: '',
+        address: '',
+        zip_code: '',
+        image_hash_url: '',
+        description: '',
+    });
+
     function onCreateGraveOpen() {
         $graveForm.cemetery_id = '';
         $graveForm.latitude = '';
@@ -57,6 +65,21 @@
         $graveForm.errors = {};
     }
 
+    function onCreateCemeteryOpen() {
+        $cemeteryForm.name = " ";
+        $cemeteryForm.municipality_id = '';
+        $cemeteryForm.city = '';
+        $cemeteryForm.address = '';
+        $cemeteryForm.zip_code = '';
+        $cemeteryForm.image_hash_url = '';
+        $cemeteryForm.description = '';
+        $cemeteryForm.errors = {};
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput) {
+            fileInput.value = '';
+        }
+    }
+
     function saveNewGrave(e) {
         const refreshGraves = async () => {
             if (selectedCemeteryId) {
@@ -64,6 +87,18 @@
             }
         };
         saveNewData('/api/grave', $graveForm, refreshGraves, () => createGraveModal.close(), e);
+    }
+
+    function saveNewCemetery(e) {
+        const refreshCemeteries = async () => {
+            cemeteries = fetchFromAPI('/api/cemeteries');
+        };
+        const closeModal = () => {
+            if (createCemeteryModal) {
+                createCemeteryModal.close();
+            }
+        };
+        saveNewData('/api/new-cemetery', $cemeteryForm, refreshCemeteries, closeModal, e);
     }
 
     const submit = (e) => {
@@ -146,13 +181,15 @@
             {#await cemeteries}
                 <div class="padding-btm">Laden...</div>
             {:then cemeteries}
-                <SearchableSelect
-                    options={cemeteries}
-                    placeholder="Kies een begraafplaats"
-                    onSelect={showGraves}
-                    requiredBool={true}
-                    additionalClasses="padding-btm"
-                />
+                <div class="flex-s-gap align-center padding-btm">
+                    <SearchableSelect
+                        options={cemeteries}
+                        placeholder="Kies een begraafplaats"
+                        onSelect={showGraves}
+                        requiredBool={true}
+                    />
+                    <button type="button" class="base" on:click={() => createCemeteryModal.open()}>+</button>
+                </div>
             {:catch error}
                 <div class="padding-btm">Er is een fout opgetreden bij het laden van begraafplaatsen.</div>
             {/await}
@@ -179,6 +216,8 @@
                 <div class="padding-btm succes-message">{$page.props.flash.success1}</div>
             {:else if $page.props?.flash?.success2}
                 <div class="padding-btm succes-message">{$page.props.flash.success2}</div>
+            {:else if $page.props?.flash?.success3}
+                <div class="padding-btm succes-message">{$page.props.flash.success3}</div>
             {/if}
             {#if $page.props?.flash?.error}
                 <div class="padding-btm">
@@ -198,111 +237,20 @@
     </div>
 </AppLayout>
 
-<ModalLayout bind:this={createGraveModal} title="Nieuw graf aanmaken" on:open={onCreateGraveOpen}>
-    <form on:submit={saveNewGrave}>
-        <div class="flex-m-gap col-flex">            
-            <!-- <CemeteryChoice bind:form={graveForm} /> -->
+<NewGraveModal 
+    bind:this={createGraveModal} 
+    {cemeteries}
+    bind:selectedCemeteryId={selectedCemeteryId} 
+    bind:form={graveForm}
+    {saveNewGrave}
+    {onCreateGraveOpen}
+    {page}
+/>
 
-            <!-- cemeteries is json -->
-            <div class="flex-m-gap">
-                {#await cemeteries}
-                    Laden...
-                {:then cemeteriesData}
-                    {#if selectedCemeteryId}
-                        {#each cemeteriesData as cemetery}
-                            {#if cemetery.id == selectedCemeteryId}
-                                <div class="bold">{cemetery.name} - {cemetery.city}</div>
-                                <input type="hidden" name="cemetery_id_hidden" bind:value={graveForm.cemetery_id} />
-                            {/if}
-                        {/each}
-                    {/if}
-                {:catch error}
-                    Fout bij laden begraafplaatsen.
-                {/await}
-            </div>
-
-            <DuoInput
-                type="text"
-                type2="text"
-                name="latitude"
-                name2="longitude"
-                visible_name="Latitude"
-                visible_name2="Longitude"
-                placeholder="bijv: 52.3676"
-                placeholder2="bijv: 4.9041"
-                requiredBool={true}
-                requiredBool2={true}
-                bind:form={graveForm}
-            />
-
-            <SingleInput
-                type="file"
-                name="image_hash_url"
-                visible_name="Afbeelding"
-                placeholder="Vul de afbeelding URL in"
-                requiredBool={true}
-                bind:form={graveForm}
-            />
-
-            <SingleInput
-                type="text"
-                name="grave_number"
-                visible_name="Grafnummer"
-                placeholder="bijv: 1"
-                requiredBool={true}
-                bind:form={graveForm}
-            />
-
-            <div class="padding-btm col-flex">
-                <Label for="latitude">Status</Label>
-                <div class="flex-s-gap align-center">
-                    <select class="full-width padding-s bg-secondary border-radius base" name="status_id" id="status_id" required bind:value={$graveForm.status_id}>
-                        <option value="" disabled selected>Kies een status</option>
-                        <option value="1">Beschikbaar</option>
-                        <option value="2">Bezet</option>
-                        <option value="3">Gereserveerd</option>
-                    </select>
-                    <Asterisk />
-                </div>
-                <InputError message={$graveForm.errors.status_id} />
-            </div>
-
-            <SingleInput
-                type="textarea"
-                name="description"
-                visible_name="Beschrijving"
-                placeholder="Vul een beschrijving in"
-                requiredBool={false}
-                bind:form={graveForm}
-            />
-
-            <DuoInput
-                type="date"
-                type2="date"
-                name="start_date"
-                name2="end_date"
-                visible_name="Startdatum"
-                visible_name2="Einddatum"
-                placeholder="Vul de startdatum in"
-                placeholder2="Vul de einddatum in"
-                requiredBool={true}
-                requiredBool2={true}
-                bind:form={graveForm}
-            />
-
-            <!-- {#if $page.props?.flash?.success}
-                <div class="padding-btm succes-message">{$page.props.flash.success}</div>
-            {/if} -->
-            {#if $page.props?.flash?.error}
-                <div class="padding-btm">
-                    <InputError message={$page.props.flash.error} />
-                </div>
-            {/if}
-
-            <div class="full-width flex-m-gap">
-                <button class="base full-width" type="button" on:click={() => createGraveModal.close()}>Annuleer</button>
-                <button class="base full-width" type="submit" on:click={() => $graveForm.cemetery_id = selectedCemeteryId}>Opslaan</button>
-            </div>
-        </div>
-    </form>
-</ModalLayout>
+<NewCemeteryModal 
+    bind:this={createCemeteryModal} 
+    bind:form={cemeteryForm}
+    {saveNewCemetery}
+    {onCreateCemeteryOpen}
+    {page}
+/>

@@ -159,7 +159,7 @@ return [
     'starts_with' => 'Het :attribute-veld moet beginnen met een van de volgende: :values.',
     'string' => 'Het :attribute-veld moet een string zijn.',
     'timezone' => 'Het :attribute-veld moet een geldige tijdzone zijn.',
-    'unique' => 'Het :attribute is al in gebruik.',
+    'unique' => ':attribute is al in gebruik.',
     'uploaded' => 'Het :attribute kon niet worden geüpload.',
     'uppercase' => 'Het :attribute-veld moet hoofdletters zijn.',
     'url' => 'Het :attribute-veld moet een geldige URL zijn.',
@@ -194,6 +194,17 @@ return [
     |
     */
 
-    'attributes' => [],
+    // add field name translations here for all validation errors
+    'attributes' => [
+        'name' => 'naam',
+        'address' => 'adres',
+        'zip_code' => 'postcode',
+        'city' => 'plaats',
+        'phone_number' => 'telefoonnummer',
+        'email' => 'e-mailadres',
+        'description' => 'beschrijving',
+        'municipality_id' => 'gemeente',
+        'image_hash_url' => 'afbeelding',
+    ],
 
 ];

@@ -70,6 +70,7 @@ Route::middleware('auth')->group(function () {
     ->name('logout');
 
     Route::get('/api/cemeteries', [CemeteriesController::class, 'index']);
+    Route::post('/api/new-cemetery', [CemeteriesController::class, 'store']);
     Route::get('/cemeteryById', [CemeteriesController::class, 'id']);
     Route::put('/updateCemetery/{id}', [CemeteriesController::class, 'updateCemetery']);
     Route::get('/graves', [GravesController::class, 'index']);

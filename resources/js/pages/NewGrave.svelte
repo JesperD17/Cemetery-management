@@ -4,11 +4,11 @@
     import { Label } from '@/components/ui/label';
     import { useForm, page } from '@inertiajs/svelte';
     import InputError from "@/components/InputError.svelte";
-    import { LoaderCircle } from 'lucide-svelte';
     import CemeteryChoice from '@/layouts/custom/components/CemeteryChoice.svelte';
     import Asterisk from "@/layouts/custom/components/Asterisk.svelte";
     import DuoInput from "@/layouts/custom/components/DuoInput.svelte";
     import SingleInput from "@/layouts/custom/components/SingleInput.svelte";
+    import LoadingDiv from "@/layouts/custom/components/LoadingDiv.svelte";
 
     let form = useForm({
         cemetery_id: "",
@@ -125,9 +125,7 @@
             
             <div>
                 <Button class="full-width relative" type="submit" tabindex={5} disabled={$form.processing} >
-                    {#if $form.processing}
-                        <LoaderCircle class="spinner" />
-                    {/if}
+                    <LoadingDiv {form} />
                     Graf aanmaken
                 </Button>
             </div>
