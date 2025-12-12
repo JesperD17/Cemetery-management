@@ -81,7 +81,6 @@
   z-index: 1000;
 }
 
-/* 🔔 Bel */
 .notification-icon {
   cursor: pointer;
   position: relative;
@@ -95,7 +94,6 @@
   transform: scale(1.1);
 }
 
-/* 🔴 Badge */
 .badge {
   position: absolute;
   top: -5px;
@@ -108,7 +106,6 @@
   font-weight: bold;
 }
 
-/* 📩 Dropdown */
 .dropdown {
   position: absolute;
   top: 38px;
@@ -127,14 +124,13 @@
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-/* 👇 Hover activeert dropdown */
 .notification-wrapper:hover > .dropdown {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
 
-/* 💬 Items */
+
 .dropdown-item {
   padding: 0.6rem;
   border-bottom: 1px solid #eee;
@@ -159,7 +155,7 @@
   font-size: 0.85rem;
 }
 
-/* ⚠️ Types */
+
 .dropdown-item.warning {
   border-left: 4px solid orange;
   padding-left: 0.5rem;
@@ -170,7 +166,6 @@
   padding-left: 0.5rem;
 }
 
-/* 🕳️ Empty */
 .dropdown-item.empty {
   text-align: center;
   color: #777;
