@@ -5,7 +5,7 @@
 </script>
 
 {#if message}
-    <p class="baseText errorMsg {className}">
+    <p class="baseText errorMsg capitalFirst {className}">
         {message}
     </p>
 {/if}

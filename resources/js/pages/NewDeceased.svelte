@@ -47,7 +47,7 @@
         municipality_id: '',
         city: '',
         address: '',
-        zipcode: '',
+        zip_code: '',
         image_hash_url: '',
         description: '',
     });
@@ -70,11 +70,10 @@
         $cemeteryForm.municipality_id = '';
         $cemeteryForm.city = '';
         $cemeteryForm.address = '';
-        $cemeteryForm.zipcode = '';
+        $cemeteryForm.zip_code = '';
         $cemeteryForm.image_hash_url = '';
         $cemeteryForm.description = '';
         $cemeteryForm.errors = {};
-        // Reset the input value for the file input
         const fileInput = document.querySelector('input[type="file"]');
         if (fileInput) {
             fileInput.value = '';

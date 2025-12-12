@@ -31,7 +31,7 @@
 	}
 
 	function overlayKey(e) {
-		if (e.key === 'Enter' || e.key === ' ') {
+		if (e.key === 'Enter') {
 			e.preventDefault();
 			close();
 		}
