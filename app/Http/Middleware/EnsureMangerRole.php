@@ -1,14 +1,11 @@
 <?php
-
-
-
     namespace App\Http\Middleware;
     
     use Closure;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
     
-    class EnsureAdminRole
+    class EnsureMangerRole
     {
         public function handle(Request $request, Closure $next)
         {
@@ -20,7 +17,7 @@
                 4 => 'super admin',
             };
             
-            if ($userRole === 'admin' || $userRole === 'super admin') {
+            if ($userRole === 'super admin' || $userRole === 'beheerder') {
                 return $next($request);
             }
     

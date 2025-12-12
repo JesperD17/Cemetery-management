@@ -222,6 +222,12 @@ html, body {
     padding-bottom: var(--margin-padding);
 }
 
+
+.padding-L-R {
+    padding-left: var(--margin-padding);
+    padding-right: var(--margin-padding);
+}
+
 .margin-noTop {
     margin: var(--margin-padding);
     margin-top: unset;
@@ -329,6 +335,14 @@ html, body {
     height: 150px;
 }
 
+.content-width {
+    width: max-content;
+}
+
+.webkit-width {
+    width: -webkit-fill-available;
+}
+
 .full-width {
     width: 100%;
 }
@@ -350,6 +364,12 @@ html, body {
 .errorMsg {
     margin: 5px 0px 0px;
     color: red;
+}
+
+/* images */
+.image {
+    height: 200px;
+    width: 200px;
 }
 
 /* colors */
@@ -413,9 +433,13 @@ input.base, select.base {
     padding: var(--padding-fields);
 }
 
-.desc textarea {
+.desc textarea, .desc {
     height: 150px;
     align-items: flex-start;
+}
+
+textarea.base {
+    padding: var(--padding-fields);
 }
 
 /* btns */
@@ -438,24 +462,29 @@ button.primary:hover, a.primary:hover, .btn.primary:hover {
 
 
 .bg-modal-primary {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .modal-primary {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    min-width: 400px;
+    max-height: 90vh;
     background: white;
     padding: var(--margin-padding);
     border-radius: var(--border-radius);
-    z-index: 3; 
+    z-index: 3;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .table {
@@ -476,6 +505,7 @@ th, td {
     padding: var(--padding-fields);
     border: solid 2px #d7d7d7;
     text-align: left;
+    word-break: break-word;
 }
 
 thead tr th:first-child { 
