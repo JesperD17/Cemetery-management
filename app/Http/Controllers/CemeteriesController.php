@@ -67,12 +67,12 @@ class CemeteriesController extends Controller
     {
         try {
             $validated = $request->validate([
-                'name' => 'required|string|max:255',
+                'name' => 'required|unique:cemeteries,name|string|max:255',
                 'municipality_id' => 'required|integer',
-                'city' => 'required|string|max:100',
-                'address' => 'required|string|max:255',
-                'zipcode' => 'required|string|max:20',
-                'image_hash_url' => 'nullable|string|max:255',
+                'city' => 'required|string|unique:cemeteries,city|max:100',
+                'address' => 'required|string|unique:cemeteries,address|max:255',
+                'zip_code' => 'required|string|unique:cemeteries,zip_code|max:20',
+                'image_hash_url' => 'required|unique:cemeteries,image_hash_url|string|max:5120',
                 'description' => 'nullable|string',
             ]);
             
@@ -81,24 +81,23 @@ class CemeteriesController extends Controller
                 'municipality_id' => $validated['municipality_id'],
                 'city' => $validated['city'],
                 'address' => $validated['address'],
-                'zip_code' => $validated['zipcode'],
-                'image_hash_url' => $validated['image_hash_url'] ?? 'default.jpg',
+                'zip_code' => $validated['zip_code'],
+                'image_hash_url' => $validated['image_hash_url'],
                 'description' => $validated['description'] ?? null,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => now()->toDateTimeString(),
+                'updated_at' => now()->toDateTimeString(),
             ];
-            
-            // Todo fix 500 error
+
             $cemeteryId = DB::table('cemeteries')->insertGetId($data);
-            return response()->json([
-                'success' => 'Begraafplaats succesvol toegevoegd', 
-                'success3' => 'Begraafplaats succesvol toegevoegd', 
-                'id' => $cemeteryId
-            ]);
+
+            return redirect()->back()->
+            with('success', 'Begraafplaats succesvol toegevoegd')->
+            with('id', $cemeteryId)->
+            with('success3', 'Begraafplaats succesvol toegevoegd');
         } catch (ValidationException $e) {
             return back()->withErrors($e->errors());
         } catch (QueryException $e) {
-            return back()->withErrors(['error' => 'Er is een fout opgetreden bij het toevoegen van de begraafplaats.']);
+            return back()->withErrors(['error' => 'Er is een fout opgetreden bij het toevoegen van de begraafplaats.', $e->getMessage()]);
         }
     }
 }
