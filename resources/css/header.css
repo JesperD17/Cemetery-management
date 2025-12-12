@@ -2,8 +2,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  overflow: visible; /* belangrijk voor dropdown zichtbaar buiten wrapper */
-  z-index: 1000; /* zorgt dat dropdown boven andere elementen zit */
+  overflow: visible;
 }
 
 .notification-icon {
@@ -28,7 +27,6 @@
   font-weight: bold;
 }
 
-/* Dropdown */
 .dropdown {
   position: absolute;
   top: 38px;
@@ -38,16 +36,14 @@
   color: black;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 9999;
+  z-index: 10;
   padding: 0.5rem;
-  
   opacity: 0;
   pointer-events: none;
   transform: translateY(-10px);
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-/* Hover activeert dropdown */
 .notification-wrapper:hover > .dropdown {
   opacity: 1;
   pointer-events: auto;
@@ -91,4 +87,59 @@
 .dropdown-item.empty {
   text-align: center;
   color: #777;
+}
+
+.meldingen-container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 2rem;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.meldingen-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.melding-card {
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.melding-card.warning {
+  background: #fff4e5;
+  border-left: 4px solid #ffb300;
+}
+
+.melding-card.expired {
+  background: #ffe5e5;
+  border-left: 4px solid #e60000;
+}
+
+/* Alerts */
+.alert {
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.alert.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.alert.success {
+  background: #d4edda;
+  color: #155724;
 }
