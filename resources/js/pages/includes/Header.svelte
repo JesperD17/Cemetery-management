@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
   import { Bell } from 'lucide-svelte'; 
+  import NotificationsDropdown from '@/layouts/custom/components/NotificationsDropdown.svelte';
 
   interface Props {
     user?: any;
@@ -33,7 +34,7 @@
   </div>
 
   <div class="flex-m-gap align-center">
-    {#if propUser ?? derivedUser}
+    <!-- {#if propUser ?? derivedUser}
       <div class="notification-wrapper">
         <div class="notification-icon" on:click={() => (window.location.href = '/meldingen')}>
           <Bell size="24" />
@@ -56,8 +57,11 @@
             <div class="dropdown-item empty">Geen meldingen</div>
           {/if}
         </div>
-      </div>
-    {/if}
+      </div> -->
+
+    <!-- {/if} -->
+
+    <NotificationsDropdown />
 
     <Link href={route('home')}>Home</Link>
 

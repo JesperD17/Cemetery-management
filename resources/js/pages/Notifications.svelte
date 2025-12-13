@@ -1,42 +1,44 @@
-<script lang="js">
-    import { onMount } from "svelte";
+<script lang="ts">
+    import { onMount } from 'svelte';
 
-    let meldingen = [];
+    let notifications: any[] = [];
     let loading = true;
-    let error = "";
-
+    let error = '';
+  
     onMount(async () => {
-        try {
-            const res = await fetch("/api/notifications", { credentials: "same-origin" });
-            if (!res.ok) throw new Error("Kon meldingen niet ophalen");
-
-            meldingen = await res.json();
-        } catch (err) {
-            console.error(err);
-            error = "Er is iets misgegaan bij het ophalen van meldingen.";
-        } finally {
-            loading = false;
-        }
+      try {
+        const res = await fetch('/api/notifications', { credentials: 'same-origin' });
+        if (!res.ok) throw new Error('Could not fetch notifications');
+  
+        notifications = await res.json();
+      } catch (err) {
+        console.error(err);
+        error = 'Something went wrong while fetching notifications.';
+      } finally {
+        loading = false;
+      }
     });
-</script>
-
-<div class="notifications-container">
-    <h1>Meldingen</h1>
-
-    {#if loading}
-        <p>Bezig met laden...</p>
-    {:else if error}
+  </script>
+  
+  <div class="notification">
+    <div class="notifications-container">
+      <h1>Notifications</h1>
+  
+      {#if loading}
+        <p>Loading...</p>
+      {:else if error}
         <div class="alert error">{error}</div>
-    {:else if meldingen.length === 0}
-        <div class="alert success">Geen actieve meldingen</div>
-    {:else}
+      {:else if notifications.length === 0}
+        <div class="alert success">No active notifications</div>
+      {:else}
         <div class="notifications-list">
-            {#each meldingen as melding}
-                <div class="notifications-card {melding.message.includes('verlopen') ? 'expired' : 'warning'}">
-                    <h2>{melding.title}</h2>
-                    <p>{melding.message}</p>
-                </div>
-            {/each}
+          {#each notifications as notification}
+            <div class="notification-card {notification.message.includes('expired') ? 'expired' : 'warning'}">
+              <h2>{notification.title}</h2>
+              <p>{notification.message}</p>
+            </div>
+          {/each}
         </div>
-    {/if}
-</div>
+      {/if}
+    </div>
+  </div>

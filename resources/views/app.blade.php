@@ -19,7 +19,7 @@
     @vite(['resources/js/app.ts'])
     @vite(['resources/css/NotFound.css'])
     @vite(['resources/css/tileGrid.css'])
-    @vite(['resources/css/notification.css'])
+    @vite(['resources/css/Notification.css'])
 
     {{-- @vite(['resources/css/BadRequest.css']) --}}
     @vite(['resources/css/CemeteryCreate.css'])
