@@ -19,7 +19,7 @@ class MunicipalityController extends Controller
         try {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
         ]);
         } catch (ValidationException $e) {
             return back(303)->withErrors($e->errors());
@@ -41,7 +41,7 @@ class MunicipalityController extends Controller
         try {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
         ]);
         } catch (ValidationException $e) {
             return back(303)->withErrors($e->errors());

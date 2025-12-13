@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class GraveController extends Controller
 {
-    public function index(Request $request)
+    public function store(Request $request)
     {
         $rules = [
             'cemetery_id' => 'required|integer',
@@ -24,7 +24,7 @@ class GraveController extends Controller
             'end_date' => 'nullable|date',
         ];
 
-         $messages = [
+        $messages = [
             'grave_number.unique' => 'Dit grafnummer is al in gebruik.',
         ];
 
@@ -55,10 +55,28 @@ class GraveController extends Controller
                 'updated_at' => now(),
             ]);
         } catch (QueryException $e) {
-            // return response()->json(['message' => 'Database error', 'error' => $e->getMessage()], 500);
             return back()->with('error', 'Er is een fout opgetreden bij het opslaan van het graf.');
         }
 
-        return back()->with('success', 'Graf succesvol aangemaakt.');
+        return back()->with('success', 'Graf succesvol aangemaakt.')->with('success2', 'Graf succesvol aangemaakt.');
+    }
+
+    public function id(Request $request)
+    {
+        $graveId = $request->query('id');
+
+        if (!$graveId) {
+            return response()->json(['error' => 'No grave ID provided'], 400);
+        }
+
+        $grave = DB::table('graves')
+            ->where('id', $graveId)
+            ->first();
+
+        if (!$grave) {
+            return response()->json(['error' => 'Grave not found'], 404);
+        }
+
+        return response()->json($grave);
     }
 }

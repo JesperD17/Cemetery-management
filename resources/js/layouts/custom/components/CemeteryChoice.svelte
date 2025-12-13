@@ -8,7 +8,7 @@
 
     async function fetchCemeteries() {
         try {
-            const response = await fetch(`/cemeteries`, {
+            const response = await fetch(`/api/cemeteries`, {
                 headers: {
                     Accept: 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
@@ -36,7 +36,7 @@
         <div>Laden...</div>
     {:then}
         {#if cemeteries.length > 0}
-            <div class="col-flex padding-btm">
+            <div class="col-flex">
                 <Label for="role_id">Begraafplaats</Label>
                 <div class="flex-s-gap align-center">
                     <select
