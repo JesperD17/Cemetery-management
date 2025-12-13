@@ -28,9 +28,9 @@
 
 .notification-preview {
   display: none;
-  position: fixed; /* boven header */
-  top: 60px; /* pas aan op je header hoogte */
-  right: 20px; /* pas aan op je bel positie */
+  position: fixed; 
+  top: 60px; 
+  right: 20px; 
   width: 280px;
   max-height: 300px;
   overflow-y: auto;

@@ -19,7 +19,7 @@
   
   <div class="notification">
     <div class="notification-wrapper">
-      <!-- Klik = naar meldingenpagina -->
+   
       <Link href={route('meldingen')} class="notification-icon">
         <Bell size="24" />
         {#if $notifications.length > 0}
@@ -27,7 +27,7 @@
         {/if}
       </Link>
   
-      <!-- Hover preview -->
+
       <div class="notification-preview">
         {#if $notifications.length > 0}
           {#each $notifications as notification}
