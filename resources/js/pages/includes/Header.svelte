@@ -1,8 +1,5 @@
 <script lang="ts">
   import { Link, page } from '@inertiajs/svelte';
-  import { onMount } from 'svelte';
-  import { writable } from 'svelte/store';
-  import { Bell } from 'lucide-svelte'; 
   import NotificationsDropdown from '@/layouts/custom/components/NotificationsDropdown.svelte';
 
   interface Props {
@@ -10,56 +7,15 @@
   }
 
   let { user: propUser }: Props = $props();
+
   const derivedUser = $derived($page?.props?.auth?.user || null);
   const userRole = $derived($page?.props?.auth?.user?.role?.name || null);
-
-  const notifications = writable<any[]>([]);
-
-  onMount(async () => {
-    try {
-      const res = await fetch('/api/notifications', { credentials: 'same-origin' });
-      if (res.ok) {
-        const data = await res.json();
-        notifications.set(data);
-      }
-    } catch (err) {
-      console.warn('Kon meldingen niet ophalen:', err);
-    }
-  });
 </script>
 
 <div class="padding-all row-flex align-center justify-between border-primary-btm bg-primary">
-  <div>
-    <div class="h2">DNBP</div>
-  </div>
+  <div class="h2">DNBP</div>
 
   <div class="flex-m-gap align-center">
-    <!-- {#if propUser ?? derivedUser}
-      <div class="notification-wrapper">
-        <div class="notification-icon" on:click={() => (window.location.href = '/meldingen')}>
-          <Bell size="24" />
-          {#if $notifications.length > 0}
-            <span class="badge">
-              {$notifications.length > 10 ? '10+' : $notifications.length}
-            </span>
-          {/if}
-        </div>
-
-        <div class="dropdown">
-          {#if $notifications.length > 0}
-            {#each $notifications as melding}
-              <div class="dropdown-item {melding.type}">
-                <strong>{melding.title}</strong>
-                <p>{melding.message}</p>
-              </div>
-            {/each}
-          {:else}
-            <div class="dropdown-item empty">Geen meldingen</div>
-          {/if}
-        </div>
-      </div> -->
-
-    <!-- {/if} -->
 
     <NotificationsDropdown />
 
@@ -69,10 +25,17 @@
       {#if userRole !== 'rechthebbende'}
         <Link href={route('profiel')}>Profiel</Link>
       {/if}
-      <Link class="btn primary" href={route('logout')} method="post" as="button">Uitloggen</Link>
+
+      <Link
+        class="btn primary"
+        href={route('logout')}
+        method="post"
+        as="button"
+      >
+        Uitloggen
+      </Link>
     {:else}
       <Link href={route('login')}>Inloggen</Link>
     {/if}
   </div>
 </div>
-

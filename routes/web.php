@@ -56,6 +56,9 @@ Route::inertia('/gemeentes', 'Municipality')
     ->middleware(['auth', EnsureMangerRole::class])
     ->name('gemeentes');
 
-Route::middleware('auth')->get('/meldingen', fn() => Inertia::render('Notifications'))->name('meldingen');
+    Route::inertia('/meldingen', 'Notifications')
+    ->middleware(['auth', EnsureMangerRole::class])
+    ->name('meldingen');
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

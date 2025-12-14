@@ -22,7 +22,7 @@
   
   <div class="notification">
     <div class="notifications-container">
-      <h1>Notifications</h1>
+      <h1>Meldingen</h1>
   
       {#if loading}
         <p>Loading...</p>

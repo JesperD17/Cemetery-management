@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -17,12 +16,19 @@ class NotificationController extends Controller
             return response()->json(['error' => 'Niet ingelogd'], 401);
         }
 
-        $graves = DB::table('graves')
-            ->select('id', 'grave_number', 'start_date', 'end_date')
-            ->get();
+        $today = Carbon::today();
+
+        $gravesQuery = DB::table('graves')
+            ->select('id', 'grave_number', 'start_date', 'end_date');
+
+        if ($user->role->name === 'rechthebbende') {
+            
+            $gravesQuery->where('user_id', $user->id);
+        }
+
+        $graves = $gravesQuery->get();
 
         $notifications = [];
-        $today = Carbon::today();
 
         foreach ($graves as $grave) {
             if (!$grave->end_date) {
@@ -34,19 +40,18 @@ class NotificationController extends Controller
 
             if ($daysUntilEnd < 0) {
                 $notifications[] = [
-                    'title' => 'Graf ' . $grave->grave_number,
+                    'title'   => 'Graf ' . $grave->grave_number,
                     'message' => 'De rechten van dit graf zijn verlopen op ' . $endDate->format('d-m-Y') . '.',
-                    'type' => 'expired',
+                    'type'    => 'expired',
                 ];
             } elseif ($daysUntilEnd <= 30) {
                 $notifications[] = [
-                    'title' => 'Graf ' . $grave->grave_number,
+                    'title'   => 'Graf ' . $grave->grave_number,
                     'message' => 'De rechten van dit graf verlopen binnen ' . $daysUntilEnd . ' dagen (op ' . $endDate->format('d-m-Y') . ').',
-                    'type' => 'warning',
+                    'type'    => 'warning',
                 ];
             }
         }
-
         return response()->json($notifications);
     }
 }
