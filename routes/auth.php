@@ -92,8 +92,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/municipalities/{id}', [MunicipalityController::class, 'update'])
     ->middleware(EnsureAdminRole::class);
 
-    Route::get('/api/notifications', [NotificationController::class, 'index']);
-        ->middleware(EnsureMangerRole::class);
+    Route::get('/api/notifications', [NotificationController::class, 'index'])
+    ->middleware(EnsureMangerRole::class);
 
     Route::post('/api/new-deceased', [DeceasedController::class, 'store'])
         ->middleware(EnsureMangerRole::class);
