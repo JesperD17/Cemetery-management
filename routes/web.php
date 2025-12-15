@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\EnsureMangerRole;
+use App\Http\Middleware\EnsureNotAdminRole;
 use App\Http\Middleware\EnsureNotRightHolder;
 
 
@@ -23,10 +24,10 @@ Route::get('/begraafplaatsen/overzicht/{id}', function ($id) {
 
 Route::get('/graf/{id}', function ($id) {
     return Inertia::render('GraveDetails', ['id' => $id]);
-})->middleware(['auth'])->name('graf');
+})->middleware(['auth', EnsureNotAdminRole::class])->name('graf');
 
 Route::inertia('/accounts', 'Accounts')
-    ->middleware(['auth'])
+    ->middleware(['auth', EnsureMangerRole::class])
     ->name('accounts');
 
 Route::get('/nieuw-graf', function () {
