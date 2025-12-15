@@ -218,6 +218,8 @@
                 <div class="padding-btm succes-message">{$page.props.flash.success2}</div>
             {:else if $page.props?.flash?.success3}
                 <div class="padding-btm succes-message">{$page.props.flash.success3}</div>
+            {:else if $page.props?.flash?.success}
+                <div class="padding-btm succes-message">{$page.props.flash.success}</div>
             {/if}
             {#if $page.props?.flash?.error}
                 <div class="padding-btm">

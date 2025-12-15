@@ -1,6 +1,4 @@
 export async function fetchFromAPI(url) {
-    console.log('test');
-    
     try {
         const response = await fetch(url, {
             headers: {
@@ -18,7 +16,6 @@ export async function fetchFromAPI(url) {
 
 export async function saveNewData(url, formData, fetchFunction, closeModal, e) {
     e.preventDefault();
-    console.log(url, formData, fetchFunction, closeModal, e);
     
     formData.post(url, {
         onSuccess: async () => {

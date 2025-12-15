@@ -32,8 +32,6 @@
             throw err;
         }
     })();
-    console.log(cemeteriesPromise);
-    
 </script>
 
 <svelte:head>

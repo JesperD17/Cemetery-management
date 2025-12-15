@@ -23,8 +23,6 @@
     });
 
     async function fetchCemeteryById(queryId = id) {
-        console.log(queryId);
-
         try {
             const response = await fetch(`/cemeteryById?id=${encodeURIComponent(queryId)}`, {
                 headers: {

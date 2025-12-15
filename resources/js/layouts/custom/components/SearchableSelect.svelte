@@ -14,7 +14,6 @@
     let showList = false;
     let wrapper;
 
-    console.log(options);
     $: filtered = options?.filter(o =>
         o?.name?.toLowerCase().includes(search.toLowerCase())
     ) ?? [];

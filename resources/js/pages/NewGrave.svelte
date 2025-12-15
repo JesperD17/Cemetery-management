@@ -25,7 +25,6 @@
     
     const submit = (e) => {
         e.preventDefault();
-        console.log($form);
         
         $form.post(route('nieuw-graf'), {
             forceFormData: true,
