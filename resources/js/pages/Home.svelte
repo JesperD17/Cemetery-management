@@ -35,16 +35,18 @@
                         Accounts
                     </p>
                 </a>
-                <a href={route('nieuwe-gebruiker')} class="tile">
-                    <UserRoundPlus size={60} />
-                    <p class="tile-text">
-                        Nieuwe gebruiker
-                    </p>
-                </a>
                 <a href={route('nieuw-graf')} class="tile">
                     <BookPlus size={60} />
                     <p class="tile-text">
                         Nieuw graf
+                    </p>
+                </a>
+            {/if}
+            {#if (userRole === 'beheerder' || userRole === 'admin' || userRole === 'super admin')}
+                <a href={route('nieuwe-gebruiker')} class="tile">
+                    <UserRoundPlus size={60} />
+                    <p class="tile-text">
+                        Nieuwe gebruiker
                     </p>
                 </a>
             {/if}
