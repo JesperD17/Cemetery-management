@@ -7,6 +7,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 Use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class GraveController extends Controller
 {
@@ -19,7 +20,13 @@ class GraveController extends Controller
             'latitude' => 'required|string|max:255',
             'longitude' => 'required|string|max:255',
             'image_hash_url' => 'required|string|max:5120|unique:graves,image_hash_url',
-            'grave_number' => 'required|string|max:255|unique:graves,grave_number',
+            'grave_number' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('graves', 'grave_number')
+                    ->where(fn ($query) => $query->where('cemetery_id', $request->input('cemetery_id'))),
+            ],
             'status_id' => 'required|integer',
             'description' => 'nullable|string|max:1000',
             'start_date' => 'nullable|date',
