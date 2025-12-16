@@ -437,7 +437,7 @@ html, body {
 }
 
 /* input fields */
-input.base, select.base {
+input.base, select.base, .custom-select-base {
     padding: var(--padding-fields);
 }
 
