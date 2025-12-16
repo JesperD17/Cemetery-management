@@ -18,6 +18,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureMangerRole;
 use App\Http\Middleware\RequestTypes;
 use App\Http\Controllers\GraveController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserApiController;
 
 Route::middleware('guest')->group(function () {
@@ -90,7 +91,10 @@ Route::middleware('auth')->group(function () {
         ->middleware(EnsureMangerRole::class);
 
     Route::put('/municipalities/{id}', [MunicipalityController::class, 'update'])
-        ->middleware(EnsureMangerRole::class);
+    ->middleware(EnsureAdminRole::class);
+
+    Route::get('/api/notifications', [NotificationController::class, 'index'])
+    ->middleware(EnsureMangerRole::class);
 
     Route::post('/api/new-deceased', [DeceasedController::class, 'store'])
         ->middleware(EnsureMangerRole::class);
