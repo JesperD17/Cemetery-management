@@ -14,6 +14,8 @@ class GraveController extends Controller
     {
         $rules = [
             'cemetery_id' => 'required|integer',
+            'type' => 'required|string|max:255',
+            'sort' => 'required|string|max:255',
             'latitude' => 'required|string|max:255',
             'longitude' => 'required|string|max:255',
             'image_hash_url' => 'required|string|max:5120|unique:graves,image_hash_url',
@@ -43,6 +45,8 @@ class GraveController extends Controller
         try {
             DB::table('graves')->insert([
                 'cemetery_id' => $validatedData['cemetery_id'],
+                'type' => $validatedData['type'],
+                'sort' => $validatedData['sort'],
                 'latitude' => $validatedData['latitude'],
                 'longitude' => $validatedData['longitude'],
                 'image_hash_url' => $validatedData['image_hash_url'],

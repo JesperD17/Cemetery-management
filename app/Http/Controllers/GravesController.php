@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class GravesController extends Controller
@@ -37,21 +36,21 @@ class GravesController extends Controller
         
         $cemeteryID = request()->query('cemeteryID');
         
-        if (in_array(strtolower($roleName ?? ''), ['admin', 'super admin', 'editor'])) {
+        if (in_array($roleName ?? '', ['admin', 'super admin', 'editor'])) {
             $query = DB::table('graves as G')
-                ->select(
+            ->select(
                     'G.id AS grave_id',
                     'G.cemetery_id',
+                    'G.type',
+                    'G.sort',
                     'G.latitude',
                     'G.longitude',
                     'G.image_hash_url',
                     'G.grave_number',
                     'G.status_id',
-                    'G.description',
-                    'G.start_date',
-                    'G.end_date'
+                    'G.description'
                 );
-
+                
             if ($cemeteryID) {
                 $query->where('G.cemetery_id', $cemeteryID);
             }
@@ -62,15 +61,16 @@ class GravesController extends Controller
             ->leftJoin('grave_users as GU', 'G.id', '=', 'GU.grave_id')
             ->leftJoin('users as U', 'U.id', '=', 'GU.user_id')
             ->select(
+                'G.id AS grave_id',
                 'G.cemetery_id',
+                'G.type',
+                'G.sort',
                 'G.latitude',
                 'G.longitude',
                 'G.image_hash_url',
                 'G.grave_number',
                 'G.status_id',
                 'G.description',
-                'G.start_date',
-                'G.end_date',
                 'U.first_name',
                 'U.infix',
                 'U.last_name'
@@ -89,7 +89,7 @@ class GravesController extends Controller
     public function fetchByCemeteryID($cemeteryID) {
         $graves = DB::table('graves')
             ->where('cemetery_id', $cemeteryID)
-            ->select('id', 'grave_number', 'cemetery_id', 'latitude', 'longitude', 'image_hash_url', 'status_id', 'description', 'start_date', 'end_date')
+            ->select('id', 'grave_number', 'cemetery_id', 'latitude', 'longitude', 'image_hash_url', 'status_id', 'description')
             ->get()
             ->map(function ($grave) {
                 return [
@@ -102,8 +102,6 @@ class GravesController extends Controller
                     'image_hash_url' => $grave->image_hash_url,
                     'status_id' => $grave->status_id,
                     'description' => $grave->description,
-                    'start_date' => $grave->start_date,
-                    'end_date' => $grave->end_date,
                 ];
             });
         return $graves;
