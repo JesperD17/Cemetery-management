@@ -281,6 +281,10 @@ html, body {
     align-items: center;
 }
 
+.align-end {
+    align-items: end;
+}
+
 .start-text {
     text-align: left;
 }
@@ -439,6 +443,10 @@ html, body {
 /* input fields */
 input.base, select.base, .custom-select-base {
     padding: var(--padding-fields);
+}
+
+.custom-select-base:has(input:focus) {
+    outline: 2px solid black;
 }
 
 .desc textarea, .desc {

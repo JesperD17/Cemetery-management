@@ -67,7 +67,7 @@
                 id={name}
                 name={name}
                 rows="4"
-                class="full-width padding-s border-radius base desc"
+                class="full-width padding-s border-radius base desc border-primary"
                 placeholder={placeholder}
                 required={requiredBool}
                 tabindex={1}

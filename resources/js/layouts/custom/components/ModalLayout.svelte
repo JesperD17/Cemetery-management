@@ -35,7 +35,7 @@
 	<div class="bg-modal-primary" on:click={backgroundClick} role="button" tabindex="0">
 		<div class="modal-primary" role="dialog" aria-modal="true" aria-label={title}>
 			{#if title}
-				<h2 class="h2 margin-bottom">{title}</h2>
+				<div class="h2 margin-btm">{title}</div>
 			{/if}
 			<slot {context} />
 		</div>

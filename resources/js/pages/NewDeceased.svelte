@@ -45,7 +45,7 @@
     });
 
     let cemeteryForm = useForm({
-        name: " ",
+        name: '',
         municipality_id: '',
         grave_types: '',
         grave_sorts: '',
@@ -59,6 +59,8 @@
 
     function onCreateGraveOpen() {
         $graveForm.cemetery_id = '';
+        $graveForm.type = '';
+        $graveForm.sort = '';
         $graveForm.latitude = '';
         $graveForm.longitude = '';
         $graveForm.image_hash_url = '';
@@ -73,6 +75,8 @@
     function onCreateCemeteryOpen() {
         $cemeteryForm.name = " ";
         $cemeteryForm.municipality_id = '';
+        $cemeteryForm.grave_types = '';
+        $cemeteryForm.grave_sorts = '';
         $cemeteryForm.city = '';
         $cemeteryForm.address = '';
         $cemeteryForm.zip_code = '';
@@ -186,9 +190,10 @@
             {#await cemeteries}
                 <div class="padding-btm">Laden...</div>
             {:then cemeteries}
-                <div class="flex-s-gap align-center padding-btm">
+                <div class="flex-s-gap align-end padding-btm">
                     <SearchableSelect
                         options={cemeteries}
+                        visible_name="Begraafplaats"
                         placeholder="Kies een begraafplaats"
                         onSelect={showGraves}
                         requiredBool={true}
@@ -203,9 +208,10 @@
                 {#await graves}
                     <div class="padding-btm">Laden...</div>
                 {:then graves}
-                    <div class="flex-s-gap align-center padding-btm">
+                    <div class="flex-s-gap align-end padding-btm">
                         <SearchableSelect
                             bind:value={$formPair.grave_id}
+                            visible_name="Graf"
                             options={graves}
                             placeholder="Kies een graf"
                             requiredBool={true}

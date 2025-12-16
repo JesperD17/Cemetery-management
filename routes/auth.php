@@ -18,6 +18,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Middleware\EnsureMangerRole;
 use App\Http\Middleware\RequestTypes;
 use App\Http\Controllers\GraveController;
+use App\Http\Controllers\TypesSortsController;
 use App\Http\Controllers\UserApiController;
 
 Route::middleware('guest')->group(function () {
@@ -93,5 +94,8 @@ Route::middleware('auth')->group(function () {
         ->middleware(EnsureMangerRole::class);
 
     Route::post('/api/new-deceased', [DeceasedController::class, 'store'])
+        ->middleware(EnsureMangerRole::class);
+
+    Route::get('/api/grave-types-sorts/{cemeteryID}', [TypesSortsController::class, 'index'])
         ->middleware(EnsureMangerRole::class);
 });
