@@ -9,6 +9,16 @@
     import DuoInput from "@/layouts/custom/components/DuoInput.svelte";
     import SingleInput from "@/layouts/custom/components/SingleInput.svelte";
     import LoadingDiv from "@/layouts/custom/components/LoadingDiv.svelte";
+    import SearchableSelect from "@/layouts/custom/components/SearchableSelect.svelte";
+    import { fetchFromAPI } from "@/layouts/custom/components/Functions";
+
+    let types_sorts;
+    let selectedCemeteryId = 1;
+    
+    // Reactively fetch types and sorts when cemetery ID changes
+    $: if (selectedCemeteryId) {
+        types_sorts = fetchFromAPI(`/api/grave-types-sorts/${selectedCemeteryId}`);
+    }
 
     let form = useForm({
         cemetery_id: "",
@@ -98,6 +108,44 @@
                 requiredBool={false}
                 bind:form
             />
+
+        <!-- Searchable selects for grave type and grave sort -->
+        {#if types_sorts}
+            {#await types_sorts}
+                <div class="padding-btm">
+                    Laden...
+                </div>
+            {:then types_sortsData}
+                {#if types_sortsData?.types && types_sortsData?.sorts}
+                    <div class="flex-s-gap padding-btm">
+                        <SearchableSelect
+                            bind:value={$form.type}
+                            form={form}
+                            visible_name="Graf Type"
+                            options={types_sortsData.types}
+                            placeholder="Kies een graf type"
+                            requiredBool={true}
+                        />
+                        <SearchableSelect
+                            bind:value={$form.sort}
+                            form={form}
+                            visible_name="Graf Soort"
+                            options={types_sortsData.sorts}
+                            placeholder="Kies een graf soort"
+                            requiredBool={true}
+                        />
+                    </div>
+                    {:else}
+                        <div class="padding-btm">
+                            Geen graf types en soorten beschikbaar voor deze begraafplaats.
+                        </div>
+                    {/if}
+                {:catch error}
+                    <div class="padding-btm">
+                        Fout bij laden graf types en soorten: {error.message || 'Onbekende fout'}
+                    </div>
+                {/await}
+            {/if}
 
             <DuoInput
                 type="date"
