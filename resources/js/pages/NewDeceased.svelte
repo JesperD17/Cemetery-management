@@ -32,6 +32,8 @@
 
     let graveForm = useForm({
         cemetery_id: '',
+        type: '',
+        sort: '',
         latitude: '',
         longitude: '',
         image_hash_url: '',
@@ -45,11 +47,14 @@
     let cemeteryForm = useForm({
         name: " ",
         municipality_id: '',
+        grave_types: '',
+        grave_sorts: '',
         city: '',
         address: '',
         zip_code: '',
         image_hash_url: '',
         description: '',
+        errors: {},
     });
 
     function onCreateGraveOpen() {
