@@ -15,10 +15,8 @@
     let labelInput = '';
     let inputElement;
     
-    // Calculate input width based on content
     $: inputWidth = labelInput.length > 0 ? Math.max(40, labelInput.length * 8 + 10) : 40;
 
-    // Initialize labels from form value if it exists
     $: if (type === 'labels' && $form[name]) {
         if (Array.isArray($form[name])) {
             labels = $form[name];
@@ -30,7 +28,6 @@
     function handleLabelInput(event) {
         const value = event.target.value;
         
-        // Check if user pressed comma or enter
         if (value.includes(',')) {
             const newLabels = value.split(',').map(l => l.trim()).filter(l => l);
             labels = [...labels, ...newLabels];
@@ -47,7 +44,6 @@
             $form[name] = labels.join(',');
             labelInput = '';
         } else if (event.key === 'Backspace' && !labelInput && labels.length > 0) {
-            // Remove last label when backspace is pressed on empty input
             labels = labels.slice(0, -1);
             $form[name] = labels.join(',');
         }
@@ -123,7 +119,6 @@
 </div>
 
 <style>
-    /* labels styling */
     .label-chip {
         display: inline-flex;
         align-items: center;

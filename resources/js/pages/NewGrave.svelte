@@ -15,7 +15,6 @@
     let types_sorts;
     let selectedCemeteryId = 1;
     
-    // Reactively fetch types and sorts when cemetery ID changes
     $: if (selectedCemeteryId) {
         types_sorts = fetchFromAPI(`/api/grave-types-sorts/${selectedCemeteryId}`);
     }
@@ -109,7 +108,6 @@
                 bind:form
             />
 
-        <!-- Searchable selects for grave type and grave sort -->
         {#if types_sorts}
             {#await types_sorts}
                 <div class="padding-btm">

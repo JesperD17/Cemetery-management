@@ -19,7 +19,6 @@
     let modalRef;
     let types_sorts;
     
-    // Reactively fetch types and sorts when cemetery ID changes
     $: if (selectedCemeteryId) {
         types_sorts = fetchFromAPI(`/api/grave-types-sorts/${selectedCemeteryId}`);
     }
