@@ -12,36 +12,48 @@ class CemeteriesController extends Controller
 {
     public function index(Request $request)
     {
-        // if (!$request->ajax() && !$request->expectsJson()) {
-        //     return redirect('/');
-        // }
-        
-        $userRoleID = $request->user()->role_id;
-        $dbRole = DB::table('roles')->where('id', $userRoleID)->first();
-        
-        $gravesController = new GravesController();
-        $graves = $gravesController->fetchByUser($request->user()->id);
-        
-        if ($dbRole && in_array($dbRole->name, ['super admin', 'admin', 'beheerder'])) {
-            $cemeteries = DB::table('cemeteries')->get();
-        } else {
-            $cemeteryIds = $graves->pluck('cemetery_id')->unique()->filter()->values()->all();
-            if (empty($cemeteryIds)) {
-                $cemeteries = collect();
+        try {
+            $userRoleID = $request->user()->role_id;
+            $dbRole = DB::table('roles')->where('id', $userRoleID)->first();
+            
+            $gravesController = new GravesController();
+            $graves = $gravesController->fetchByUser($request->user()->id);
+            
+            if ($dbRole && in_array($dbRole->name, ['super admin', 'admin', 'beheerder'])) {
+                $cemeteries = DB::table('cemeteries')->get();
             } else {
-                $cemeteries = DB::table('cemeteries')->whereIn('id', $cemeteryIds)->get();
+                $cemeteryIds = $graves->pluck('cemetery_id')->unique()->filter()->values()->all();
+                if (empty($cemeteryIds)) {
+                    $cemeteries = collect();
+                } else {
+                    $cemeteries = DB::table('cemeteries')->whereIn('id', $cemeteryIds)->get();
+                }
             }
+            return response()->json($cemeteries);
+        } catch (QueryException $e) {
+            return response()->json(['error' => 'Er is een fout opgetreden bij het ophalen van de begraafplaatsen.', $e->getMessage()], 500);
         }
-        return response()->json($cemeteries);
     }
 
     public function id(Request $request)
     {
-        $id = $request->query('id');
+        try {
+            $id = $request->query('id');
 
-        $cemetery = DB::table('cemeteries')->where('id', $id)->first();
-        
-        return response()->json($cemetery);
+            if (!$id) {
+                return response()->json(['error' => 'Cemetery ID is required'], 400);
+            }
+
+            $cemetery = DB::table('cemeteries')->where('id', $id)->first();
+            
+            if (!$cemetery) {
+                return response()->json(['error' => 'Cemetery not found'], 404);
+            }
+            
+            return response()->json($cemetery);
+        } catch (QueryException $e) {
+            return response()->json(['error' => 'Er is een fout opgetreden bij het ophalen van de begraafplaats.'], 500);
+        }
     }
 
     public function updateCemetery(Request $request, $id)
@@ -49,6 +61,8 @@ class CemeteriesController extends Controller
         try {
             $data = $request->validate([
                 'name' => 'required|string|max:255',
+                'grave_types' => 'nullable|string|max:50',
+                'grave_sorts' => 'nullable|string|max:50',
                 'address' => 'nullable|string|max:255',
                 'zip_code' => 'nullable|string|max:20',
                 'city' => 'nullable|string|max:100',
@@ -59,7 +73,9 @@ class CemeteriesController extends Controller
             DB::table('cemeteries')->where('id', $id)->update($data);
             return response()->json(['message' => 'Cemetery updated successfully']);
         } catch (ValidationException $e) {
-            return back(303)->withErrors($e->errors());
+            return back()->withErrors($e->errors());
+        } catch (QueryException $e) {
+            return back()->withErrors(['error' => 'Er is een fout opgetreden bij het toevoegen van de begraafplaats.', $e->getMessage()]);
         }
     }
 
@@ -69,6 +85,8 @@ class CemeteriesController extends Controller
             $validated = $request->validate([
                 'name' => 'required|unique:cemeteries,name|string|max:255',
                 'municipality_id' => 'required|integer',
+                'grave_types' => 'nullable|string|max:50',
+                'grave_sorts' => 'nullable|string|max:50',
                 'city' => 'required|string|unique:cemeteries,city|max:100',
                 'address' => 'required|string|unique:cemeteries,address|max:255',
                 'zip_code' => 'required|string|unique:cemeteries,zip_code|max:20',
@@ -79,6 +97,8 @@ class CemeteriesController extends Controller
             $data = [
                 'name' => $validated['name'],
                 'municipality_id' => $validated['municipality_id'],
+                'grave_types' => $validated['grave_types'],
+                'grave_sorts' => $validated['grave_sorts'],
                 'city' => $validated['city'],
                 'address' => $validated['address'],
                 'zip_code' => $validated['zip_code'],

@@ -6,6 +6,8 @@
     import Asterisk from "./Asterisk.svelte";
     import InputError from "@/components/InputError.svelte";
     import LoadingDiv from "./LoadingDiv.svelte";
+    import { fetchFromAPI } from "./Functions";
+    import SearchableSelect from "./SearchableSelect.svelte";
 
     export let selectedCemeteryId;
     export let cemeteries;
@@ -15,6 +17,11 @@
     export let page;
 
     let modalRef;
+    let types_sorts;
+    
+    $: if (selectedCemeteryId) {
+        types_sorts = fetchFromAPI(`/api/grave-types-sorts/${selectedCemeteryId}`);
+    }
 
     export function open() {
         modalRef.open();
@@ -35,7 +42,7 @@
                 {#if selectedCemeteryId}
                     {#each cemeteriesData as cemetery}
                         {#if cemetery.id == selectedCemeteryId}
-                            <div class="bold">{cemetery.name} - {cemetery.city}</div>
+                            <div class="bold padding-btm">{cemetery.name} - {cemetery.city}</div>
                             <input type="hidden" name="cemetery_id_hidden" bind:value={form.cemetery_id} />
                         {/if}
                     {/each}
@@ -102,6 +109,42 @@
             requiredBool={false}
             bind:form={form}
         />
+        
+        <!-- Searchable selects for grave type and grave sort -->
+        {#if types_sorts}
+            {#await types_sorts}
+                <div class="padding-btm">
+                    Laden...
+                </div>
+            {:then types_sortsData}
+                {#if types_sortsData?.types && types_sortsData?.sorts}
+                <div class="flex-s-gap padding-btm">
+                    <SearchableSelect
+                        bind:value={$form.type}
+                        visible_name="Graf Type"
+                        options={types_sortsData.types}
+                        placeholder="Kies een graf type"
+                        requiredBool={true}
+                    />
+                    <SearchableSelect
+                        bind:value={$form.sort}
+                        visible_name="Graf Soort"
+                        options={types_sortsData.sorts}
+                        placeholder="Kies een graf soort"
+                        requiredBool={true}
+                    />
+                </div>
+                {:else}
+                    <div class="padding-btm">
+                        Geen graf types en soorten beschikbaar voor deze begraafplaats.
+                    </div>
+                {/if}
+            {:catch error}
+                <div class="padding-btm">
+                    Fout bij laden graf types en soorten: {error.message || 'Onbekende fout'}
+                </div>
+            {/await}
+        {/if}
 
         <DuoInput
             type="date"

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->unsignedBigInteger('municipality_id');
+            $table->string('grave_types');
+            $table->string('grave_sorts');
             $table->string('city');
             $table->string('address')->unique();
             $table->string('zip_code')->unique();

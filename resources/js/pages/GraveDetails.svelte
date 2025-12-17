@@ -44,19 +44,25 @@
                 <div class="flex-m-gap justify-between align-center">
                     <div>
                         <div class="flex-m-gap">
-                        <div class="bold">Grafnummer:</div>{graveDetails.grave_number}
+                        <div class="bold">Grafnummer:</div>{graveDetails?.grave_number ?? 'N.v.t.'}
                     </div>
                     <div class="flex-m-gap">
-                        <div class="bold">Status:</div>{graveDetails.status_id}
+                        <div class="bold">Graf soort</div>{graveDetails?.sort ?? 'N.v.t.'}
                     </div>
                     <div class="flex-m-gap">
-                        <div class="bold">Beschrijving:</div> {graveDetails.description}
+                        <div class="bold">Graf type:</div>{graveDetails?.type ?? 'N.v.t.'}
                     </div>
                     <div class="flex-m-gap">
-                        <div class="bold">Startdatum:</div> {graveDetails.start_date}
+                        <div class="bold">Status:</div>{graveDetails?.status_id ?? 'N.v.t.'}
                     </div>
                     <div class="flex-m-gap">
-                        <div class="bold">Einddatum:</div> {graveDetails.end_date}
+                        <div class="bold">Beschrijving:</div> {graveDetails?.description ?? 'N.v.t.'}
+                    </div>
+                    <div class="flex-m-gap">
+                        <div class="bold">Startdatum:</div> {graveDetails?.start_date ?? 'N.v.t.'}
+                    </div>
+                    <div class="flex-m-gap">
+                        <div class="bold">Einddatum:</div> {graveDetails?.end_date ?? 'N.v.t.'}
                     </div>
                 </div>
                 {#if graveDetails.image_hash_url}

@@ -29,20 +29,13 @@
 	function backgroundClick(e) {
 		if (e.target.classList && e.target.classList.contains('bg-modal-primary')) close();
 	}
-
-	function overlayKey(e) {
-		if (e.key === 'Enter') {
-			e.preventDefault();
-			close();
-		}
-	}
 </script>
 
 {#if visible}
-	<div class="bg-modal-primary" on:click={backgroundClick} on:keydown={overlayKey} role="button" tabindex="0">
+	<div class="bg-modal-primary" on:click={backgroundClick} role="button" tabindex="0">
 		<div class="modal-primary" role="dialog" aria-modal="true" aria-label={title}>
 			{#if title}
-				<h2 class="h2 margin-bottom">{title}</h2>
+				<div class="h2 margin-btm">{title}</div>
 			{/if}
 			<slot {context} />
 		</div>

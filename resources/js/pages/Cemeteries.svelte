@@ -5,8 +5,7 @@
     import { Loader, Pen } from "lucide-svelte";
     import { page } from "@inertiajs/svelte";
 
-    var location = "laden...";
-    var cards = [];
+    var cards = "laden...";
     const userRole = $derived($page?.props?.auth?.user?.role?.name || null);
 
     async function fetchCemeteries() {
@@ -39,10 +38,10 @@
 </svelte:head>
 
 <AppLayout>
+    <div class="h1 bold">
+        Kies je gekoppelde begraafplaats
+    </div>
     {#await cemeteriesPromise}
-        <div class="h1 bold">
-            laden...
-        </div>
         <div class="section">
             begraafplaatsen laden...
         </div>
@@ -50,9 +49,6 @@
             <Loader class="icon spin" />
         </div>
     {:then cemeteries}
-        <div class="h1 bold">
-            Kies je gekoppelde begraafplaats
-        </div>
         <div class="section">
             {#if cards.length > 0 && cemeteries !== "laden..."}
             <div class="flex-m-gap wrap">
@@ -79,14 +75,11 @@
                 </div>
             {:else}
                 <div class="mt-4">
-                    Geen begraafplaatsen gevonden in {location}.
+                    Geen begraafplaatsen gevonden.
                 </div>
             {/if}
         </div>
     {:catch}
-        <div class="h1 bold">
-            Fout
-        </div>
         <div class="section">
             Er is een fout opgetreden bij het ophalen van je locatie of begraafplaatsen.
         </div>

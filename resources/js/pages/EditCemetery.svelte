@@ -143,6 +143,12 @@
                         </div>
                     </div>
                     <div class="row-flex gap justify-between">
+                        <div>Type graven:</div>
+                        <div>
+                            {cemeteryData.grave_types ? cemeteryData.grave_types : 'Niet opgegeven'}
+                        </div>
+                    </div>
+                    <div class="row-flex gap justify-between">
                         <Link class="btn primary" href="/begraafplaatsen/overzicht/{cemeteryData.id}" as="button">Ga naar overzicht</Link>
                         <button class="base" on:click={() => openEdit(cemeteryData)} as="button">Gegevens bewerken</button>
                     </div>

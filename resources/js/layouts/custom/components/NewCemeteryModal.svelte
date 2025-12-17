@@ -82,6 +82,24 @@
             bind:form
         />
 
+        <SingleInput
+            type="labels"
+            name="grave_types"
+            visible_name="Type graven beschikbaar"
+            placeholder="bijv: algemeen graf, particulier graf, urnen graf"
+            requiredBool={true}
+            bind:form={form}
+        />
+
+        <SingleInput
+            type="labels"
+            name="grave_sorts"
+            visible_name="Soorten graven beschikbaar"
+            placeholder="bijv: dubbel graf, enkel graf, urnengraf"
+            requiredBool={true}
+            bind:form={form}
+        />
+
         {#if $page.props?.flash?.error}
             <div class="padding-btm">
                 <InputError message={$page.props.flash.error} />
