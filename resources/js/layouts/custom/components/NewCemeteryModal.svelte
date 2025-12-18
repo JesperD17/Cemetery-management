@@ -34,15 +34,6 @@
 
         <SingleInput
             type="text"
-            name="municipality_id"
-            visible_name="Gemeente"
-            placeholder="Vul de gemeente in"
-            requiredBool={true}
-            bind:form
-        />
-
-        <SingleInput
-            type="text"
             name="city"
             visible_name="Plaats"
             placeholder="Vul de plaats in"

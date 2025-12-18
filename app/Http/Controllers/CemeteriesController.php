@@ -84,7 +84,6 @@ class CemeteriesController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'required|unique:cemeteries,name|string|max:255',
-                'municipality_id' => 'required|integer',
                 'grave_types' => 'nullable|string|max:50',
                 'grave_sorts' => 'nullable|string|max:50',
                 'city' => 'required|string|unique:cemeteries,city|max:100',
@@ -96,7 +95,7 @@ class CemeteriesController extends Controller
             
             $data = [
                 'name' => $validated['name'],
-                'municipality_id' => $validated['municipality_id'],
+                'municipality_id' => 1, // Temporary fixed value
                 'grave_types' => $validated['grave_types'],
                 'grave_sorts' => $validated['grave_sorts'],
                 'city' => $validated['city'],

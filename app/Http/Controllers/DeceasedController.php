@@ -36,14 +36,19 @@ class DeceasedController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-
+            
+            $graveId = $request->query('grave_id');
+            
             GraveOfDeceased::create([
-                'grave_id' => $request->query('grave_id'),
+                'grave_id' => $graveId,
                 'deceased_id' => DB::getPdo()->lastInsertId(),
             ]);
+
         } catch (QueryException $e) {
             return back()->with('error', 'Er is een fout opgetreden bij het aanmaken van de overledene.');
         }
-        return back()->with('success', 'Overledene succesvol toegevoegd.');
+        return back()
+            ->with('success', 'Overledene succesvol toegevoegd.')
+            ->with('info', $graveId);
     }
 }
