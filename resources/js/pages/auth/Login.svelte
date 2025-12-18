@@ -39,7 +39,7 @@
 <div class="form-alignment">
     <div class="row-flex border-primary border-radius">
         {#if !isMobile}
-            <img src="images/dummy.png" alt="dummy img" class="border-radius-l img-login cover">
+            <img src="images/cemetery.jpg" alt="cemetery img" class="border-radius-l img-login cover">
         {/if}
 
         <div class="{isMobile ? '' : 'border-primary-l'}">

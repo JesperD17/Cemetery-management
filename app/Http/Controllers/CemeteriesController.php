@@ -89,7 +89,7 @@ class CemeteriesController extends Controller
                 'city' => 'required|string|unique:cemeteries,city|max:100',
                 'address' => 'required|string|unique:cemeteries,address|max:255',
                 'zip_code' => 'required|string|unique:cemeteries,zip_code|max:20',
-                'image_hash_url' => 'required|unique:cemeteries,image_hash_url|string|max:5120',
+                'image_hash_url' => 'required|string|max:5120',
                 'description' => 'nullable|string',
             ]);
             

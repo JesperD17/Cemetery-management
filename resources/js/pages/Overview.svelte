@@ -78,7 +78,7 @@
                     {#each cards as card}
                     <a href={`/graf/${card.grave_id}`} style="text-decoration: none; color: inherit; width: 49%;">
                         <div class="row-flex full-width card-grave border-radius border-primary">
-                            <img src="/images/dummy.png" alt="dummy img" class="border-radius-t cover full-height" />
+                            <img src={`/images/${card.image_hash_url}`} alt="cemetery img" class="border-radius-t cover full-height" />
                             <div class="col-flex justify-center">
                                 <div class="padding-all col-flex">
                                     <div class="bold line-clamp">{card.first_name} {card.infix} {card.last_name}</div>

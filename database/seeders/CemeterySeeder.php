@@ -20,7 +20,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Zwolle',
             'address' => 'Straat 1',
             'zip_code' => '8000AA',
-            'image_hash_url' => 'c1.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -31,7 +31,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Zwolle',
             'address' => 'Straat 2',
             'zip_code' => '8001BB',
-            'image_hash_url' => 'c2.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -42,7 +42,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Kampen',
             'address' => 'Straat 3',
             'zip_code' => '8300CC',
-            'image_hash_url' => 'c3.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -53,7 +53,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Kampen',
             'address' => 'Straat 4',
             'zip_code' => '8301DD',
-            'image_hash_url' => 'c4.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -64,7 +64,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Utrecht',
             'address' => 'Straat 5',
             'zip_code' => '3500EE',
-            'image_hash_url' => 'c5.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -75,7 +75,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Utrecht',
             'address' => 'Straat 6',
             'zip_code' => '3501FF',
-            'image_hash_url' => 'c6.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -86,7 +86,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Deventer',
             'address' => 'Straat 7',
             'zip_code' => '7400GG',
-            'image_hash_url' => 'c7.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -97,7 +97,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Deventer',
             'address' => 'Straat 8',
             'zip_code' => '7401HH',
-            'image_hash_url' => 'c8.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -108,7 +108,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Lelystad',
             'address' => 'Straat 9',
             'zip_code' => '8200II',
-            'image_hash_url' => 'c9.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -119,7 +119,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Lelystad',
             'address' => 'Straat 10',
             'zip_code' => '8201JJ',
-            'image_hash_url' => 'c10.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -130,7 +130,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Almere',
             'address' => 'Straat 11',
             'zip_code' => '1300KK',
-            'image_hash_url' => 'c11.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -141,7 +141,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Almere',
             'address' => 'Straat 12',
             'zip_code' => '1301LL',
-            'image_hash_url' => 'c12.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -152,7 +152,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Amsterdam',
             'address' => 'Straat 13',
             'zip_code' => '1000MM',
-            'image_hash_url' => 'c13.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -163,7 +163,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Amsterdam',
             'address' => 'Straat 14',
             'zip_code' => '1001NN',
-            'image_hash_url' => 'c14.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -174,7 +174,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Rotterdam',
             'address' => 'Straat 15',
             'zip_code' => '3000OO',
-            'image_hash_url' => 'c15.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
 
         Cemeteries::create([
@@ -185,7 +185,7 @@ class CemeterySeeder extends Seeder
             'city' => 'Rotterdam',
             'address' => 'Straat 16',
             'zip_code' => '3001PP',
-            'image_hash_url' => 'c16.jpg',
+            'image_hash_url' => 'cemetery.jpg',
         ]);
     }
 }

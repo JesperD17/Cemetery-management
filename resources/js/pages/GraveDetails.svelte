@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 {#if graveDetails.image_hash_url}
-                <img class="image" src={graveDetails.image_hash_url} alt="Afbeelding van het graf" />
+                <img class="image" src={`/images/${graveDetails.image_hash_url}`} alt="Afbeelding van het graf" />
                 {/if}
             </div>
         </div>

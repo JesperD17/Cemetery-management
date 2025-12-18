@@ -19,7 +19,7 @@ class GraveController extends Controller
             'sort' => 'required|string|max:255',
             'latitude' => 'required|string|max:255',
             'longitude' => 'required|string|max:255',
-            'image_hash_url' => 'required|string|max:5120|unique:graves,image_hash_url',
+            'image_hash_url' => 'required|string|max:5120',
             'grave_number' => [
                 'required',
                 'string',

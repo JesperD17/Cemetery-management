@@ -418,6 +418,10 @@ html, body {
     color: black;
 }
 
+.white, .white svg {
+    color: white;
+}
+
 /* blocks */
 .overlay-w-h {
     position: fixed;

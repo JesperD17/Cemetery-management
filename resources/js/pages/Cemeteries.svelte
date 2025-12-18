@@ -54,7 +54,7 @@
             <div class="flex-m-gap wrap">
                     {#each cards as card}
                         <div class="col-flex card-loc border-radius justify-between border-primary">
-                            <img src="/images/dummy.png" alt="dummy img" class="border-radius-t cover">
+                            <img src={`/images/${card.image_hash_url}`} alt="cemetery img" class="border-radius-t cover">
                             <div class="col-flex">
                                 <div class="padding-all col-flex">
                                     <div class="center-text bold line-clamp">{card.name}</div>
@@ -64,7 +64,7 @@
                             </div>
 
                             {#if userRole === 'super admin' || userRole === 'admin'}
-                            <div class="top-right black">
+                            <div class="top-right white">
                                 <Link href={`/begraafplaatsen/bewerk/${encodeURIComponent(card.id)}`}>
                                     <Pen />
                                 </Link>

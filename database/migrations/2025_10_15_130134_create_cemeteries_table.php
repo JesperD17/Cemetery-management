@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('address')->unique();
             $table->string('zip_code')->unique();
-            $table->string('image_hash_url')->unique();
+            $table->string('image_hash_url');
             $table->text('description')->nullable();
             $table->timestamps();
         });
