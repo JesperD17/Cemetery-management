@@ -53,7 +53,7 @@ Route::inertia('/gemeentes', 'Municipality')
     ->name('gemeentes');
 
 Route::inertia('/meldingen', 'Notifications')
-    ->middleware(['auth', EnsureMangerRole::class])
+    ->middleware(['auth'])
     ->name('meldingen');
 
 Route::inertia('/rechthebbenden-koppelen', 'RightholderLinkGrave')

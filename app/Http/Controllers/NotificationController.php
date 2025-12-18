@@ -19,17 +19,16 @@ class NotificationController extends Controller
         $today = Carbon::today();
 
         $gravesQuery = DB::table('graves')
-            ->select('id', 'grave_number', 'start_date', 'end_date');
+            ->select('graves.id', 'graves.grave_number', 'graves.start_date', 'graves.end_date');
 
         if ($user->role->name === 'rechthebbende') {
-            
-            $gravesQuery->where('user_id', $user->id);
+            $gravesQuery->join('grave_users', 'graves.id', '=', 'grave_users.grave_id')
+                ->where('grave_users.user_id', $user->id);
         }
-
         $graves = $gravesQuery->get();
-
+        
         $notifications = [];
-
+        
         foreach ($graves as $grave) {
             if (!$grave->end_date) {
                 continue;
