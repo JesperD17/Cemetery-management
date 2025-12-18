@@ -52,9 +52,13 @@ Route::inertia('/gemeentes', 'Municipality')
     ->middleware(['auth', EnsureMangerRole::class])
     ->name('gemeentes');
 
-    Route::inertia('/meldingen', 'Notifications')
+Route::inertia('/meldingen', 'Notifications')
     ->middleware(['auth', EnsureMangerRole::class])
     ->name('meldingen');
+
+Route::inertia('/rechthebbende-koppelenn', 'RightholderLinkGrave')
+    ->middleware(['auth', EnsureMangerRole::class])
+    ->name('rechthebbenden-koppelen');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

@@ -20,7 +20,9 @@ use App\Http\Middleware\RequestTypes;
 use App\Http\Controllers\GraveController;
 use App\Http\Controllers\TypesSortsController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\RightholderController;
 use App\Http\Controllers\UserApiController;
+use App\Http\Middleware\EnsureAdminRole;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
@@ -75,7 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/new-cemetery', [CemeteriesController::class, 'store']);
     Route::get('/cemeteryById', [CemeteriesController::class, 'id']);
     Route::put('/updateCemetery/{id}', [CemeteriesController::class, 'updateCemetery']);
-    Route::get('/graves', [GravesController::class, 'index']);
+    Route::get('/api/graves', [GravesController::class, 'index']);
     Route::get('/api/graveById', [GraveController::class, 'id']);
     Route::get('/api/gravesByCemetery/{cemeteryID}', [GravesController::class, 'show']);
     Route::get('/roles', [RolesController::class, 'index'])
@@ -102,4 +104,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/api/grave-types-sorts/{cemeteryID}', [TypesSortsController::class, 'index'])
         ->middleware(EnsureMangerRole::class);
+
+    Route::get('/api/rightholders', [RightholderController::class, 'index']);
 });
