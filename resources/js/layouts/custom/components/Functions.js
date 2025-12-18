@@ -14,10 +14,20 @@ export async function fetchFromAPI(url) {
     }
 }
 
-export async function saveNewData(url, formData, fetchFunction, closeModal, e) {
-    e.preventDefault();
-    
-    formData.post(url, {
+export async function saveNewData(url, formData, fetchFunction = () => Promise.resolve(), closeModal, e) {
+    if (e?.preventDefault) {
+        e.preventDefault();
+    }
+    const form = formData?.post ? formData : null;
+
+    if (!form) {
+        console.error('saveNewData expects an Inertia useForm instance with a post() method. Received:', formData);
+        return;
+    }
+
+    console.log('Submitting to:', url, 'with data:', formData, fetchFunction);
+
+    form.post(url, {
         onSuccess: async () => {
             await fetchFunction();
             if (closeModal && typeof closeModal === 'function') {
@@ -26,6 +36,6 @@ export async function saveNewData(url, formData, fetchFunction, closeModal, e) {
         },
         onError: (errors) => {
             console.error(errors);
-        }
+        },
     });
 }

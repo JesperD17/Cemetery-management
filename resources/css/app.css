@@ -277,6 +277,10 @@ html, body {
     justify-content: center;
 }
 
+.align-base {
+    align-items: baseline;
+}
+
 .align-center {
     align-items: center;
 }
@@ -463,6 +467,7 @@ button.base, a.base, .btn {
     padding: var(--padding-fields);
     border-radius: var(--border-radius);
     transition: all 0.2s;
+    color: black;
     border: solid 2px black;
     text-align: center;
     text-decoration: none;
@@ -476,6 +481,22 @@ button.primary:hover, a.primary:hover, .btn.primary:hover {
     background: #dcd9d9;
 }
 
+button.base:disabled, a.base:disabled, .btn:disabled {
+    color: grey;
+    border: solid 2px gray;
+    cursor: not-allowed;
+}
+
+button.base:hover:disabled, a.base:hover:disabled, .btn:hover:disabled {
+    cursor: not-allowed;
+}
+
+.link {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
 
 .bg-modal-primary {
     position: fixed;

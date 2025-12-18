@@ -1,3 +1,7 @@
+.notification svg {
+  color: black;
+}
+
 .notification-wrapper {
   position: relative;
   display: inline-flex;

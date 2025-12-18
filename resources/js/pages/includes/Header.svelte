@@ -14,11 +14,12 @@
   <div class="h2">DNBP</div>
 
   <div class="flex-m-gap align-center">
-    <NotificationsDropdown />
-
+    {#if propUser ?? derivedUser}
+      <NotificationsDropdown />
+    {/if}
     <Link href={route('home')}>Home</Link>
 
-    {#if propUser ?? derivedUser}
+    {#if propUser ?? derivedUser}      
       <Link href={route('profiel')}>Profiel</Link>
 
       <Link

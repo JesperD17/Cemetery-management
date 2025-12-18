@@ -17,10 +17,7 @@
 </svelte:head>
 
 <AppLayout>
-    <!-- <div>
-        Home pagina welkom {user ? user.name : 'gast'}
-    </div> -->
-    <div class="tile-grid">
+    <div class="tile-grid wrap">
         {#if (propUser ?? derivedUser)}
             <a href={route('begraafplaatsen')} class="tile">
                 <TableOfContents size={60} />
@@ -39,6 +36,12 @@
                     <BookPlus size={60} />
                     <p class="tile-text">
                         Nieuw graf
+                    </p>
+                </a>
+                <a href={route('rechthebbenden-koppelen')} class="tile">
+                    <UserRoundPlus size={60} />
+                    <p class="tile-text">
+                        Rechthebbenden koppelen
                     </p>
                 </a>
             {/if}
