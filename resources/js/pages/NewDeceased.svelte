@@ -4,17 +4,10 @@
     import SingleInput from "@/layouts/custom/components/SingleInput.svelte";
     import InputError from "@/components/InputError.svelte";
     import { useForm, page } from "@inertiajs/svelte";
-    import { fetchFromAPI, saveNewData } from "@/layouts/custom/components/Functions";
-    import SearchableSelect from "@/layouts/custom/components/SearchableSelect.svelte";
-    import NewGraveModal from "@/layouts/custom/components/NewGraveModal.svelte";
-    import NewCemeteryModal from "@/layouts/custom/components/NewCemeteryModal.svelte";
+    import SelectGraves from "@/layouts/custom/components/SelectGraves.svelte";
 
-    let gravesSelect = false;
-    let graves = null;
-    let cemeteries = fetchFromAPI('/api/cemeteries');
-    let createGraveModal;
-    let createCemeteryModal;
-    let selectedCemeteryId = null;
+    let selectedGraveId = '';
+    let isGraveListLoading = false;
 
     let form = useForm({
         first_name: '',
@@ -24,113 +17,16 @@
         date_of_death: '',
         description: '',
     });
-
-    let formPair = useForm({
-        grave_id: '',
-        deceased_id: '',
-    });
-
-    let graveForm = useForm({
-        cemetery_id: '',
-        type: '',
-        sort: '',
-        latitude: '',
-        longitude: '',
-        image_hash_url: '',
-        grave_number: '',
-        status_id: '',
-        description: '',
-        start_date: '',
-        end_date: '',
-    });
-
-    let cemeteryForm = useForm({
-        name: '',
-        municipality_id: '',
-        grave_types: '',
-        grave_sorts: '',
-        city: '',
-        address: '',
-        zip_code: '',
-        image_hash_url: '',
-        description: '',
-        errors: {},
-    });
-
-    function onCreateGraveOpen() {
-        $graveForm.cemetery_id = '';
-        $graveForm.type = '';
-        $graveForm.sort = '';
-        $graveForm.latitude = '';
-        $graveForm.longitude = '';
-        $graveForm.image_hash_url = '';
-        $graveForm.grave_number = '';
-        $graveForm.status_id = '';
-        $graveForm.description = '';
-        $graveForm.start_date = '';
-        $graveForm.end_date = '';
-        $graveForm.errors = {};
-    }
-
-    function onCreateCemeteryOpen() {
-        $cemeteryForm.name = " ";
-        $cemeteryForm.municipality_id = '';
-        $cemeteryForm.grave_types = '';
-        $cemeteryForm.grave_sorts = '';
-        $cemeteryForm.city = '';
-        $cemeteryForm.address = '';
-        $cemeteryForm.zip_code = '';
-        $cemeteryForm.image_hash_url = '';
-        $cemeteryForm.description = '';
-        $cemeteryForm.errors = {};
-        const fileInput = document.querySelector('input[type="file"]');
-        if (fileInput) {
-            fileInput.value = '';
-        }
-    }
-
-    function saveNewGrave(e) {
-        const refreshGraves = async () => {
-            if (selectedCemeteryId) {
-                graves = fetchFromAPI(`/api/gravesByCemetery/${selectedCemeteryId}`);
-            }
-        };
-        saveNewData('/api/grave', $graveForm, refreshGraves, () => createGraveModal.close(), e);
-    }
-
-    function saveNewCemetery(e) {
-        const refreshCemeteries = async () => {
-            cemeteries = fetchFromAPI('/api/cemeteries');
-        };
-        const closeModal = () => {
-            if (createCemeteryModal) {
-                createCemeteryModal.close();
-            }
-        };
-        saveNewData('/api/new-cemetery', $cemeteryForm, refreshCemeteries, closeModal, e);
-    }
-
+    
     const submit = (e) => {
         e.preventDefault();
-        $form.post(`/api/new-deceased?grave_id=${$formPair.grave_id}`, {
+        $form.post(`/api/new-deceased?grave_id=${selectedGraveId}`, {
             forceFormData: true,
             onSuccess: () => $form.reset(),
         });
     };
 
-    cemeteries = fetchFromAPI('/api/cemeteries');
     
-    const showGraves = (option) => {
-        if (option.id) {
-            selectedCemeteryId = option.id;
-            graves = fetchFromAPI(`/api/gravesByCemetery/${option.id}`);
-            gravesSelect = true;
-        } else {
-            selectedCemeteryId = null;
-            graves = null;
-            gravesSelect = false;
-        }
-    };
 </script>
 
 <svelte:head>
@@ -187,50 +83,20 @@
                 bind:form
             />
 
-            {#await cemeteries}
-                <div class="padding-btm">Laden...</div>
-            {:then cemeteries}
-                <div class="flex-s-gap align-end padding-btm">
-                    <SearchableSelect
-                        options={cemeteries}
-                        visible_name="Begraafplaats"
-                        placeholder="Kies een begraafplaats"
-                        onSelect={showGraves}
-                        requiredBool={true}
-                    />
-                    <button type="button" class="base" on:click={() => createCemeteryModal.open()}>+</button>
-                </div>
-            {:catch error}
-                <div class="padding-btm">Er is een fout opgetreden bij het laden van begraafplaatsen.</div>
-            {/await}
-
-            {#if gravesSelect}
-                {#await graves}
-                    <div class="padding-btm">Laden...</div>
-                {:then graves}
-                    <div class="flex-s-gap align-end padding-btm">
-                        <SearchableSelect
-                            bind:value={$formPair.grave_id}
-                            visible_name="Graf"
-                            options={graves}
-                            placeholder="Kies een graf"
-                            requiredBool={true}
-                        />
-                        <button type="button" class="base" on:click={() => createGraveModal.open()}>+</button>
-                    </div>
-                {:catch error}
-                    <div class="padding-btm">Er is een fout opgetreden bij het laden van graven.</div>
-                {/await}
-            {/if}
+            <SelectGraves 
+                bind:selectedGraveId
+                bind:isGraveListLoading
+            />
 
             {#if $page.props?.flash?.success1}
                 <div class="padding-btm succes-message">{$page.props.flash.success1}</div>
-            {:else if $page.props?.flash?.success2}
-                <div class="padding-btm succes-message">{$page.props.flash.success2}</div>
-            {:else if $page.props?.flash?.success3}
-                <div class="padding-btm succes-message">{$page.props.flash.success3}</div>
-            {:else if $page.props?.flash?.success}
-                <div class="padding-btm succes-message">{$page.props.flash.success}</div>
+            {:else if !$page.props?.flash?.success1 && !$page.props?.flash?.success2 && !$page.props?.flash?.success3 && $page.props?.flash?.success}
+                <div class="padding-btm">
+                    <div class="succes-message">De overledene is succesvol aangemaakt.</div>
+                    {#if $page.props?.flash?.info}
+                        <a href="/rechthebbenden-koppelen?graf_id={$page.props.flash.info}">Ga door naar rechthebbenden koppelen</a>
+                    {/if}
+                </div>
             {/if}
             {#if $page.props?.flash?.error}
                 <div class="padding-btm">
@@ -239,31 +105,9 @@
             {/if}
 
             <div class="full-width flex-m-gap">
-                <!-- makes the button unselectable while divs are loading -->
-                {#if gravesSelect && !graves}
-                    <button class="base full-width" type="submit" disabled>Overledene opslaan</button>
-                {:else}
-                    <button class="base full-width" type="submit">Overledene opslaan</button>
-                {/if}
+                <button class="base full-width" type="submit" disabled={isGraveListLoading || !selectedGraveId}>Overledene opslaan</button>
             </div>
         </form>
     </div>
 </AppLayout>
 
-<NewGraveModal 
-    bind:this={createGraveModal} 
-    {cemeteries}
-    bind:selectedCemeteryId={selectedCemeteryId} 
-    bind:form={graveForm}
-    {saveNewGrave}
-    {onCreateGraveOpen}
-    {page}
-/>
-
-<NewCemeteryModal 
-    bind:this={createCemeteryModal} 
-    bind:form={cemeteryForm}
-    {saveNewCemetery}
-    {onCreateCemeteryOpen}
-    {page}
-/>

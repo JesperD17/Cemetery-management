@@ -31,4 +31,25 @@ class RightholderController extends Controller
             return response()->json(['error' => 'Unable to fetch rightholders'], 500);
         }
     }
+
+    public function linkGrave(Request $request)
+    {
+        $validated = $request->validate([
+            'rightholder_id' => 'required|integer|exists:users,id',
+            'grave_id' => 'required|integer|exists:graves,id',
+        ]);
+
+        try {
+            DB::table('grave_users')->insert([
+                'grave_id' => $validated['grave_id'],
+                'user_id' => $validated['rightholder_id'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            return back()->with('success', 'De rechthebbende is succesvol gekoppeld aan het graf.');
+        } catch (QueryException $e) {
+            return back()->with('error', 'Er is een fout opgetreden bij het koppelen van de rechthebbende aan het graf.');
+        }
+    }
 }

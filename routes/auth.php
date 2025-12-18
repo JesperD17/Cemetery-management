@@ -106,4 +106,7 @@ Route::middleware('auth')->group(function () {
         ->middleware(EnsureMangerRole::class);
 
     Route::get('/api/rightholders', [RightholderController::class, 'index']);
+
+    Route::post('/api/linkRightholderToGrave', [RightholderController::class, 'linkGrave'])
+        ->middleware(EnsureMangerRole::class);
 });

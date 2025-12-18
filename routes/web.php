@@ -56,7 +56,7 @@ Route::inertia('/meldingen', 'Notifications')
     ->middleware(['auth', EnsureMangerRole::class])
     ->name('meldingen');
 
-Route::inertia('/rechthebbende-koppelenn', 'RightholderLinkGrave')
+Route::inertia('/rechthebbenden-koppelen', 'RightholderLinkGrave')
     ->middleware(['auth', EnsureMangerRole::class])
     ->name('rechthebbenden-koppelen');
 
