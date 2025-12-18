@@ -36,7 +36,7 @@
         }
 
         try {
-            const response = await fetch(`/graves?cemeteryID=${encodeURIComponent(id)}`, {
+            const response = await fetch(`/api/graves?cemeteryID=${encodeURIComponent(id)}`, {
                 headers: {
                     Accept: 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
