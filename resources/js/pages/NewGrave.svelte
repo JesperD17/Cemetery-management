@@ -1,13 +1,23 @@
 <script lang="js">
     import AppLayout from "@/layouts/AppLayout.svelte";
     import { Button } from '@/components/ui/button';
-    import { Input } from '@/components/ui/input';
     import { Label } from '@/components/ui/label';
     import { useForm, page } from '@inertiajs/svelte';
     import InputError from "@/components/InputError.svelte";
-    import { LoaderCircle } from 'lucide-svelte';
     import CemeteryChoice from '@/layouts/custom/components/CemeteryChoice.svelte';
     import Asterisk from "@/layouts/custom/components/Asterisk.svelte";
+    import DuoInput from "@/layouts/custom/components/DuoInput.svelte";
+    import SingleInput from "@/layouts/custom/components/SingleInput.svelte";
+    import LoadingDiv from "@/layouts/custom/components/LoadingDiv.svelte";
+    import SearchableSelect from "@/layouts/custom/components/SearchableSelect.svelte";
+    import { fetchFromAPI } from "@/layouts/custom/components/Functions";
+
+    let types_sorts;
+    let selectedCemeteryId = 1;
+    
+    $: if (selectedCemeteryId) {
+        types_sorts = fetchFromAPI(`/api/grave-types-sorts/${selectedCemeteryId}`);
+    }
 
     let form = useForm({
         cemetery_id: "",
@@ -19,11 +29,11 @@
         description: "",
         start_date: "",
         end_date: "",
+        errors: {},
     });
     
     const submit = (e) => {
         e.preventDefault();
-        console.log($form);
         
         $form.post(route('nieuw-graf'), {
             forceFormData: true,
@@ -43,44 +53,38 @@
             
             <CemeteryChoice bind:form />
 
-            <div class="flex-m-gap">
-                <div class="padding-btm col-flex">
-                    <Label for="latitude">Latitude</Label>
-                    <div class="flex-s-gap align-center">
-                        <Input type="text" name="latitude" id="latitude" placeholder="Latitude" required bind:value={$form.latitude} />
-                        <Asterisk />
-                    </div>
-                    <InputError message={$form.errors.latitude} />
-                </div>
+            <DuoInput
+                type="text"
+                type2="text"
+                name="latitude"
+                name2="longitude"
+                visible_name="Latitude"
+                visible_name2="Longitude"
+                placeholder="bijv: 52.3676"
+                placeholder2="bijv: 4.9041"
+                requiredBool={true}
+                requiredBool2={true}
+                bind:form
+            />
 
-                <div class="padding-btm col-flex">
-                    <Label for="latitude">Longitude</Label>
-                    <div class="flex-s-gap align-center">
-                        <Input type="text" name="longitude" id="longitude" placeholder="Longitude" required bind:value={$form.longitude} />
-                        <Asterisk />
-                    </div>
-                    <InputError message={$form.errors.longitude} />
-                </div>
-            </div>
+            <SingleInput
+                type="file"
+                name="image_hash_url"
+                visible_name="Afbeelding"
+                placeholder="Vul de afbeelding URL in"
+                requiredBool={true}
+                bind:form
+            />
 
-            <div class="padding-btm col-flex">
-                <Label for="latitude">Afbeelding</Label>
-                <div class="flex-s-gap align-center">
-                    <input type="file" id="image_hash_url" name="image_hash_url" required bind:value={$form.image_hash_url} />
-                    <Asterisk />
-                </div>
-                <InputError message={$form.errors.image_hash_url} />
-            </div>
+            <SingleInput
+                type="text"
+                name="grave_number"
+                visible_name="Grafnummer"
+                placeholder="bijv: 1"
+                requiredBool={true}
+                bind:form
+            />
 
-            <div class="padding-btm col-flex">
-                <Label for="latitude">Grafnummer</Label>
-                <div class="flex-s-gap align-center">
-                    <Input type="number" name="grave_number" id="grave_number" placeholder="bijv: 1" required bind:value={$form.grave_number} />
-                    <Asterisk />
-                </div>
-                <InputError message={$form.errors.grave_number} />
-            </div>
-        
             <div class="padding-btm col-flex">
                 <Label for="latitude">Status</Label>
                 <div class="flex-s-gap align-center">
@@ -94,35 +98,66 @@
                 </div>
                 <InputError message={$form.errors.status_id} />
             </div>
-        
-            <div class="padding-btm col-flex">
-                <Label for="latitude">Beschrijving</Label>
-                <div class="flex-s-gap align-center desc">
-                    <textarea class="full-width padding-s border-radius base desc" name="description" id="description" placeholder="Lorem ipsum dolor sit amet." required bind:value={$form.description}></textarea>
-                    <Asterisk />
-                </div>
-                <InputError message={$form.errors.description} />
-            </div>
 
-            <div class="flex-m-gap">
-                <div class="padding-btm col-flex full-width">
-                    <Label for="latitude">Startdatum</Label>
-                    <div class="flex-s-gap align-center">
-                        <input class="full-width padding-s bg-secondary border-radius base" type="date" name="start_date" id="start_date" placeholder="Start Date" required bind:value={$form.start_date} />
-                        <Asterisk />
-                    </div>
-                    <InputError message={$form.errors.start_date} />
-                </div>
+            <SingleInput
+                type="textarea"
+                name="description"
+                visible_name="Beschrijving"
+                placeholder="Vul een beschrijving in"
+                requiredBool={false}
+                bind:form
+            />
 
-                <div class="padding-btm col-flex full-width">
-                    <Label for="latitude">Einddatum</Label>
-                    <div class="flex-s-gap align-center">
-                        <input class="full-width padding-s bg-secondary border-radius base" type="date" name="end_date" id="end_date" placeholder="End Date" required bind:value={$form.end_date} />
-                        <Asterisk />
-                    </div>
-                    <InputError message={$form.errors.end_date} />
+        {#if types_sorts}
+            {#await types_sorts}
+                <div class="padding-btm">
+                    Laden...
                 </div>
-            </div>
+            {:then types_sortsData}
+                {#if types_sortsData?.types && types_sortsData?.sorts}
+                    <div class="flex-s-gap padding-btm">
+                        <SearchableSelect
+                            bind:value={$form.type}
+                            form={form}
+                            visible_name="Graf Type"
+                            options={types_sortsData.types}
+                            placeholder="Kies een graf type"
+                            requiredBool={true}
+                        />
+                        <SearchableSelect
+                            bind:value={$form.sort}
+                            form={form}
+                            visible_name="Graf Soort"
+                            options={types_sortsData.sorts}
+                            placeholder="Kies een graf soort"
+                            requiredBool={true}
+                        />
+                    </div>
+                    {:else}
+                        <div class="padding-btm">
+                            Geen graf types en soorten beschikbaar voor deze begraafplaats.
+                        </div>
+                    {/if}
+                {:catch error}
+                    <div class="padding-btm">
+                        Fout bij laden graf types en soorten: {error.message || 'Onbekende fout'}
+                    </div>
+                {/await}
+            {/if}
+
+            <DuoInput
+                type="date"
+                type2="date"
+                name="start_date"
+                name2="end_date"
+                visible_name="Startdatum"
+                visible_name2="Einddatum"
+                placeholder="Vul de startdatum in"
+                placeholder2="Vul de einddatum in"
+                requiredBool={true}
+                requiredBool2={true}
+                bind:form
+            />
 
             {#if $page.props?.flash?.success}
                 <div class="padding-btm succes-message">{$page.props.flash.success}</div>
@@ -135,9 +170,7 @@
             
             <div>
                 <Button class="full-width relative" type="submit" tabindex={5} disabled={$form.processing} >
-                    {#if $form.processing}
-                        <LoaderCircle class="spinner" />
-                    {/if}
+                    <LoadingDiv {form} />
                     Graf aanmaken
                 </Button>
             </div>

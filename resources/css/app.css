@@ -222,6 +222,12 @@ html, body {
     padding-bottom: var(--margin-padding);
 }
 
+
+.padding-L-R {
+    padding-left: var(--margin-padding);
+    padding-right: var(--margin-padding);
+}
+
 .margin-noTop {
     margin: var(--margin-padding);
     margin-top: unset;
@@ -275,6 +281,10 @@ html, body {
     align-items: center;
 }
 
+.align-end {
+    align-items: end;
+}
+
 .start-text {
     text-align: left;
 }
@@ -297,6 +307,10 @@ html, body {
 
 .wrap {
     flex-wrap: wrap;
+}
+
+.flex {
+    display: flex;
 }
 
 .flex-s-gap {
@@ -329,6 +343,14 @@ html, body {
     height: 150px;
 }
 
+.content-width {
+    width: max-content;
+}
+
+.webkit-width {
+    width: -webkit-fill-available;
+}
+
 .full-width {
     width: 100%;
 }
@@ -350,6 +372,16 @@ html, body {
 .errorMsg {
     margin: 5px 0px 0px;
     color: red;
+}
+
+.capitalFirst::first-letter {
+    text-transform: capitalize;
+}
+
+/* images */
+.image {
+    height: 200px;
+    width: 200px;
 }
 
 /* colors */
@@ -409,13 +441,21 @@ html, body {
 }
 
 /* input fields */
-input.base, select.base {
+input.base, select.base, .custom-select-base {
     padding: var(--padding-fields);
 }
 
-.desc textarea {
+.custom-select-base:has(input:focus) {
+    outline: 2px solid black;
+}
+
+.desc textarea, .desc {
     height: 150px;
     align-items: flex-start;
+}
+
+textarea.base {
+    padding: var(--padding-fields);
 }
 
 /* btns */
@@ -438,24 +478,29 @@ button.primary:hover, a.primary:hover, .btn.primary:hover {
 
 
 .bg-modal-primary {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .modal-primary {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    min-width: 400px;
+    max-height: 90vh;
     background: white;
     padding: var(--margin-padding);
     border-radius: var(--border-radius);
-    z-index: 3; 
+    z-index: 3;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .table {
@@ -476,6 +521,7 @@ th, td {
     padding: var(--padding-fields);
     border: solid 2px #d7d7d7;
     text-align: left;
+    word-break: break-word;
 }
 
 thead tr th:first-child { 
@@ -507,11 +553,6 @@ tbody tr:last-child td:first-child {
 /* spinner */
 .spinner {
     animation: spinner 1s linear infinite;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 97%;
-    height: 100%;
 }
 
 .top-right {
@@ -529,6 +570,18 @@ textarea {
 /*  */
 .succes-message {
     color:#399239;
+}
+
+.spinner-bg {
+    display: flex;
+    height: 100%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    top: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
 }
 
 @keyframes spinner {

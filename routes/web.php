@@ -1,12 +1,10 @@
 <?php
 
-use App\Http\Controllers\AccountsController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ExcelController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Middleware\EnsureAdminRole;
-use App\Http\Controllers\UserApiController;
+use App\Http\Middleware\EnsureMangerRole;
+use App\Http\Middleware\EnsureNotAdminRole;
+use App\Http\Middleware\EnsureNotRightHolder;
 
 
 Route::inertia('/', 'Home')
@@ -18,34 +16,45 @@ Route::inertia('/begraafplaatsen', 'Cemeteries')
 
 Route::get('/begraafplaatsen/bewerk/{id}', function ($id) {
     return Inertia::render('EditCemetery', ['id' => $id]);
-})->middleware(['auth'])->name('begraafplaatsen.bewerk');
+})->middleware(['auth', EnsureMangerRole::class])->name('begraafplaatsen.bewerk');
 
 Route::get('/begraafplaatsen/overzicht/{id}', function ($id) {
     return Inertia::render('Overview', ['id' => $id]);
 })->middleware(['auth'])->name('begraafplaatsen.overzicht');
 
+Route::get('/graf/{id}', function ($id) {
+    return Inertia::render('GraveDetails', ['id' => $id]);
+})->middleware(['auth', EnsureNotAdminRole::class])->name('graf');
+
 Route::inertia('/accounts', 'Accounts')
-    ->middleware(['auth'])
+    ->middleware(['auth', EnsureMangerRole::class])
     ->name('accounts');
 
 Route::get('/nieuw-graf', function () {
     return Inertia::render('NewGrave');
-})->middleware(['auth'])->name('nieuw-graf');
+})->middleware(['auth', EnsureMangerRole::class])->name('nieuw-graf');
 
-Route::post('/import', [ExcelController::class, 'import'])->name('import');
+// Route::post('/import', [ExcelController::class, 'import'])->name('import');
 
-Route::inertia('/CemeteryCreate', 'CemeteryCreate')
-    ->name('CemeteryCreate');
+Route::inertia('/begraafplaats-aanmaken', 'CemeteryCreate')
+    ->middleware(['auth', EnsureMangerRole::class])
+    ->name('begraafplaats-aanmaken');
 
 Route::inertia('/profiel', 'Profile')
+    ->middleware(['auth'])
     ->name('profiel');
 
-Route::middleware(['auth'])->get('/user', [UserApiController::class, 'profile']);
-Route::middleware(['auth'])->put('/profile', [UserApiController::class, 'update']);
+Route::inertia('/nieuwe-overledene', 'NewDeceased')
+    ->middleware(['auth', EnsureMangerRole::class])
+    ->name('nieuwe-overledene');
 
 Route::inertia('/gemeentes', 'Municipality')
-    ->middleware(['auth', EnsureAdminRole::class])
+    ->middleware(['auth', EnsureMangerRole::class])
     ->name('gemeentes');
+
+    Route::inertia('/meldingen', 'Notifications')
+    ->middleware(['auth', EnsureMangerRole::class])
+    ->name('meldingen');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

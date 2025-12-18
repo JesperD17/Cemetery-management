@@ -14,14 +14,17 @@ return new class extends Migration
         Schema::create('graves', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("cemetery_id");
+            $table->string("type");
+            $table->string("sort");
             $table->string("latitude");
             $table->string("longitude");
             $table->string("image_hash_url")->nullable();
-            $table->unsignedInteger("grave_number")->unique();
+            $table->unsignedInteger("grave_number");
             $table->unsignedBigInteger("status_id");
             $table->text("description")->nullable();
             $table->date("start_date");
             $table->date("end_date");
+            $table->unique(['cemetery_id', 'grave_number']);
             $table->timestamps();
         });
     }

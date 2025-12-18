@@ -50,6 +50,9 @@ class HandleInertiaRequests extends Middleware
             // Flash messages (available to Inertia pages as $page.props.flash)
             'flash' => [
                 'success' => $request->session()->get('success'),
+                'success1' => $request->session()->get('success1'),
+                'success2' => $request->session()->get('success2'),
+                'success3' => $request->session()->get('success3'),
                 'error' => $request->session()->get('error'),
                 'warning' => $request->session()->get('warning'),
                 'info' => $request->session()->get('info'),

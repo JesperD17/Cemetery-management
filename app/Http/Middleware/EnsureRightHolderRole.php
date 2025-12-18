@@ -5,7 +5,7 @@
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
     
-    class EnsureAdminRole
+    class EnsureRightHolderRole
     {
         public function handle(Request $request, Closure $next)
         {
@@ -17,11 +17,11 @@
                 4 => 'super admin',
             };
             
-            if ($userRole === 'super admin' || $userRole === 'admin') {
+            if ($userRole === 'super admin' || $userRole === 'rechthebbende') {
                 return $next($request);
             }
-    
-            // Geen admin → abort 403
+
+            // Geen rechthebbende → abort 403
             abort(403);
         }
     }

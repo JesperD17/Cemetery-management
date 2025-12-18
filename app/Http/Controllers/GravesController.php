@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class GravesController extends Controller
@@ -10,6 +9,11 @@ class GravesController extends Controller
     public function index()
     {
         return response()->json($this->fetchByUser(auth()->id()));
+    }
+
+    public function show($id)
+    {
+        return response()->json($this->fetchByCemeteryID($id));
     }
 
     public function fetchByUser($userId)
@@ -32,20 +36,21 @@ class GravesController extends Controller
         
         $cemeteryID = request()->query('cemeteryID');
         
-        if (in_array(strtolower($roleName ?? ''), ['admin', 'super admin', 'editor'])) {
+        if (in_array($roleName ?? '', ['admin', 'super admin', 'editor'])) {
             $query = DB::table('graves as G')
-                ->select(
+            ->select(
+                    'G.id AS grave_id',
                     'G.cemetery_id',
+                    'G.type',
+                    'G.sort',
                     'G.latitude',
                     'G.longitude',
                     'G.image_hash_url',
                     'G.grave_number',
                     'G.status_id',
-                    'G.description',
-                    'G.start_date',
-                    'G.end_date'
+                    'G.description'
                 );
-
+                
             if ($cemeteryID) {
                 $query->where('G.cemetery_id', $cemeteryID);
             }
@@ -56,15 +61,16 @@ class GravesController extends Controller
             ->leftJoin('grave_users as GU', 'G.id', '=', 'GU.grave_id')
             ->leftJoin('users as U', 'U.id', '=', 'GU.user_id')
             ->select(
+                'G.id AS grave_id',
                 'G.cemetery_id',
+                'G.type',
+                'G.sort',
                 'G.latitude',
                 'G.longitude',
                 'G.image_hash_url',
                 'G.grave_number',
                 'G.status_id',
                 'G.description',
-                'G.start_date',
-                'G.end_date',
                 'U.first_name',
                 'U.infix',
                 'U.last_name'
@@ -77,6 +83,27 @@ class GravesController extends Controller
         }
         $graves = $query->get();
 
+        return $graves;
+    }
+
+    public function fetchByCemeteryID($cemeteryID) {
+        $graves = DB::table('graves')
+            ->where('cemetery_id', $cemeteryID)
+            ->select('id', 'grave_number', 'cemetery_id', 'latitude', 'longitude', 'image_hash_url', 'status_id', 'description')
+            ->get()
+            ->map(function ($grave) {
+                return [
+                    'id' => $grave->id,
+                    'name' => (string) $grave->grave_number,
+                    'grave_number' => $grave->grave_number,
+                    'cemetery_id' => $grave->cemetery_id,
+                    'latitude' => $grave->latitude,
+                    'longitude' => $grave->longitude,
+                    'image_hash_url' => $grave->image_hash_url,
+                    'status_id' => $grave->status_id,
+                    'description' => $grave->description,
+                ];
+            });
         return $graves;
     }
 }

@@ -25,20 +25,14 @@
             <a href={route('begraafplaatsen')} class="tile">
                 <TableOfContents size={60} />
                 <p class="tile-text">
-                    Overzicht begraafplaatsen
+                    Begraafplaatsen
                 </p>
             </a>
-            {#if (userRole !== 'rechthebbende')}
+            {#if (userRole === 'beheerder' || userRole === 'super admin')}
                 <a href={route('accounts')} class="tile">
                     <UsersRound size={60} />
                     <p class="tile-text">
                         Accounts
-                    </p>
-                </a>
-                <a href={route('nieuwe-gebruiker')} class="tile">
-                    <UserRoundPlus size={60} />
-                    <p class="tile-text">
-                        Nieuwe gebruiker
                     </p>
                 </a>
                 <a href={route('nieuw-graf')} class="tile">
@@ -48,11 +42,19 @@
                     </p>
                 </a>
             {/if}
-            {#if (userRole === 'super admin' || userRole === 'admin')}
-                <a href={route('gemeentes')} class="tile">
+            {#if (userRole === 'beheerder' || userRole === 'admin' || userRole === 'super admin')}
+                <a href={route('nieuwe-gebruiker')} class="tile">
+                    <UserRoundPlus size={60} />
+                    <p class="tile-text">
+                        Nieuwe gebruiker
+                    </p>
+                </a>
+            {/if}
+            {#if (userRole === 'beheerder' || userRole === 'super admin')}
+                <a href={route('nieuwe-overledene')} class="tile">
                     <Warehouse size={60} />
                     <p class="tile-text">
-                        Gemeentes
+                        Overledene toevoegen
                     </p>
                 </a>
             {/if}

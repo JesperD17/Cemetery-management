@@ -1,14 +1,13 @@
 <script lang="js">
     import InputError from '@/components/InputError.svelte';
-    import TextLink from '@/components/TextLink.svelte';
     import { Button } from '@/components/ui/button';
     import { Input } from '@/components/ui/input';
     import { Label } from '@/components/ui/label';
     import AppLayout from '@/layouts/AppLayout.svelte';
-    import AuthBase from '@/layouts/AuthLayout.svelte';
     import { useForm, page } from '@inertiajs/svelte';
     import { LoaderCircle, Mail, User, Lock, ScanLine, FolderPen, Phone, LandPlot, Milestone } from 'lucide-svelte';
     import Choice from '@/layouts/custom/components/RoleChoice.svelte';
+    import LoadingDiv from '@/layouts/custom/components/LoadingDiv.svelte';
 
     let form = useForm({
         first_name: '',
@@ -229,9 +228,7 @@
 
             <div>
                 <Button class="full-width relative" type="submit" tabindex={5} disabled={$form.processing}>
-                    {#if $form.processing}
-                        <LoaderCircle class="spinner" />
-                    {/if}
+                    <LoadingDiv {form} />
                     Account aanmaken
                 </Button>
             </div>

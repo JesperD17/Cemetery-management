@@ -11,6 +11,8 @@ class Cemeteries extends Model
     protected $fillable = [
         'name',
         'municipality_id',
+        'grave_types',
+        'grave_sorts',
         'city',
         'address',
         'zip_code',

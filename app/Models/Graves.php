@@ -8,6 +8,8 @@ class Graves extends Model
 {
     protected $fillable = [
         'cemetery_id',
+        'type',
+        'sort',
         'latitude',
         'longitude',
         'image_hash_url',
