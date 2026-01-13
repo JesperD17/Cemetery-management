@@ -384,7 +384,7 @@ html, body {
 
 /* images */
 .image {
-    height: 200px;
+    height: auto;
     width: 200px;
 }
 

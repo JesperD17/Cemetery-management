@@ -1,6 +1,7 @@
 <script lang="js">
     import Label from '@/Components/ui/label/label.svelte';
     import Asterisk from '@/layouts/custom/components/Asterisk.svelte';
+    import SearchableSelect from './SearchableSelect.svelte';
 
     export let form;
 
@@ -37,23 +38,14 @@
     {:then}
         {#if cemeteries.length > 0}
             <div class="col-flex">
-                <Label for="role_id">Begraafplaats</Label>
-                <div class="flex-s-gap align-center">
-                    <select
-                        id="cemetery_id"
-                        name="cemetery_id"
-                        class="full-width padding-s bg-secondary border-radius base"
-                        required
-                        bind:value={$form.cemetery_id}
-                        tabindex={6}
-                    >
-                        <option value="" disabled>-- Kies een begraafplaats --</option>
-                        {#each cemeteries as cemetery}
-                            <option value={cemetery.id} id={cemetery.id}>{cemetery.name}</option>
-                        {/each}
-                    </select>
-                    <Asterisk />
-                </div>
+                <SearchableSelect
+                    bind:value={$form.cemetery_id}
+                    form={form}
+                    visible_name="Begraafplaats kiezen"
+                    options={cemeteries}
+                    placeholder="Kies een begraafplaats"
+                    requiredBool={true}
+                />
             </div>
         {/if}
     {:catch error}

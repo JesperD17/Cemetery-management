@@ -29,14 +29,15 @@
         description: "",
         start_date: "",
         end_date: "",
+        type: "",
+        sort: "",
         errors: {},
     });
     
     const submit = (e) => {
         e.preventDefault();
-        
-        $form.post(route('nieuw-graf'), {
-            forceFormData: true,
+
+        $form.post(route('/api/grave'), {
             onFinish: () => $form.reset(),
         });
     };
