@@ -1,4 +1,4 @@
-# Begraafplaats-beheer
+# Cemetery management
 
 This project is a **Laravel + Svelte** application for managing cemetery administration. This README explains how to run the project **locally** for development.
 
